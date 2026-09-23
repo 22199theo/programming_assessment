@@ -1,3 +1,7 @@
+import tkinter as tk
+from tkinter import messagebox
+
+
 class Customer:
     def __init__(self, name, address, delivery_address, customer_type):
         self.name = name
@@ -11,10 +15,18 @@ class Customer:
         else:
             return 0
 
+
+
+
 def main_screen():
     while True: 
         try:
             print("Welcome to Waimak BuildCo!")
+
+            navigation = input(
+                f''' What would you like to do?
+                '''
+            )
 
         except ValueError:
             print("This isn't a valid input.")
