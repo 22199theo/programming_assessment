@@ -4,7 +4,7 @@ from tkinter import messagebox
 class Customer:
     def __init__(self, name, address, delivery_address, customer_type):
         self.name = name
-        self.phone = address
+        self.address = address
         self.delivery_address = delivery_address
         self.customer_type = customer_type
 
@@ -23,6 +23,11 @@ def customer():
     customer_type = customer_type_entry.get()
 
     customer = Customer(name, address, delivery_address, customer_type)
+
+    customers.append(customer)
+
+    for x in customers:
+        print (x.name, x.address)
 
     messagebox.showinfo("Success", "Customer added")
 
