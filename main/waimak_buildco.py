@@ -24,7 +24,7 @@ def customer():
 
     customer = Customer(name, address, delivery_address, customer_type)
 
-
+    messagebox.showinfo("A")
 
 
 def main_screen():
@@ -39,4 +39,9 @@ def main_screen():
 
         except ValueError:
             print("This isn't a valid input.")
-    
+
+
+window = tk.Tk()
+window.title("Waimak BuildCo Customer Screen")
+
+
