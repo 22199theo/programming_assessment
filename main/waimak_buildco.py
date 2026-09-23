@@ -44,7 +44,7 @@ def main_screen():
 window = tk.Tk()
 window.title("Waimak BuildCo Customer Screen")
 
-tk.Labal(window, text="Test").pack()
+tk.Label(window, text="Test").pack()
 name_entry = tk.Entry(window)
 name_entry.pack()
 
