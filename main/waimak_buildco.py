@@ -14,7 +14,7 @@ class Customer:
         else:
             return 0
 
-
+customers = []
 
 def customer():
     name = name_entry.get()
@@ -24,7 +24,7 @@ def customer():
 
     customer = Customer(name, address, delivery_address, customer_type)
 
-    messagebox.showinfo("success")
+    messagebox.showinfo("Success", "Customer added")
 
 
 def main_screen():
