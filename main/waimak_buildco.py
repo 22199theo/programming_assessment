@@ -24,7 +24,7 @@ def customer():
 
     customer = Customer(name, address, delivery_address, customer_type)
 
-    messagebox.showinfo("A")
+    messagebox.showinfo("success")
 
 
 def main_screen():
@@ -44,9 +44,21 @@ def main_screen():
 window = tk.Tk()
 window.title("Waimak BuildCo Customer Screen")
 
-tk.Label(window, text="Test").pack()
+tk.Label(window, text="Customer Name").pack()
 name_entry = tk.Entry(window)
 name_entry.pack()
+
+tk.Label(window, text="Address").pack()
+address_entry = tk.Entry(window)
+address_entry.pack()
+
+tk.Label(window, text="Delivery Address").pack()
+delivery_address_entry = tk.Entry(window)
+delivery_address_entry.pack()
+
+tk.Label(window, text="Customer Type").pack()
+customer_type_entry = tk.Entry(window)
+customer_type_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
 
