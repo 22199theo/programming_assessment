@@ -11,5 +11,11 @@ class Customer:
         else:
             return 0
 
+def main_screen():
+    while True: 
+        try:
+            print("Welcome to Waimak BuildCo!")
 
+        except ValueError:
+            print("This isn't a valid input.")
     
