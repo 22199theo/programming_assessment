@@ -16,8 +16,6 @@ class Customer:
             return 0
 
 
-
-
 def main_screen():
     while True: 
         try:
