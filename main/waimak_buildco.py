@@ -127,7 +127,8 @@ checkbuttons = {
     "DA" : tk.BooleanVar(value=False),
     "MA" : tk.BooleanVar(value=False),
     "SD" : tk.BooleanVar(value=False),
-    "LH" : tk.BooleanVar(value=False)
+    "LH" : tk.BooleanVar(value=False),
+    "BH" : tk.BooleanVar(value=False)
 }
 
 def induction_hob_checkbutton():
@@ -181,6 +182,10 @@ sd_entry.pack()
 
 lh_entry = ttk.Checkbutton(window, text="4.5 KW Heat pump - $2500", variable=checkbuttons["LH"])
 lh_entry.pack()
+
+tk.Label(window, text="Bedroom").pack()
+bh_entry = ttk.Checkbutton(window, text="2.5 KW Heat pump - $1800", variable=checkbuttons["BH"])
+bh_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
 
