@@ -12,7 +12,7 @@ HOUSE_OPTIONS = {
         {"As a plus induction hob": 3500},
         {"As a plus Deluxe appliance pack": 6000}
     ],
-    "living room": [
+    "living_room": [
         {"Tv point plus roof mounted aerial": 250},
         {"Tv point plus satellite dish": 250},
         {"4.5 KW Heat pump": 2500}
@@ -20,11 +20,11 @@ HOUSE_OPTIONS = {
     "bedroom": [
         {"2.5 KW Heat pump": 1800}
     ],
-    "electrical sockets": [
+    "electrical_sockets": [
         {"1G sockets": 40},
         {"2G sockets": 50}
     ],
-    "network points": [
+    "network_points": [
         {"price": 50, "network switch": 100, "minimum": 2, "maximum": 8}
     ]
 }
@@ -43,6 +43,12 @@ class Customer:
             return 0
 
 class House:
+    def __init__(self):
+        self.bathroom = None
+        self.kitchen = None
+        self.living_room = None
+        self.bedroom = None
+
 
 
 customers = []
