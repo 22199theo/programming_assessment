@@ -2,6 +2,25 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+HOUSE_OPTIONS = {
+    "company": "Waimak BuildCo",
+    "bathroom": {
+        "Tiles, spa bath, shower and tapware": 2500
+    },
+    "kitchen": [
+        {"Upgrades units and worktop": 2000},
+        {"As a plus induction hob": 3500},
+        {"As a plus Deluxe appliance pack": 6000}
+    ],
+    "living room": [
+        {"Tv point plus roof mounted aerial": 250},
+        {"Tv point plus satellite dish": 250},
+        {"4.5 KW Heat pump": 2500}
+    ],
+    "bedroom": [
+        {"2.5 KW Heat pump": 1800}
+    ]
+}
 
 class Customer:
     def __init__(self, name, address, delivery_address, customer_type):
@@ -15,6 +34,9 @@ class Customer:
             return 0.1
         else:
             return 0
+
+class House:
+
 
 customers = []
 
@@ -52,7 +74,7 @@ window = tk.Tk()
 window.title("Waimak BuildCo Customer Screen")
 window.geometry("720x640")
 
-tk.Label(window, text="Customer Name").pack()
+tk.Label(window, text="Name").pack()
 name_entry = tk.Entry(window)
 name_entry.pack()
 
@@ -71,6 +93,11 @@ customer_type_entry = ttk.Combobox(window,
 customer_type_entry.set("retail customer")
 customer_type_entry.pack()
 
+tk.Label(window, text="test").pack()
+
 tk.Button(window, text="Test", command=customer).pack()
+
+
+
 
 window.mainloop()
