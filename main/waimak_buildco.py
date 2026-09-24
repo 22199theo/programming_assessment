@@ -75,21 +75,6 @@ def customer():
 
     messagebox.showinfo("Success", "Customer added")
 
-
-def main_screen():
-    while True: 
-        try:
-            print("Welcome to Waimak BuildCo!")
-
-            navigation = input(
-                f''' What would you like to do?
-                '''
-            )
-
-        except ValueError:
-            print("This isn't a valid input.")
-
-
 window = tk.Tk()
 window.title("Waimak BuildCo Customer Screen")
 window.geometry("720x640")
