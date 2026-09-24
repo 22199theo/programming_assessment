@@ -110,35 +110,31 @@ def gui():
         "BH" : tk.BooleanVar(value=False)
     }
 
-    def induction_hob_checkbutton():
-        ih_entry.pack()
-
-        if checkbuttons["UW"].get() == True:
-            if checkbuttons["DA"].get() == True:
-                ih_entry.config(state="disabled")
-            else:
-                ih_entry.config(state="normal")
-        else:
+    def update_kitchen():
+        if not checkbuttons["UW"].get():
             ih_entry.config(state="disabled")
-
-        window.after(100, induction_hob_checkbutton)
-
-    def deluxe_appliance_checkbutton():
-        da_entry.pack()
-
-        if checkbuttons["UW"].get() == True:
-            if checkbuttons["IH"].get() == True:
-                da_entry.config(state="disabled")
-            else:
-                da_entry.config(state="normal")
-        else:
             da_entry.config(state="disabled")
+            return
 
-        window.after(100, deluxe_appliance_checkbutton)
+        if checkbuttons["IH"].get():
+            da_entry.config(state="disabled")
+        else:
+            da_entry.config(state="normal")
 
+        if checkbuttons["DA"].get():
+            ih_entry.config(state="disabled")
+        else:
+            ih_entry.config(state="normal")
+                
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
     window.geometry("720x640")
+
+    tk.Label(window, text="Room").pack()
+    room_entry = ttk.Combobox(window,
+                              values=["Bathroom", "Kitchen", "Living Room", "Bedroom"], 
+                              state="readonly")
+    room_entry.pack()
 
     tk.Label(window, text="Name").pack()
     name_entry = tk.Entry(window)
@@ -168,11 +164,17 @@ def gui():
     uw_entry = ttk.Checkbutton(window, text="Upgrades units and worktop - $2000", variable=checkbuttons["UW"])
     uw_entry.pack()
 
-    ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", variable=checkbuttons["IH"])
-    induction_hob_checkbutton()
+    ih_entry = ttk.Checkbutton(window, 
+                               text="As A plus induction hob - $3500", 
+                               variable=checkbuttons["IH"],
+                               command=update_kitchen)
 
-    da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
-    deluxe_appliance_checkbutton()
+
+    da_entry = ttk.Checkbutton(window, 
+                               text="As A plus Deluxe appliance pack - $6000", 
+                               variable=checkbuttons["DA"],
+                               command=update_kitchen)
+
 
     tk.Label(window, text="Living Room").pack()
 
