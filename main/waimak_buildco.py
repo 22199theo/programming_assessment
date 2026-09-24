@@ -181,7 +181,7 @@ def gui():
                                command=update_kitchen)
     da_entry.pack()
 
-    da_entry.congif(state="disabled")
+    da_entry.congig(state="disabled")
     ih_entry.config(state="disabled")
 
     tk.Label(window, text="Living Room").pack()
