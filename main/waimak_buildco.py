@@ -50,6 +50,7 @@ def main_screen():
 
 window = tk.Tk()
 window.title("Waimak BuildCo Customer Screen")
+window.geometry("720x640")
 
 tk.Label(window, text="Customer Name").pack()
 name_entry = tk.Entry(window)
