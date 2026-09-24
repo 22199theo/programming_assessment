@@ -120,21 +120,27 @@ customer_type_entry = ttk.Combobox(window,
 customer_type_entry.set("retail customer")
 customer_type_entry.pack()
 
-checkbutton_false = tk.BooleanVar(value=False)
+checkbuttons = {
+    "TS" : tk.BooleanVar(value=False),
+    "UW" : tk.BooleanVar(value=False),
+    "IH" : tk.BooleanVar(value=False),
+    "DA" : tk.BooleanVar(value=False)
+}
+
 
 tk.Label(window, text="Bathroom").pack()
-ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbutton_false)
+ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
 ts_entry.pack()
 
 tk.Label(window, text="Kitchen").pack()
 
-uw_entry = ttk.Checkbutton(window, text="Upgrades units and worktop - $2000", variable=checkbutton_false)
+uw_entry = ttk.Checkbutton(window, text="Upgrades units and worktop - $2000", variable=checkbuttons["UW"])
 uw_entry.pack()
 
-ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", variable=checkbutton_false)
+ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", variable=checkbuttons["IH"])
 ih_entry.pack()
 
-da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbutton_false)
+da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
 da_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
