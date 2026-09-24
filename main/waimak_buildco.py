@@ -68,8 +68,8 @@ class House:
             if room_sockets >4:
                 messagebox.showerror("Error", f"Too many sockets in {room}, the maximum is 4.")
                 return
-            else: 
-                total_sockets +=room_sockets 
+            
+            total_sockets +=room_sockets 
 
             if total_sockets > 12:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
