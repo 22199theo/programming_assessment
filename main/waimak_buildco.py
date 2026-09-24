@@ -5,27 +5,28 @@ from tkinter import ttk
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
     "bathroom": {
-        "Tiles, spa bath, shower and tapware": 2500
+        {"code": "TS", "name": "Tiles, spa bath, shower and tapware", "price": 2500}
     },
     "kitchen": [
-        {"Upgrades units and worktop": 2000},
-        {"As a plus induction hob": 3500},
-        {"As a plus Deluxe appliance pack": 6000}
+        {"code": "UW", "name": "Upgrades units and worktop", "price": 2000},
+        {"code": "IH", "name": "As a plus induction hob", "price": 3500},
+        {"code": "DA", "name": "As a plus Deluxe appliance pack", "price": 6000}
     ],
     "living_room": [
-        {"Tv point plus roof mounted aerial": 250},
-        {"Tv point plus satellite dish": 250},
-        {"4.5 KW Heat pump": 2500}
+        {"code": "MA", "name": "Tv point plus roof mounted aerial", "price": 250},
+        {"code": "SD", "name": "Tv point plus satellite dish", "price": 250},
+        {"code": "LH", "name": "4.5 KW Heat pump", "price": 2500}
     ],
     "bedroom": [
-        {"2.5 KW Heat pump": 1800}
+        {"code": "BH", "name": "2.5 KW Heat pump", "price": 1800}
     ],
     "electrical_sockets": [
-        {"1G sockets": 40},
-        {"2G sockets": 50}
+        {"code": "1G", "name": "1G sockets", "price": 40},
+        {"code": "2G", "name": "2G sockets", "price": 50}
     ],
     "network_points": [
-        {"price": 50, "network switch": 100, "minimum": 2, "maximum": 8}
+        {"code": "NP", "name": "Network point", "price": 50},
+        {"code": "NS", "name": "Network switch", "price": 100}
     ]
 }
 
@@ -115,8 +116,5 @@ customer_type_entry.pack()
 tk.Label(window, text="test").pack()
 
 tk.Button(window, text="Test", command=customer).pack()
-
-
-
 
 window.mainloop()
