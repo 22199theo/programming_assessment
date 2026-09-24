@@ -84,6 +84,10 @@ class House:
 
 def gui():
 
+    window = tk.Tk()
+    window.title("Waimak BuildCo Customer Screen")
+    window.geometry("720x640")
+
     checkbuttons = {
         "TS" : tk.BooleanVar(value=False),
         "UW" : tk.BooleanVar(value=False),
@@ -125,10 +129,6 @@ def gui():
             print (x.name, x.address)
 
         messagebox.showinfo("Success", "Customer added")
-                
-    window = tk.Tk()
-    window.title("Waimak BuildCo Customer Screen")
-    window.geometry("720x640")
 
     tk.Label(window, text="Room").pack()
     room_entry = ttk.Combobox(window,
@@ -181,7 +181,7 @@ def gui():
                                command=update_kitchen)
     da_entry.pack()
 
-    da_entry.congig(state="disabled")
+    da_entry.config(state="disabled")
     ih_entry.config(state="disabled")
 
     tk.Label(window, text="Living Room").pack()
