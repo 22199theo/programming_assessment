@@ -64,7 +64,9 @@ delivery_address_entry = tk.Entry(window)
 delivery_address_entry.pack()
 
 tk.Label(window, text="Customer Type").pack()
-customer_type_entry = ttk.Combobox(window, values=["trade_customer", "retail_customer"])
+customer_type_entry = ttk.Combobox(window, 
+                                   values=["trade_customer", "retail_customer"],
+                                   state="readonly")
 customer_type_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
