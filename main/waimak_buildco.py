@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
+
 
 class Customer:
     def __init__(self, name, address, delivery_address, customer_type):
@@ -62,7 +64,7 @@ delivery_address_entry = tk.Entry(window)
 delivery_address_entry.pack()
 
 tk.Label(window, text="Customer Type").pack()
-customer_type_entry = tk.Entry(window)
+customer_type_entry = ttk.Combobox(window, values=["trade_customer", "retail_customer"])
 customer_type_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
