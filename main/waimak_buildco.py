@@ -121,7 +121,8 @@ customer_type_entry.set("retail customer")
 customer_type_entry.pack()
 
 tk.Label(window, text="Bathroom").pack()
-
+ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500")
+ts_entry.pack()
 
 
 tk.Button(window, text="Test", command=customer).pack()
