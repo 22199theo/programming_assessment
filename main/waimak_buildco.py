@@ -124,7 +124,10 @@ checkbuttons = {
     "TS" : tk.BooleanVar(value=False),
     "UW" : tk.BooleanVar(value=False),
     "IH" : tk.BooleanVar(value=False),
-    "DA" : tk.BooleanVar(value=False)
+    "DA" : tk.BooleanVar(value=False),
+    "MA" : tk.BooleanVar(value=False),
+    "SD" : tk.BooleanVar(value=False),
+    "LH" : tk.BooleanVar(value=False)
 }
 
 def induction_hob_checkbutton():
@@ -153,8 +156,6 @@ def deluxe_appliance_checkbutton():
 
     window.after(100, deluxe_appliance_checkbutton)
 
-
-
 tk.Label(window, text="Bathroom").pack()
 ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
 ts_entry.pack()
@@ -169,6 +170,17 @@ induction_hob_checkbutton()
 
 da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
 deluxe_appliance_checkbutton()
+
+tk.Label(window, text="Living Room").pack()
+
+ma_entry = ttk.Checkbutton(window, text="Tv point plus roof mounted aerial - $250", variable=checkbuttons["MA"])
+ma_entry.pack()
+
+sd_entry = ttk.Checkbutton(window, text="Tv point plus satellite dish - $250", variable=checkbuttons["SD"])
+sd_entry.pack()
+
+lh_entry = ttk.Checkbutton(window, text="4.5 KW Heat pump - $2500", variable=checkbuttons["LH"])
+lh_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
 
