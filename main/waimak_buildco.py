@@ -5,7 +5,7 @@ from tkinter import ttk
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
     "bathroom": {
-        {"code": "TS", "name": "Tiles, spa bath, shower and tapware", "price": 2500}
+        "code": "TS", "name": "Tiles, spa bath, shower and tapware", "price": 2500
     },
     "kitchen": [
         {"code": "UW", "name": "Upgrades units and worktop", "price": 2000},
