@@ -127,6 +127,11 @@ checkbuttons = {
     "DA" : tk.BooleanVar(value=False)
 }
 
+def induction_hob_checkbutton():
+    if checkbuttons["UW"].get() == True:
+        ih_entry.pack()
+    else:
+        ih_entry.pack_forget()
 
 tk.Label(window, text="Bathroom").pack()
 ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
@@ -138,7 +143,7 @@ uw_entry = ttk.Checkbutton(window, text="Upgrades units and worktop - $2000", va
 uw_entry.pack()
 
 ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", variable=checkbuttons["IH"])
-ih_entry.pack()
+induction_hob_checkbutton()
 
 da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
 da_entry.pack()
