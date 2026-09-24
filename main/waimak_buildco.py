@@ -49,7 +49,13 @@ class House:
         self.living_room = None
         self.bedroom = None
 
-
+        self.electrical_sockets = {
+            "bathroom": {"1G": 0, "2G": 0},
+            "kitchen": {"1G": 0, "2G": 0},
+            "living_room": {"1G": 0, "2G": 0},
+            "bedroom1": {"1G": 0, "2G": 0},
+            "bedroom2": {"1G": 0, "2G": 0}
+        }
 
 customers = []
 
