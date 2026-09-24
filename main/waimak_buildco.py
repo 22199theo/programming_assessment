@@ -58,20 +58,30 @@ class House:
             "bedroom2": {"1G": 0, "2G": 0}
         }
 
-
-    for room, sockets in self.electrical_sockets.items():
-        
+    def electrical_socket_validation(self):
         total_sockets = 0
 
-        for socket_number in sockets.values():
-            
+        for room, sockets in self.electrical_sockets.items():
 
-            total_sockets += socket_number
+            room_sockets = sum(sockets.values())
 
-            if total_sockets >4:
+            if room_sockets >4:
                 messagebox.showerror("Error", f"Too many sockets in {room}, the maximum is 4.")
                 return
-                
+            else: 
+                total_sockets +=room_sockets 
+
+            if total_sockets > 12:
+                messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
+                return
+
+            
+
+
+            
+
+        
+
 
 
 customers = []
