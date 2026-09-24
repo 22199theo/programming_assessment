@@ -9,8 +9,8 @@ HOUSE_OPTIONS = {
     },
     "kitchen": [
         {"code": "UW", "name": "Upgrades units and worktop", "price": 2000},
-        {"code": "IH", "name": "As a plus induction hob", "price": 3500},
-        {"code": "DA", "name": "As a plus Deluxe appliance pack", "price": 6000}
+        {"code": "IH", "name": "As A plus induction hob", "price": 3500},
+        {"code": "DA", "name": "As A plus Deluxe appliance pack", "price": 6000}
     ],
     "living_room": [
         {"code": "MA", "name": "Tv point plus roof mounted aerial", "price": 250},
@@ -78,16 +78,8 @@ class House:
     def total_price(self):
         total_price = 0
 
-        if self.bathroom: 
+        #if self.bathroom: 
             
-
-
-            
-
-        
-
-
-
 customers = []
 
 def customer():
@@ -128,7 +120,9 @@ customer_type_entry = ttk.Combobox(window,
 customer_type_entry.set("retail customer")
 customer_type_entry.pack()
 
-tk.Label(window, text="test").pack()
+tk.Label(window, text="Bathroom").pack()
+
+
 
 tk.Button(window, text="Test", command=customer).pack()
 
