@@ -19,6 +19,13 @@ HOUSE_OPTIONS = {
     ],
     "bedroom": [
         {"2.5 KW Heat pump": 1800}
+    ],
+    "electrical sockets": [
+        {"1G sockets": 40},
+        {"2G sockets": 50}
+    ],
+    "network points": [
+        {"price": 50, "network switch": 100, "minimum": 2, "maximum": 8}
     ]
 }
 
