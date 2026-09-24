@@ -128,14 +128,32 @@ checkbuttons = {
 }
 
 def induction_hob_checkbutton():
-    ih_entry.
+    ih_entry.pack()
 
     if checkbuttons["UW"].get() == True:
-        ih_entry.pack()
+        if checkbuttons["DA"].get() == True:
+            ih_entry.config(state="disabled")
+        else:
+            ih_entry.config(state="normal")
     else:
-        ih_entry.pack_forget()
+        ih_entry.config(state="disabled")
 
-    window.after(1000, induction_hob_checkbutton)
+    window.after(100, induction_hob_checkbutton)
+
+def deluxe_appliance_checkbutton():
+    da_entry.pack()
+
+    if checkbuttons["UW"].get() == True:
+        if checkbuttons["IH"].get() == True:
+            da_entry.config(state="disabled")
+        else:
+            da_entry.config(state="normal")
+    else:
+        da_entry.config(state="disabled")
+
+    window.after(100, deluxe_appliance_checkbutton)
+
+
 
 tk.Label(window, text="Bathroom").pack()
 ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
@@ -150,7 +168,7 @@ ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", varia
 induction_hob_checkbutton()
 
 da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
-da_entry.pack()
+deluxe_appliance_checkbutton()
 
 tk.Button(window, text="Test", command=customer).pack()
 
