@@ -11,7 +11,7 @@ class Customer:
         self.customer_type = customer_type
 
     def customer_discount(self):
-        if self.customer_type == "trade_customer":
+        if self.customer_type == "trade customer":
             return 0.1
         else:
             return 0
@@ -65,8 +65,9 @@ delivery_address_entry.pack()
 
 tk.Label(window, text="Customer Type").pack()
 customer_type_entry = ttk.Combobox(window, 
-                                   values=["trade_customer", "retail_customer"],
+                                   values=["retail customer", "trade customer"],
                                    state="readonly")
+customer_type_entry.set("retail customer")
 customer_type_entry.pack()
 
 tk.Button(window, text="Test", command=customer).pack()
