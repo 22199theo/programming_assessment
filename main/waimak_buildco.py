@@ -128,10 +128,14 @@ checkbuttons = {
 }
 
 def induction_hob_checkbutton():
+    ih_entry.
+
     if checkbuttons["UW"].get() == True:
         ih_entry.pack()
     else:
         ih_entry.pack_forget()
+
+    window.after(1000, induction_hob_checkbutton)
 
 tk.Label(window, text="Bathroom").pack()
 ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
