@@ -120,9 +120,12 @@ customer_type_entry = ttk.Combobox(window,
 customer_type_entry.set("retail customer")
 customer_type_entry.pack()
 
+checkbutton_false = tk.BooleanVar(value=False)
+
 tk.Label(window, text="Bathroom").pack()
-ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500")
+ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbutton_false)
 ts_entry.pack()
+
 
 
 tk.Button(window, text="Test", command=customer).pack()
