@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+customers = []
+
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
     "bathroom": {
@@ -80,8 +82,6 @@ class House:
 
         #if self.bathroom: 
             
-customers = []
-
 def customer():
     name = name_entry.get()
     address = address_entry.get()
@@ -97,96 +97,100 @@ def customer():
 
     messagebox.showinfo("Success", "Customer added")
 
-window = tk.Tk()
-window.title("Waimak BuildCo Customer Screen")
-window.geometry("720x640")
+def gui():
 
-tk.Label(window, text="Name").pack()
-name_entry = tk.Entry(window)
-name_entry.pack()
+    checkbuttons = {
+        "TS" : tk.BooleanVar(value=False),
+        "UW" : tk.BooleanVar(value=False),
+        "IH" : tk.BooleanVar(value=False),
+        "DA" : tk.BooleanVar(value=False),
+        "MA" : tk.BooleanVar(value=False),
+        "SD" : tk.BooleanVar(value=False),
+        "LH" : tk.BooleanVar(value=False),
+        "BH" : tk.BooleanVar(value=False)
+    }
 
-tk.Label(window, text="Address").pack()
-address_entry = tk.Entry(window)
-address_entry.pack()
+    def induction_hob_checkbutton():
+        ih_entry.pack()
 
-tk.Label(window, text="Delivery Address").pack()
-delivery_address_entry = tk.Entry(window)
-delivery_address_entry.pack()
-
-tk.Label(window, text="Customer Type").pack()
-customer_type_entry = ttk.Combobox(window, 
-                                   values=["retail customer", "trade customer"],
-                                   state="readonly")
-customer_type_entry.set("retail customer")
-customer_type_entry.pack()
-
-checkbuttons = {
-    "TS" : tk.BooleanVar(value=False),
-    "UW" : tk.BooleanVar(value=False),
-    "IH" : tk.BooleanVar(value=False),
-    "DA" : tk.BooleanVar(value=False),
-    "MA" : tk.BooleanVar(value=False),
-    "SD" : tk.BooleanVar(value=False),
-    "LH" : tk.BooleanVar(value=False),
-    "BH" : tk.BooleanVar(value=False)
-}
-
-def induction_hob_checkbutton():
-    ih_entry.pack()
-
-    if checkbuttons["UW"].get() == True:
-        if checkbuttons["DA"].get() == True:
+        if checkbuttons["UW"].get() == True:
+            if checkbuttons["DA"].get() == True:
+                ih_entry.config(state="disabled")
+            else:
+                ih_entry.config(state="normal")
+        else:
             ih_entry.config(state="disabled")
+
+        window.after(100, induction_hob_checkbutton)
+
+    def deluxe_appliance_checkbutton():
+        da_entry.pack()
+
+        if checkbuttons["UW"].get() == True:
+            if checkbuttons["IH"].get() == True:
+                da_entry.config(state="disabled")
+            else:
+                da_entry.config(state="normal")
         else:
-            ih_entry.config(state="normal")
-    else:
-        ih_entry.config(state="disabled")
-
-    window.after(100, induction_hob_checkbutton)
-
-def deluxe_appliance_checkbutton():
-    da_entry.pack()
-
-    if checkbuttons["UW"].get() == True:
-        if checkbuttons["IH"].get() == True:
             da_entry.config(state="disabled")
-        else:
-            da_entry.config(state="normal")
-    else:
-        da_entry.config(state="disabled")
 
-    window.after(100, deluxe_appliance_checkbutton)
+        window.after(100, deluxe_appliance_checkbutton)
 
-tk.Label(window, text="Bathroom").pack()
-ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
-ts_entry.pack()
+    window = tk.Tk()
+    window.title("Waimak BuildCo Customer Screen")
+    window.geometry("720x640")
 
-tk.Label(window, text="Kitchen").pack()
+    tk.Label(window, text="Name").pack()
+    name_entry = tk.Entry(window)
+    name_entry.pack()
 
-uw_entry = ttk.Checkbutton(window, text="Upgrades units and worktop - $2000", variable=checkbuttons["UW"])
-uw_entry.pack()
+    tk.Label(window, text="Address").pack()
+    address_entry = tk.Entry(window)
+    address_entry.pack()
 
-ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", variable=checkbuttons["IH"])
-induction_hob_checkbutton()
+    tk.Label(window, text="Delivery Address").pack()
+    delivery_address_entry = tk.Entry(window)
+    delivery_address_entry.pack()
 
-da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
-deluxe_appliance_checkbutton()
+    tk.Label(window, text="Customer Type").pack()
+    customer_type_entry = ttk.Combobox(window, 
+                                    values=["retail customer", "trade customer"],
+                                    state="readonly")
+    customer_type_entry.set("retail customer")
+    customer_type_entry.pack()
 
-tk.Label(window, text="Living Room").pack()
+    tk.Label(window, text="Bathroom").pack()
+    ts_entry = ttk.Checkbutton(window, text="Tiles, spa bath, shower and tapware - $2500", variable=checkbuttons["TS"])
+    ts_entry.pack()
 
-ma_entry = ttk.Checkbutton(window, text="Tv point plus roof mounted aerial - $250", variable=checkbuttons["MA"])
-ma_entry.pack()
+    tk.Label(window, text="Kitchen").pack()
 
-sd_entry = ttk.Checkbutton(window, text="Tv point plus satellite dish - $250", variable=checkbuttons["SD"])
-sd_entry.pack()
+    uw_entry = ttk.Checkbutton(window, text="Upgrades units and worktop - $2000", variable=checkbuttons["UW"])
+    uw_entry.pack()
 
-lh_entry = ttk.Checkbutton(window, text="4.5 KW Heat pump - $2500", variable=checkbuttons["LH"])
-lh_entry.pack()
+    ih_entry = ttk.Checkbutton(window, text="As A plus induction hob - $3500", variable=checkbuttons["IH"])
+    induction_hob_checkbutton()
 
-tk.Label(window, text="Bedroom").pack()
-bh_entry = ttk.Checkbutton(window, text="2.5 KW Heat pump - $1800", variable=checkbuttons["BH"])
-bh_entry.pack()
+    da_entry = ttk.Checkbutton(window, text="As A plus Deluxe appliance pack - $6000", variable=checkbuttons["DA"])
+    deluxe_appliance_checkbutton()
 
-tk.Button(window, text="Test", command=customer).pack()
+    tk.Label(window, text="Living Room").pack()
 
-window.mainloop()
+    ma_entry = ttk.Checkbutton(window, text="Tv point plus roof mounted aerial - $250", variable=checkbuttons["MA"])
+    ma_entry.pack()
+
+    sd_entry = ttk.Checkbutton(window, text="Tv point plus satellite dish - $250", variable=checkbuttons["SD"])
+    sd_entry.pack()
+
+    lh_entry = ttk.Checkbutton(window, text="4.5 KW Heat pump - $2500", variable=checkbuttons["LH"])
+    lh_entry.pack()
+
+    tk.Label(window, text="Bedroom").pack()
+    bh_entry = ttk.Checkbutton(window, text="2.5 KW Heat pump - $1800", variable=checkbuttons["BH"])
+    bh_entry.pack()
+
+    tk.Button(window, text="Submit", command=customer).pack()
+
+    window.mainloop()
+
+gui()
