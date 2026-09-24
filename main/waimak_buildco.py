@@ -45,10 +45,10 @@ class Customer:
 
 class House:
     def __init__(self):
-        self.bathroom = None
-        self.kitchen = None
-        self.living_room = None
-        self.bedroom = None
+        self.bathroom = []
+        self.kitchen = []
+        self.living_room = []
+        self.bedroom = []
 
         self.electrical_sockets = {
             "bathroom": {"1G": 0, "2G": 0},
@@ -75,6 +75,10 @@ class House:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
                 return
 
+    def total_price(self):
+        total_price = 0
+
+        if self.bathroom: 
             
 
 
