@@ -175,14 +175,14 @@ def gui():
         OG_entry = ttk.Combobox(room_frame, 
                                 values=[0, 1, 2, 3, 4],
                                 state="readonly")
-        OG_entry.set(sockets_value[room])
+        OG_entry.set(sockets_value[room]["OG"])
         OG_entry.pack()
 
         tk.Label(room_frame, text="Additional Electrical Sockets (2G) - $50").pack()
         TG_entry = ttk.Combobox(room_frame, 
                                 values=[0, 1, 2, 3, 4],
                                 state="readonly")
-        TG_entry.set(sockets_value[room])
+        TG_entry.set(sockets_value[room]["TG"])
         TG_entry.pack()
 
         OG_entry.bind("<<ComboboxSelected>>", save_sockets)
