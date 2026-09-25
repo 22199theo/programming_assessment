@@ -116,26 +116,6 @@ def gui():
 
         messagebox.showinfo("Success", "Customer added")
 
-    def update_kitchen():
-        if not checkbuttons["UW"].get():
-            ih_entry.config(state="disabled")
-            da_entry.config(state="disabled")
-            return
-
-        if checkbuttons["IH"].get():
-            da_entry.config(state="disabled")
-        else:
-            da_entry.config(state="normal")
-
-        if checkbuttons["DA"].get():
-            ih_entry.config(state="disabled")
-        else:
-            ih_entry.config(state="normal")
-
-    # creating a frame so when user selects a different room 
-    # we can delete the old selected room function and shows the new one selected
-    room_frame = tk.Frame(window)
-    room_frame.pack()
 
     # all room functions
     def bathroom():
@@ -146,28 +126,45 @@ def gui():
             ts_entry.pack()
 
     def kitchen():
-            tk.Label(room_frame, text="Kitchen").pack()
+        def update_kitchen():
+            if not checkbuttons["UW"].get():
+                ih_entry.config(state="disabled")
+                da_entry.config(state="disabled")
+                return
 
-            uw_entry = ttk.Checkbutton(room_frame, 
+            if checkbuttons["IH"].get():
+                da_entry.config(state="disabled")
+            else:
+                da_entry.config(state="normal")
+
+            if checkbuttons["DA"].get():
+                ih_entry.config(state="disabled")
+            else:
+                ih_entry.config(state="normal")
+
+            
+        tk.Label(room_frame, text="Kitchen").pack()
+
+        uw_entry = ttk.Checkbutton(room_frame, 
                                     text="Upgrades units and worktop - $2000", 
                                     variable=checkbuttons["UW"],
                                     command=update_kitchen)
-            uw_entry.pack()
+        uw_entry.pack()
 
-            ih_entry = ttk.Checkbutton(room_frame, 
+        ih_entry = ttk.Checkbutton(room_frame, 
                                     text="As A plus induction hob - $3500", 
                                     variable=checkbuttons["IH"],
                                     command=update_kitchen)
-            ih_entry.pack()
+        ih_entry.pack()
 
-            da_entry = ttk.Checkbutton(room_frame, 
+        da_entry = ttk.Checkbutton(room_frame, 
                                     text="As A plus Deluxe appliance pack - $6000", 
                                     variable=checkbuttons["DA"],
                                     command=update_kitchen)
-            da_entry.pack()
+        da_entry.pack()
 
-            da_entry.config(state="disabled")
-            ih_entry.config(state="disabled")
+        da_entry.config(state="disabled")
+        ih_entry.config(state="disabled")
 
     def living_room():
             tk.Label(room_frame, text="Living Room").pack()
@@ -196,12 +193,12 @@ def gui():
 
     # the function uses event to get the information from the change in combobox 
     def get_room(event):
-        nonlocal room_frame 
 
-        room_frame.destroy()
-
-        room_frame = tk.Frame(window)
-        room_frame.pack()
+        #this for loop is used to remove everything currently in room_frame
+        #winfo_children identifies each widget in the room_frame
+        #and then by using a for loop it will go through each widget and remove it
+        for widget in room_frame.winfo_children():
+            widget.destroy()
 
         function_rooms = {
             "Bathroom": bathroom,
@@ -239,12 +236,16 @@ def gui():
     room_entry = ttk.Combobox(window,
                               values=["Bathroom", "Kitchen", "Living Room", "Bedroom"], 
                               state="readonly",)
-    bathroom()
     room_entry.set("Bathroom")
     #here bind is used to send the information to the get_room function 
     #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
     room_entry.bind("<<ComboboxSelected>>", get_room)
     room_entry.pack()
+    # creating a frame so when user selects a different room 
+    # we can delete the old selected room function and shows the new one selected
+    room_frame = tk.Frame(window)
+    room_frame.pack()
+    bathroom()
 
     tk.Button(window, text="Submit", command=customer).pack()
 
