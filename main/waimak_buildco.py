@@ -138,15 +138,16 @@ def gui():
             house.living_room.append("LH")
 
         if checkbuttons["B1"].get():
-            house.bathroom.append("B1")
+            house.bedroom_1.append("B1")
 
         if checkbuttons["B2"].get():
-            house.bathroom.append("B2")
+            house.bedroom_2.append("B2")
 
         print (house.bathroom)
         print (house.kitchen)
         print (house.living_room)
-        print (house.bedroom)
+        print (house.bedroom_1)
+        print (house.bedroom_2)
 
         messagebox.showinfo("Success", "Customer added")
 
@@ -173,8 +174,6 @@ def gui():
                 ih_entry.config(state="disabled")
             else:
                 ih_entry.config(state="normal")
-
-            
 
         uw_entry = ttk.Checkbutton(room_frame, 
                                     text="Upgrades units and worktop - $2000", 
