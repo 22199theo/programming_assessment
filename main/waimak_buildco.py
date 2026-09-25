@@ -53,14 +53,15 @@ class House:
         self.bathroom = []
         self.kitchen = []
         self.living_room = []
-        self.bedroom = []
+        self.bedroom_1 = []
+        self.bedroom_2 = []
 
         self.electrical_sockets = {
             "bathroom": {"1G": 0, "2G": 0},
             "kitchen": {"1G": 0, "2G": 0},
             "living_room": {"1G": 0, "2G": 0},
-            "bedroom1": {"1G": 0, "2G": 0},
-            "bedroom2": {"1G": 0, "2G": 0}
+            "bedroom_1": {"1G": 0, "2G": 0},
+            "bedroom_2": {"1G": 0, "2G": 0}
         }
 
     def electrical_socket_validation(self):
