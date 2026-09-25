@@ -83,12 +83,9 @@ class House:
         #if self.bathroom: 
 
 def gui():
-
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
     window.geometry("720x640")
-
-    customer_viewing = True
 
     checkbuttons = {
         "TS" : tk.BooleanVar(value=False),
@@ -101,7 +98,8 @@ def gui():
         "BH" : tk.BooleanVar(value=False)
     }
 
-    def customer():
+    #function once user submits their order
+    def submit_order():
         name = name_entry.get()
         address = address_entry.get()
         delivery_address = delivery_address_entry.get()
@@ -109,13 +107,12 @@ def gui():
 
         customer = Customer(name, address, delivery_address, customer_type)
 
-        customers.append(customer)
+        house = 
 
         for x in customers:
             print (x.name, x.address)
 
         messagebox.showinfo("Success", "Customer added")
-
 
     # all room functions
     def bathroom():
@@ -231,7 +228,6 @@ def gui():
     customer_type_entry.pack()
 
     #rooms
-
     tk.Label(window, text="Room").pack()
     room_entry = ttk.Combobox(window,
                               values=["Bathroom", "Kitchen", "Living Room", "Bedroom"], 
@@ -247,7 +243,7 @@ def gui():
     room_frame.pack()
     bathroom()
 
-    tk.Button(window, text="Submit", command=customer).pack()
+    tk.Button(window, text="Submit", command=submit_order).pack()
 
     window.mainloop()
 
