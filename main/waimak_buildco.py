@@ -106,6 +106,14 @@ def gui():
         "loft_mount_entry" : tk.BooleanVar(value=False)
     }
 
+    sockets_value = {
+    "bathroom": {"OG": 0, "TG": 0},
+    "kitchen": {"OG": 0, "TG": 0},
+    "living_room": {"OG": 0, "TG": 0},
+    "bedroom_1": {"OG": 0, "TG": 0},
+    "bedroom_2": {"OG": 0, "TG": 0}
+    }   
+
     #function once user submits their order
     def submit_order():
         name = name_entry.get()
@@ -156,22 +164,49 @@ def gui():
         messagebox.showinfo("Success", "Customer added")
 
     #electrical sockets and network points
-    def electrical_sockets():
+    def electrical_sockets(room):
+
+        def save_sockets(event):
+            sockets_value[room]["OG"] = OG_entry.get()
+            sockets_value[room]["TG"] = TG_entry.get()
+
+
         tk.Label(room_frame, text="Additional Electrical Sockets (1G) - $40").pack()
         OG_entry = ttk.Combobox(room_frame, 
-                                values=[0, 1, 2, 3, 4])
-        OG_entry.set(0)
+                                values=[0, 1, 2, 3, 4],
+                                state="readonly")
+        OG_entry.set(sockets_value[room])
         OG_entry.pack()
 
         tk.Label(room_frame, text="Additional Electrical Sockets (2G) - $50").pack()
         TG_entry = ttk.Combobox(room_frame, 
-                                values=[0, 1, 2, 3, 4])
-        TG_entry.set(0)
+                                values=[0, 1, 2, 3, 4],
+                                state="readonly")
+        TG_entry.set(sockets_value[room])
         TG_entry.pack()
+
+        OG_entry.bind("<<ComboboxSelected>>", save_sockets)
+        TG_entry.bind("<<ComboboxSelected>>", save_sockets)
+
+    #network points
+    def network_points():
+        tk.Label(window, text="Network Points").pack()
+        additional_entry = ttk.Combobox(window,
+                                values=["deselected", 2, 3, 4, 5, 6, 7, 8], )
+        additional_entry.set("deselected")
+        #here bind is used to send the information to the get_room function 
+        #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
+        additional_entry.bind("<<ComboboxSelected>>", loft_mount)
+        additional_entry.pack()
+
+        loft_mount_entry = ttk.Checkbutton(window,
+                                        text="loft mounted 8 port 10/100/1000 network switch - $100",
+                                        state="disabled",
+                                        variable=checkbuttons["loft_mount_entry"])
+        loft_mount_entry.pack()
 
     def loft_mount(event):
   
-
         if additional_entry.get() == "deselected":
             checkbuttons["loft_mount_entry"].set(False)
         else:
@@ -184,7 +219,7 @@ def gui():
                                        variable=checkbuttons["TS"])
             ts_entry.pack()
 
-            electrical_sockets()
+            electrical_sockets("bathroom")
 
     def kitchen():
         def update_kitchen():
@@ -221,7 +256,7 @@ def gui():
                                     command=update_kitchen)
         da_entry.pack()
 
-        electrical_sockets()
+        electrical_sockets("kitchen")
 
         da_entry.config(state="disabled")
         ih_entry.config(state="disabled")
@@ -242,7 +277,7 @@ def gui():
                                     variable=checkbuttons["LH"])
             lh_entry.pack()
 
-            electrical_sockets()
+            electrical_sockets("living_room")
 
     def bedroom_1():
             b1_entry = ttk.Checkbutton(room_frame, 
@@ -250,7 +285,7 @@ def gui():
                                     variable=checkbuttons["BO"])
             b1_entry.pack()
 
-            electrical_sockets()
+            electrical_sockets("bedroom_1")
 
     def bedroom_2():
             b2_entry = ttk.Checkbutton(room_frame, 
@@ -258,7 +293,7 @@ def gui():
                                     variable=checkbuttons["BT"])
             b2_entry.pack()
 
-            electrical_sockets()
+            electrical_sockets("bedroom_2")
 
 
     # the function uses event to get the information from the change in combobox 
@@ -300,29 +335,6 @@ def gui():
                                     state="readonly")
     customer_type_entry.set("retail customer")
     customer_type_entry.pack()
-
-    #network points
-
-    tk.Label(window, text="Network Points").pack()
-    additional_entry = ttk.Combobox(window,
-                              values=["deselected", 2, 3, 4, 5, 6, 7, 8], )
-    additional_entry.set("deselected")
-    #here bind is used to send the information to the get_room function 
-    #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
-    additional_entry.bind("<<ComboboxSelected>>", loft_mount)
-    additional_entry.pack()
-
-
-    loft_mount_entry = ttk.Checkbutton(window,
-                                       text="loft mounted 8 port 10/100/1000 network switch - $100",
-                                       state="disabled",
-                                       variable=checkbuttons["loft_mount_entry"])
-    loft_mount_entry.pack()
-
-
-
-    network_points_entry = ttk.Combobox(window,
-                                        values=[2, 3, 4, 5, 6, 7, 8])
 
     #rooms
     tk.Label(window, text="Room").pack()
