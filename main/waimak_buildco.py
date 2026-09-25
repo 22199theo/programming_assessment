@@ -19,8 +19,11 @@ HOUSE_OPTIONS = {
         {"code": "SD", "name": "Tv point plus satellite dish", "price": 250},
         {"code": "LH", "name": "4.5 KW Heat pump", "price": 2500}
     ],
-    "bedroom": [
-        {"code": "BH", "name": "2.5 KW Heat pump", "price": 1800}
+    "bedroom_1": [
+        {"code": "B1", "name": "2.5 KW Heat pump", "price": 1800}
+    ],
+    "bedroom_2": [
+        {"code": "B2", "name": "2.5 KW Heat pump", "price": 1800}
     ],
     "electrical_sockets": [
         {"code": "1G", "name": "1G sockets", "price": 40},
@@ -95,7 +98,8 @@ def gui():
         "MA" : tk.BooleanVar(value=False),
         "SD" : tk.BooleanVar(value=False),
         "LH" : tk.BooleanVar(value=False),
-        "BH" : tk.BooleanVar(value=False)
+        "B1" : tk.BooleanVar(value=False),
+        "B2" : tk.BooleanVar(value=False)
     }
 
     #function once user submits their order
@@ -133,8 +137,11 @@ def gui():
         if checkbuttons["LH"].get():
             house.living_room.append("LH")
 
-        if checkbuttons["BH"].get():
-            house.bathroom.append("BH")
+        if checkbuttons["B1"].get():
+            house.bathroom.append("B1")
+
+        if checkbuttons["B2"].get():
+            house.bathroom.append("B2")
 
         print (house.bathroom)
         print (house.kitchen)
@@ -145,7 +152,6 @@ def gui():
 
     # all room functions
     def bathroom():
-            tk.Label(room_frame, text="Bathroom").pack()
             ts_entry = ttk.Checkbutton(room_frame, 
                                        text="Tiles, spa bath, shower and tapware - $2500", 
                                        variable=checkbuttons["TS"])
@@ -169,7 +175,6 @@ def gui():
                 ih_entry.config(state="normal")
 
             
-        tk.Label(room_frame, text="Kitchen").pack()
 
         uw_entry = ttk.Checkbutton(room_frame, 
                                     text="Upgrades units and worktop - $2000", 
@@ -193,8 +198,6 @@ def gui():
         ih_entry.config(state="disabled")
 
     def living_room():
-            tk.Label(room_frame, text="Living Room").pack()
-
             ma_entry = ttk.Checkbutton(room_frame, 
                                     text="Tv point plus roof mounted aerial - $250", 
                                     variable=checkbuttons["MA"])
@@ -210,12 +213,17 @@ def gui():
                                     variable=checkbuttons["LH"])
             lh_entry.pack()
 
-    def bedroom():
-            tk.Label(room_frame, text="Bedroom").pack()
-            bh_entry = ttk.Checkbutton(room_frame, 
+    def bedroom_1():
+            b1_entry = ttk.Checkbutton(room_frame, 
                                     text="2.5 KW Heat pump - $1800", 
-                                    variable=checkbuttons["BH"])
-            bh_entry.pack()
+                                    variable=checkbuttons["B1"])
+            b1_entry.pack()
+
+    def bedroom_2():
+            b2_entry = ttk.Checkbutton(room_frame, 
+                                    text="2.5 KW Heat pump - $1800", 
+                                    variable=checkbuttons["B2"])
+            b2_entry.pack()
 
     # the function uses event to get the information from the change in combobox 
     def get_room(event):
@@ -230,7 +238,8 @@ def gui():
             "Bathroom": bathroom,
             "Kitchen": kitchen,
             "Living Room": living_room,
-            "Bedroom": bedroom
+            "Bedroom 1": bedroom_1,
+            "Bedroom 2": bedroom_2
         }
 
         room = room_entry.get()
@@ -259,7 +268,7 @@ def gui():
     #rooms
     tk.Label(window, text="Room").pack()
     room_entry = ttk.Combobox(window,
-                              values=["Bathroom", "Kitchen", "Living Room", "Bedroom"], 
+                              values=["Bathroom", "Kitchen", "Living Room", "Bedroom 1", "Bedroom 2"], 
                               state="readonly",)
     room_entry.set("Bathroom")
     #here bind is used to send the information to the get_room function 
