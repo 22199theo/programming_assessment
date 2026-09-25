@@ -64,6 +64,14 @@ class House:
             "bedroom_2": {"OG": 0, "TG": 0}
         }
 
+        self.network_points = {
+            "bathroom": 0,
+            "kitchen": 0,
+            "living_room": 0,
+            "bedroom_1": 0,
+            "bedroom_2": 0
+        }
+
     def electrical_socket_validation(self):
         total_sockets = 0
 
@@ -133,9 +141,6 @@ def gui():
 
         house = House()
 
-        for x in customers:
-            print (x.name, x.address)
-
         if checkbuttons["TS"].get():
             house.bathroom.append("TS")
 
@@ -163,15 +168,26 @@ def gui():
         if checkbuttons["BT"].get():
             house.bedroom_2.append("BT")
 
+        #copies the network_points_value dictionary to the network_points dictionary
+        house.network_points = network_points_value.copy()
+
+        for room in sockets_value:
+            house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
+            house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
+
         print (house.bathroom)
         print (house.kitchen)
         print (house.living_room)
         print (house.bedroom_1)
         print (house.bedroom_2)
 
+        for x in customers:
+            print (x.name, x.address)
+
+
         messagebox.showinfo("Success", "Customer added")
 
-    #electrical sockets and network points
+    #electrical sockets 
     def electrical_sockets(room):
 
         def save_sockets(event):
