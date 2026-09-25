@@ -171,9 +171,9 @@ def gui():
 
     def loft_mount():
         if checkbuttons["additional_entry"].get():
-            checkbuttons["loft_mount_entry"] = tk.BooleanVar(value=True)
+            checkbuttons["loft_mount_entry"].set(True)
         if not checkbuttons["additional_entry"].get():
-            checkbuttons["loft_mount_entry"] = tk.BooleanVar(value=False)
+            checkbuttons["loft_mount_entry"].set(False)
 
     # all room functions
     def bathroom():
