@@ -169,11 +169,13 @@ def gui():
         TG_entry.set(0)
         TG_entry.pack()
 
-    def loft_mount():
-        if checkbuttons["additional_entry"].get():
-            checkbuttons["loft_mount_entry"].set(True)
-        if not checkbuttons["additional_entry"].get():
+    def loft_mount(event):
+  
+
+        if additional_entry.get() == "deselected":
             checkbuttons["loft_mount_entry"].set(False)
+        else:
+            checkbuttons["loft_mount_entry"].set(True)
 
     # all room functions
     def bathroom():
@@ -301,11 +303,15 @@ def gui():
 
     #network points
 
-    additional_entry = ttk.Checkbutton(window,
-                                       text="Network Points",
-                                       variable=checkbuttons["additional_entry"],
-                                       command=loft_mount)
+    tk.Label(window, text="Network Points").pack()
+    additional_entry = ttk.Combobox(window,
+                              values=["deselected", 2, 3, 4, 5, 6, 7, 8], )
+    additional_entry.set("deselected")
+    #here bind is used to send the information to the get_room function 
+    #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
+    additional_entry.bind("<<ComboboxSelected>>", loft_mount)
     additional_entry.pack()
+
 
     loft_mount_entry = ttk.Checkbutton(window,
                                        text="loft mounted 8 port 10/100/1000 network switch - $100",
