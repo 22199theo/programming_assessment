@@ -114,6 +114,14 @@ def gui():
     "bedroom_2": {"OG": 0, "TG": 0}
     }   
 
+    network_points_value = {
+    "bathroom": 0,
+    "kitchen": 0,
+    "living_room": 0,
+    "bedroom_1": 0,
+    "bedroom_2": 0       
+    }
+
     #function once user submits their order
     def submit_order():
         name = name_entry.get()
@@ -170,7 +178,6 @@ def gui():
             sockets_value[room]["OG"] = OG_entry.get()
             sockets_value[room]["TG"] = TG_entry.get()
 
-
         tk.Label(room_frame, text="Additional Electrical Sockets (1G) - $40").pack()
         OG_entry = ttk.Combobox(room_frame, 
                                 values=[0, 1, 2, 3, 4],
@@ -189,28 +196,33 @@ def gui():
         TG_entry.bind("<<ComboboxSelected>>", save_sockets)
 
     #network points
-    def network_points():
-        tk.Label(window, text="Network Points").pack()
-        additional_entry = ttk.Combobox(window,
-                                values=["deselected", 2, 3, 4, 5, 6, 7, 8], )
-        additional_entry.set("deselected")
-        #here bind is used to send the information to the get_room function 
+    def network_points(room):
+        def save_network_points(event):
+            network_points_value[room] = additional_entry.get()
+
+            total = 0
+            for values in network_points_value.values():
+                values += total
+                
+            if total == 0:
+                checkbuttons["loft_mount_entry"].set(False)
+            else:
+                checkbuttons["loft_mount_entry"].set(True)
+
+        tk.Label(room_frame, text="Network Points").pack()
+        additional_entry = ttk.Combobox(room_frame,
+                                values=[0, 1, 2, 3, 4, 5, 6, 7, 8], )
+        additional_entry.set(network_points_value[room])
+        #here bind is used to send the information to the loft_mount function 
         #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
-        additional_entry.bind("<<ComboboxSelected>>", loft_mount)
+        additional_entry.bind("<<ComboboxSelected>>", save_network_points)
         additional_entry.pack()
 
-        loft_mount_entry = ttk.Checkbutton(window,
+        loft_mount_entry = ttk.Checkbutton(room_frame,
                                         text="loft mounted 8 port 10/100/1000 network switch - $100",
                                         state="disabled",
                                         variable=checkbuttons["loft_mount_entry"])
         loft_mount_entry.pack()
-
-    def loft_mount(event):
-  
-        if additional_entry.get() == "deselected":
-            checkbuttons["loft_mount_entry"].set(False)
-        else:
-            checkbuttons["loft_mount_entry"].set(True)
 
     # all room functions
     def bathroom():
@@ -220,6 +232,7 @@ def gui():
             ts_entry.pack()
 
             electrical_sockets("bathroom")
+            network_points("bathroom")
 
     def kitchen():
         def update_kitchen():
@@ -257,6 +270,7 @@ def gui():
         da_entry.pack()
 
         electrical_sockets("kitchen")
+        network_points("kitchen")
 
         da_entry.config(state="disabled")
         ih_entry.config(state="disabled")
@@ -278,6 +292,7 @@ def gui():
             lh_entry.pack()
 
             electrical_sockets("living_room")
+            network_points("living_room")
 
     def bedroom_1():
             b1_entry = ttk.Checkbutton(room_frame, 
@@ -286,6 +301,7 @@ def gui():
             b1_entry.pack()
 
             electrical_sockets("bedroom_1")
+            network_points("bedroom_1")
 
     def bedroom_2():
             b2_entry = ttk.Checkbutton(room_frame, 
@@ -294,7 +310,7 @@ def gui():
             b2_entry.pack()
 
             electrical_sockets("bedroom_2")
-
+            network_points("bedroom_2")
 
     # the function uses event to get the information from the change in combobox 
     def get_room(event):
