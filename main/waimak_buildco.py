@@ -116,22 +116,22 @@ def gui():
             house.bathroom.append("TS")
 
         if checkbuttons["UW"].get():
-            house.bathroom.append("UW")
+            house.kitchen.append("UW")
 
         if checkbuttons["IH"].get():
-            house.bathroom.append("IH")
+            house.kitchen.append("IH")
 
         if checkbuttons["DA"].get():
-            house.bathroom.append("DA")
+            house.kitchen.append("DA")
 
         if checkbuttons["MA"].get():
-            house.bathroom.append("MA")
+            house.living_room.append("MA")
 
         if checkbuttons["SD"].get():
-            house.bathroom.append("SD")
+            house.living_room.append("SD")
 
         if checkbuttons["LH"].get():
-            house.bathroom.append("LH")
+            house.living_room.append("LH")
 
         if checkbuttons["BH"].get():
             house.bathroom.append("BH")
