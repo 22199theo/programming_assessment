@@ -175,8 +175,8 @@ def gui():
     def electrical_sockets(room):
 
         def save_sockets(event):
-            sockets_value[room]["OG"] = OG_entry.get()
-            sockets_value[room]["TG"] = TG_entry.get()
+            sockets_value[room]["OG"] = int(OG_entry.get())
+            sockets_value[room]["TG"] = int(TG_entry.get())
 
         tk.Label(room_frame, text="Additional Electrical Sockets (1G) - $40").pack()
         OG_entry = ttk.Combobox(room_frame, 
@@ -198,11 +198,9 @@ def gui():
     #network points
     def network_points(room):
         def save_network_points(event):
-            network_points_value[room] = additional_entry.get()
+            network_points_value[room] = int(additional_entry.get())
 
-            total = 0
-            for values in network_points_value.values():
-                values += total
+            total = sum(network_points_value.values())
                 
             if total == 0:
                 checkbuttons["loft_mount_entry"].set(False)
