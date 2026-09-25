@@ -101,7 +101,9 @@ def gui():
         "LH" : tk.BooleanVar(value=False),
         "BO" : tk.BooleanVar(value=False),
         "BT" : tk.BooleanVar(value=False),
-        "additional_entry" : tk.BooleanVar(value=False)
+
+        "additional_entry" : tk.BooleanVar(value=False),
+        "loft_mount_entry" : tk.BooleanVar(value=False)
     }
 
     #function once user submits their order
@@ -153,7 +155,7 @@ def gui():
 
         messagebox.showinfo("Success", "Customer added")
 
-    #electrical sockets 
+    #electrical sockets and network points
     def electrical_sockets():
         tk.Label(room_frame, text="Additional Electrical Sockets (1G) - $40").pack()
         OG_entry = ttk.Combobox(room_frame, 
@@ -166,6 +168,12 @@ def gui():
                                 values=[0, 1, 2, 3, 4])
         TG_entry.set(0)
         TG_entry.pack()
+
+    def loft_mount():
+        if checkbuttons["additional_entry"].get():
+            checkbuttons["loft_mount_entry"] = tk.BooleanVar(value=True)
+        if not checkbuttons["additional_entry"].get():
+            checkbuttons["loft_mount_entry"] = tk.BooleanVar(value=False)
 
     # all room functions
     def bathroom():
@@ -292,8 +300,20 @@ def gui():
     customer_type_entry.pack()
 
     #network points
+
     additional_entry = ttk.Checkbutton(window,
-                                       text="Network Points",)
+                                       text="Network Points",
+                                       variable=checkbuttons["additional_entry"],
+                                       command=loft_mount)
+    additional_entry.pack()
+
+    loft_mount_entry = ttk.Checkbutton(window,
+                                       text="loft mounted 8 port 10/100/1000 network switch - $100",
+                                       state="disabled",
+                                       variable=checkbuttons["loft_mount_entry"])
+    loft_mount_entry.pack()
+
+
 
     network_points_entry = ttk.Combobox(window,
                                         values=[2, 3, 4, 5, 6, 7, 8])
