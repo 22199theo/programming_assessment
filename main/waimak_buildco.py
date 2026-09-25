@@ -20,14 +20,14 @@ HOUSE_OPTIONS = {
         {"code": "LH", "name": "4.5 KW Heat pump", "price": 2500}
     ],
     "bedroom_1": [
-        {"code": "B1", "name": "2.5 KW Heat pump", "price": 1800}
+        {"code": "BO", "name": "2.5 KW Heat pump", "price": 1800}
     ],
     "bedroom_2": [
-        {"code": "B2", "name": "2.5 KW Heat pump", "price": 1800}
+        {"code": "BT", "name": "2.5 KW Heat pump", "price": 1800}
     ],
     "electrical_sockets": [
-        {"code": "1G", "name": "1G sockets", "price": 40},
-        {"code": "2G", "name": "2G sockets", "price": 50}
+        {"code": "OG", "name": "1G sockets", "price": 40},
+        {"code": "TG", "name": "2G sockets", "price": 50}
     ],
     "network_points": [
         {"code": "NP", "name": "Network point", "price": 50},
@@ -57,11 +57,11 @@ class House:
         self.bedroom_2 = []
 
         self.electrical_sockets = {
-            "bathroom": {"1G": 0, "2G": 0},
-            "kitchen": {"1G": 0, "2G": 0},
-            "living_room": {"1G": 0, "2G": 0},
-            "bedroom_1": {"1G": 0, "2G": 0},
-            "bedroom_2": {"1G": 0, "2G": 0}
+            "bathroom": {"OG": 0, "TG": 0},
+            "kitchen": {"OG": 0, "TG": 0},
+            "living_room": {"OG": 0, "TG": 0},
+            "bedroom_1": {"OG": 0, "TG": 0},
+            "bedroom_2": {"OG": 0, "TG": 0}
         }
 
     def electrical_socket_validation(self):
@@ -99,8 +99,8 @@ def gui():
         "MA" : tk.BooleanVar(value=False),
         "SD" : tk.BooleanVar(value=False),
         "LH" : tk.BooleanVar(value=False),
-        "B1" : tk.BooleanVar(value=False),
-        "B2" : tk.BooleanVar(value=False)
+        "BO" : tk.BooleanVar(value=False),
+        "BT" : tk.BooleanVar(value=False)
     }
 
     #function once user submits their order
@@ -138,11 +138,11 @@ def gui():
         if checkbuttons["LH"].get():
             house.living_room.append("LH")
 
-        if checkbuttons["B1"].get():
-            house.bedroom_1.append("B1")
+        if checkbuttons["BO"].get():
+            house.bedroom_1.append("BO")
 
-        if checkbuttons["B2"].get():
-            house.bedroom_2.append("B2")
+        if checkbuttons["BT"].get():
+            house.bedroom_2.append("BT")
 
         print (house.bathroom)
         print (house.kitchen)
@@ -151,6 +151,20 @@ def gui():
         print (house.bedroom_2)
 
         messagebox.showinfo("Success", "Customer added")
+
+    #electrical sockets and network points functions
+    def electrical_sockets():
+        tk.Label(room_frame, text="Electrical Sockets 1G - $40").pack()
+        OG_entry = ttk.Combobox(room_frame, 
+                                    values=[1, 2, 3, 4])
+        OG_entry.set("retail customer")
+        OG_entry.pack()
+
+        customer_type_entry = ttk.Combobox(window, 
+                                    values=["retail customer", "trade customer"],
+                                    state="readonly")
+        customer_type_entry.set("retail customer")
+        customer_type_entry.pack()
 
     # all room functions
     def bathroom():
@@ -216,14 +230,15 @@ def gui():
     def bedroom_1():
             b1_entry = ttk.Checkbutton(room_frame, 
                                     text="2.5 KW Heat pump - $1800", 
-                                    variable=checkbuttons["B1"])
+                                    variable=checkbuttons["BO"])
             b1_entry.pack()
 
     def bedroom_2():
             b2_entry = ttk.Checkbutton(room_frame, 
                                     text="2.5 KW Heat pump - $1800", 
-                                    variable=checkbuttons["B2"])
+                                    variable=checkbuttons["BT"])
             b2_entry.pack()
+
 
     # the function uses event to get the information from the change in combobox 
     def get_room(event):
