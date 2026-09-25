@@ -100,7 +100,8 @@ def gui():
         "SD" : tk.BooleanVar(value=False),
         "LH" : tk.BooleanVar(value=False),
         "BO" : tk.BooleanVar(value=False),
-        "BT" : tk.BooleanVar(value=False)
+        "BT" : tk.BooleanVar(value=False),
+        "additional_entry" : tk.BooleanVar(value=False)
     }
 
     #function once user submits their order
@@ -152,19 +153,19 @@ def gui():
 
         messagebox.showinfo("Success", "Customer added")
 
-    #electrical sockets and network points functions
+    #electrical sockets 
     def electrical_sockets():
-        tk.Label(room_frame, text="Electrical Sockets 1G - $40").pack()
+        tk.Label(room_frame, text="Additional Electrical Sockets (1G) - $40").pack()
         OG_entry = ttk.Combobox(room_frame, 
-                                    values=[1, 2, 3, 4])
-        OG_entry.set("retail customer")
+                                values=[0, 1, 2, 3, 4])
+        OG_entry.set(0)
         OG_entry.pack()
 
-        customer_type_entry = ttk.Combobox(window, 
-                                    values=["retail customer", "trade customer"],
-                                    state="readonly")
-        customer_type_entry.set("retail customer")
-        customer_type_entry.pack()
+        tk.Label(room_frame, text="Additional Electrical Sockets (2G) - $50").pack()
+        TG_entry = ttk.Combobox(room_frame, 
+                                values=[0, 1, 2, 3, 4])
+        TG_entry.set(0)
+        TG_entry.pack()
 
     # all room functions
     def bathroom():
@@ -172,6 +173,8 @@ def gui():
                                        text="Tiles, spa bath, shower and tapware - $2500", 
                                        variable=checkbuttons["TS"])
             ts_entry.pack()
+
+            electrical_sockets()
 
     def kitchen():
         def update_kitchen():
@@ -208,6 +211,8 @@ def gui():
                                     command=update_kitchen)
         da_entry.pack()
 
+        electrical_sockets()
+
         da_entry.config(state="disabled")
         ih_entry.config(state="disabled")
 
@@ -227,17 +232,23 @@ def gui():
                                     variable=checkbuttons["LH"])
             lh_entry.pack()
 
+            electrical_sockets()
+
     def bedroom_1():
             b1_entry = ttk.Checkbutton(room_frame, 
                                     text="2.5 KW Heat pump - $1800", 
                                     variable=checkbuttons["BO"])
             b1_entry.pack()
 
+            electrical_sockets()
+
     def bedroom_2():
             b2_entry = ttk.Checkbutton(room_frame, 
                                     text="2.5 KW Heat pump - $1800", 
                                     variable=checkbuttons["BT"])
             b2_entry.pack()
+
+            electrical_sockets()
 
 
     # the function uses event to get the information from the change in combobox 
@@ -279,6 +290,13 @@ def gui():
                                     state="readonly")
     customer_type_entry.set("retail customer")
     customer_type_entry.pack()
+
+    #network points
+    additional_entry = ttk.Checkbutton(window,
+                                       text="Network Points",)
+
+    network_points_entry = ttk.Combobox(window,
+                                        values=[2, 3, 4, 5, 6, 7, 8])
 
     #rooms
     tk.Label(window, text="Room").pack()
