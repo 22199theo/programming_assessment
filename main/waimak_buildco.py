@@ -50,11 +50,15 @@ class Customer:
 
 class House:
     def __init__(self):
-        self.bathroom = []
-        self.kitchen = []
-        self.living_room = []
-        self.bedroom_1 = []
-        self.bedroom_2 = []
+
+        self.rooms = {
+            "bathroom": [],
+            "kitchen": [],
+            "living_room": [],
+            "bedroom_1": [],
+            "bedroom_2": []
+        }
+        
 
         self.electrical_sockets = {
             "bathroom": {"OG": 0, "TG": 0},
