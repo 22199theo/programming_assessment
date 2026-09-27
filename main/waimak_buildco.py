@@ -96,11 +96,18 @@ class House:
     def quote_price(self):
         total_price = 75000
 
+  
+
         for rooms, values in self.rooms.items():
             if values:
                 value_index = None 
 
                 for index, value in enumerate(HOUSE_OPTIONS[rooms]):
+
+                    print(rooms)
+                    print(values)
+                    print(HOUSE_OPTIONS[rooms])
+                
                     if value["code"] == values:
                         value_index = index
                         print(value_index)
