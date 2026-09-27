@@ -172,9 +172,7 @@ class Quote:
             total_price = self.house.quote_price() * (1 - (self.customer.customer_discount()))
             return total_price
             
-
-
-        
+   
 def gui():
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
