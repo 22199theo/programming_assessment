@@ -69,7 +69,7 @@ class Customer:
         if not self.delivery_address:
             messagebox.showinfo("Error", "Please Enter a delivery address.")
             return False
-        elif len(self.address) > 50:
+        elif len(self.delivery_address) > 50:
             messagebox.showinfo("Error", "Your delivery address is too long.")
             return False
         
