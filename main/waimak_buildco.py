@@ -100,11 +100,18 @@ class House:
         for rooms, values in self.rooms.items():
             if values:
                 for value in (HOUSE_OPTIONS[rooms]):
-                    print(value)
-                    print(values)
                     if value["code"] in values:
                         total_price += value["price"]
-                        print(total_price)
+
+        for sockets in self.electrical_sockets.values():
+            for socket_type, socket_number in sockets.items():
+                for socket_option in HOUSE_OPTIONS["electrical_sockets"]:
+                    if socket_type == socket_option["code"]:
+                        total_price += (socket_option["price"] * socket_number)
+
+
+
+        print(total_price)
 
 
 def gui():
