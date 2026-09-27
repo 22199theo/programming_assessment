@@ -94,24 +94,28 @@ class House:
                 return
     
     def quote_price(self):
-
         total_price = 75000
 
+        #calculation for rooms
         for rooms, values in self.rooms.items():
             if values:
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
                         total_price += value["price"]
 
+        #calculation for sockets
         for sockets in self.electrical_sockets.values():
             for socket_type, socket_number in sockets.items():
                 for socket_option in HOUSE_OPTIONS["electrical_sockets"]:
                     if socket_type == socket_option["code"]:
                         total_price += (socket_option["price"] * socket_number)
 
+        #calculation for network points
+        total_network_points = sum(self.network_points.values())
+        if total_network_points != 0:
+            total_price += (100 + (total_network_points * 50))
 
-
-        print(total_price)
+        return total_price
 
 
 def gui():
