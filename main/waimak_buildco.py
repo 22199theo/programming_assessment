@@ -98,9 +98,9 @@ class House:
 
         for rooms, values in self.rooms.items():
             if values:
-                sum()
-                if HOUSE_OPTIONS[rooms]["code"] == values:
-                    sum(HOUSE_OPTIONS[rooms]["price"])
+                #sum()
+                values_index = HOUSE_OPTIONS[rooms]["code"].index(values)
+                print(values_index)
 
 
 def gui():
@@ -192,6 +192,8 @@ def gui():
 
         for x in customers:
             print (x.name, x.address)
+
+        print(house.quote_price())
 
 
         messagebox.showinfo("Success", "Customer added")
