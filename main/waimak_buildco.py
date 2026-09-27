@@ -76,9 +76,10 @@ class House:
             "bedroom_2": 0
         }
 
-    def electrical_socket_validation(self):
+    def house_validation(self):
         total_sockets = 0
 
+        #electrical socket validation
         for room, sockets in self.electrical_sockets.items():
 
             room_sockets = sum(sockets.values())
@@ -92,6 +93,13 @@ class House:
             if total_sockets > 12:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
                 return
+
+        #network point validation
+
+        if not 2 <= sum(self.network_points.values()) <= 8 and not sum(self.network_points.values()) == 0:
+                messagebox.showerror("Error", "Too many network points in the house, the maximum is 8")
+                return
+
     
     def quote_price(self):
         total_price = 75000
@@ -228,14 +236,8 @@ def gui():
             house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
             house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
 
-        print (house.rooms["bathroom"])
-        print (house.rooms["kitchen"])
-        print (house.rooms["living_room"])
-        print (house.rooms["bedroom_1"])
-        print (house.rooms["bedroom_2"])
-
-        for x in customers:
-            print (x.name, x.address)
+        
+        house.house_validation()
 
         print(house.quote_price())
 
