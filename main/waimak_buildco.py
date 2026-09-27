@@ -93,10 +93,15 @@ class House:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
                 return
 
-    def total_price(self):
-        total_price = 0
+    def quote_price(self):
+        total_price = 75000
 
-        #if self.bathroom: 
+        for rooms, values in self.rooms.items():
+            if values:
+                if HOUSE_OPTIONS[rooms][code] == values
+
+
+
 
 def gui():
     window = tk.Tk()
@@ -146,31 +151,31 @@ def gui():
         house = House()
 
         if checkbuttons["TS"].get():
-            house.bathroom.append("TS")
+            house.rooms["bathroom"].append("TS")
 
         if checkbuttons["UW"].get():
-            house.kitchen.append("UW")
+            house.rooms["kitchen"].append("UW")
 
         if checkbuttons["IH"].get():
-            house.kitchen.append("IH")
+            house.rooms["kitchen"].append("IH")
 
         if checkbuttons["DA"].get():
-            house.kitchen.append("DA")
+            house.rooms["kitchen"].append("DA")
 
         if checkbuttons["MA"].get():
-            house.living_room.append("MA")
+            house.rooms["living_room"].append("MA")
 
         if checkbuttons["SD"].get():
-            house.living_room.append("SD")
+            house.rooms["living_room"].append("SD")
 
         if checkbuttons["LH"].get():
-            house.living_room.append("LH")
+            house.rooms["living_room"].append("LH")
 
         if checkbuttons["BO"].get():
-            house.bedroom_1.append("BO")
+            house.rooms["bedroom_1"].append("BO")
 
         if checkbuttons["BT"].get():
-            house.bedroom_2.append("BT")
+            house.rooms["bedroom_2"].append("BT")
 
         #copies the network_points_value dictionary to the network_points dictionary
         house.network_points = network_points_value.copy()
@@ -179,11 +184,11 @@ def gui():
             house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
             house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
 
-        print (house.bathroom)
-        print (house.kitchen)
-        print (house.living_room)
-        print (house.bedroom_1)
-        print (house.bedroom_2)
+        print (house.rooms["bathroom"])
+        print (house.rooms["kitchen"])
+        print (house.rooms["living_room"])
+        print (house.rooms["bedroom_1"])
+        print (house.rooms["bedroom_2"])
 
         for x in customers:
             print (x.name, x.address)
