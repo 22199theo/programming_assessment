@@ -86,13 +86,13 @@ class House:
 
             if room_sockets >4:
                 messagebox.showerror("Error", f"Too many sockets in {room}, the maximum is 4.")
-                return
+                return False
             
             total_sockets +=room_sockets 
 
             if total_sockets > 12:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
-                return
+                return False
 
         #network point validation
         total_networks = 0
@@ -102,12 +102,15 @@ class House:
 
         if total_networks == 1:
             messagebox.showerror("Error", "Must have network points in 2 or more rooms")
-            return
+            return False
             
 
         if not 2 <= sum(self.network_points.values()) <= 8 and not sum(self.network_points.values()) == 0:
             messagebox.showerror("Error", "Too many network points in the house, the maximum is 8")
-            return
+            return False
+
+        
+        return True
 
     
     def quote_price(self):
@@ -205,7 +208,6 @@ def gui():
             messagebox.showinfo("Error", "Your delivery address is too long.")
             return 
 
-
         #house details submitting and verification
 
         customer = Customer(name, address, delivery_address, customer_type)
@@ -246,7 +248,8 @@ def gui():
             house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
 
         
-        house.house_validation()
+        if not house.house_validation():
+            return
 
         print(house.quote_price())
 
