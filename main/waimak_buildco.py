@@ -92,33 +92,19 @@ class House:
             if total_sockets > 12:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
                 return
-
+    
     def quote_price(self):
-        total_price = 75000
 
-  
+        total_price = 75000
 
         for rooms, values in self.rooms.items():
             if values:
-                value_index = None 
-
-                for index, value in enumerate(HOUSE_OPTIONS[rooms]):
-
-                    #print(rooms)
-                    #print(values)
-                    #print(value)
-                    #print(index)
-                    #print(HOUSE_OPTIONS[rooms])
-                
-                    if ([value["code"]]) == values:
-                        value_index = index
-                        print(value_index)
-
-        #for rooms, values in self.rooms.items():
-            #if values:
-                #sum()
-                #values_index = HOUSE_OPTIONS[rooms]["code"].index(values)
-                #print(values_index)
+                for value in (HOUSE_OPTIONS[rooms]):
+                    print(value)
+                    print(values)
+                    if value["code"] in values:
+                        total_price += value["price"]
+                        print(total_price)
 
 
 def gui():
