@@ -133,35 +133,47 @@ class House:
             
 
         if not 2 <= sum(self.network_points.values()) <= 8 and not sum(self.network_points.values()) == 0:
-            messagebox.showerror("Error", "Too many network points in the house, the maximum is 8")
+            messagebox.showerror("Error", "Too many network points in the house, the maximum is 8 (minmum of 2)")
             return False
 
         return True
 
     
     def quote_price(self):
-        total_price = 75000
+        quote_price = 75000
 
         #calculation for rooms
         for rooms, values in self.rooms.items():
             if values:
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
-                        total_price += value["price"]
+                        quote_price += value["price"]
 
         #calculation for sockets
         for sockets in self.electrical_sockets.values():
             for socket_type, socket_number in sockets.items():
                 for socket_option in HOUSE_OPTIONS["electrical_sockets"]:
                     if socket_type == socket_option["code"]:
-                        total_price += (socket_option["price"] * socket_number)
+                        quote_price += (socket_option["price"] * socket_number)
 
         #calculation for network points
         total_network_points = sum(self.network_points.values())
         if total_network_points != 0:
-            total_price += (100 + (total_network_points * 50))
+            quote_price += (100 + (total_network_points * 50))
 
-        return total_price
+        return quote_price
+
+class Quote:
+    def __init__(self, customer, house):
+        self.customer = customer
+        self.house = house
+
+        def total_price(self):
+            total_price = self.house.quote_price() * (1 - (self.customer.customer_discount()))
+            return total_price
+            
+
+
         
 def gui():
     window = tk.Tk()
