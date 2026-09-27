@@ -6,9 +6,9 @@ customers = []
 
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
-    "bathroom": {
+    "bathroom": [{
         "code": "TS", "name": "Tiles, spa bath, shower and tapware", "price": 2500
-    },
+    }],
     "kitchen": [
         {"code": "UW", "name": "Upgrades units and worktop", "price": 2000},
         {"code": "IH", "name": "As A plus induction hob", "price": 3500},
@@ -98,9 +98,9 @@ class House:
 
         for rooms, values in self.rooms.items():
             if values:
-                if HOUSE_OPTIONS[rooms][code] == values
-
-
+                sum()
+                if HOUSE_OPTIONS[rooms]["code"] == values:
+                    sum(HOUSE_OPTIONS[rooms]["price"])
 
 
 def gui():
