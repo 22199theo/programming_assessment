@@ -116,6 +116,7 @@ class House:
             total_price += (100 + (total_network_points * 50))
 
         return total_price
+        
 
 
 def gui():
@@ -156,13 +157,41 @@ def gui():
 
     #function once user submits their order
     def submit_order():
+
+        #customer details submitting and verification
         name = name_entry.get()
         address = address_entry.get()
         delivery_address = delivery_address_entry.get()
         customer_type = customer_type_entry.get()
+        
+        if not name:
+            messagebox.showinfo("Error", "Please Enter a Name.")
+            return
+        elif len(name) > 30:
+            messagebox.showinfo("Error", "Your name is too long.")
+            return 
+        elif not name.replace(" ", "").isalpha():
+            messagebox.showinfo("Error", "Please only enter letters.")
+            return 
+
+        if not address:
+            messagebox.showinfo("Error", "Please Enter an Address.")
+            return
+        elif len(address) > 50:
+            messagebox.showinfo("Error", "Your address is too long.")
+            return 
+
+        if not delivery_address:
+            messagebox.showinfo("Error", "Please Enter a delivery address.")
+            return
+        elif len(address) > 50:
+            messagebox.showinfo("Error", "Your delivery address is too long.")
+            return 
+
+
+        #house details submitting and verification
 
         customer = Customer(name, address, delivery_address, customer_type)
-
         house = House()
 
         if checkbuttons["TS"].get():
@@ -209,7 +238,6 @@ def gui():
             print (x.name, x.address)
 
         print(house.quote_price())
-
 
         messagebox.showinfo("Success", "Customer added")
 
