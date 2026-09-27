@@ -95,10 +95,19 @@ class House:
                 return
 
         #network point validation
+        total_networks = 0
+        for network_points in self.network_points.values():
+            if network_points != 0:
+                total_networks += 1
+
+        if total_networks == 1:
+            messagebox.showerror("Error", "Must have network points in 2 or more rooms")
+            return
+            
 
         if not 2 <= sum(self.network_points.values()) <= 8 and not sum(self.network_points.values()) == 0:
-                messagebox.showerror("Error", "Too many network points in the house, the maximum is 8")
-                return
+            messagebox.showerror("Error", "Too many network points in the house, the maximum is 8")
+            return
 
     
     def quote_price(self):
