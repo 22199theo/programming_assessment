@@ -98,9 +98,18 @@ class House:
 
         for rooms, values in self.rooms.items():
             if values:
+                value_index = None 
+
+                for index, value in enumerate(HOUSE_OPTIONS[rooms]):
+                    if value["code"] == values:
+                        value_index = index
+                        print(value_index)
+
+        #for rooms, values in self.rooms.items():
+            #if values:
                 #sum()
-                values_index = HOUSE_OPTIONS[rooms]["code"].index(values)
-                print(values_index)
+                #values_index = HOUSE_OPTIONS[rooms]["code"].index(values)
+                #print(values_index)
 
 
 def gui():
