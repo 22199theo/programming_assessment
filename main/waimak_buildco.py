@@ -48,6 +48,33 @@ class Customer:
         else:
             return 0
 
+    def customer_validation(self):
+        if not self.name:
+            messagebox.showinfo("Error", "Please Enter a Name.")
+            return False
+        elif len(self.name) > 30:
+            messagebox.showinfo("Error", "Your name is too long.")
+            return False
+        elif not self.name.replace(" ", "").isalpha():
+            messagebox.showinfo("Error", "Please only enter letters.")
+            return False
+
+        if not self.address:
+            messagebox.showinfo("Error", "Please Enter an Address.")
+            return False
+        elif len(self.address) > 50:
+            messagebox.showinfo("Error", "Your address is too long.")
+            return False
+
+        if not self.delivery_address:
+            messagebox.showinfo("Error", "Please Enter a delivery address.")
+            return False
+        elif len(self.address) > 50:
+            messagebox.showinfo("Error", "Your delivery address is too long.")
+            return False
+        
+        return True
+
 class House:
     def __init__(self):
 
@@ -109,7 +136,6 @@ class House:
             messagebox.showerror("Error", "Too many network points in the house, the maximum is 8")
             return False
 
-        
         return True
 
     
@@ -137,8 +163,6 @@ class House:
 
         return total_price
         
-
-
 def gui():
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
@@ -178,41 +202,20 @@ def gui():
     #function once user submits their order
     def submit_order():
 
-        #customer details submitting and verification
+        #customer details submitting 
         name = name_entry.get()
         address = address_entry.get()
         delivery_address = delivery_address_entry.get()
         customer_type = customer_type_entry.get()
-        
-        if not name:
-            messagebox.showinfo("Error", "Please Enter a Name.")
-            return
-        elif len(name) > 30:
-            messagebox.showinfo("Error", "Your name is too long.")
-            return 
-        elif not name.replace(" ", "").isalpha():
-            messagebox.showinfo("Error", "Please only enter letters.")
-            return 
-
-        if not address:
-            messagebox.showinfo("Error", "Please Enter an Address.")
-            return
-        elif len(address) > 50:
-            messagebox.showinfo("Error", "Your address is too long.")
-            return 
-
-        if not delivery_address:
-            messagebox.showinfo("Error", "Please Enter a delivery address.")
-            return
-        elif len(address) > 50:
-            messagebox.showinfo("Error", "Your delivery address is too long.")
-            return 
-
-        #house details submitting and verification
 
         customer = Customer(name, address, delivery_address, customer_type)
+
+        if not customer.customer_validation():
+                    return
+
         house = House()
 
+        #house details submitting and verification
         if checkbuttons["TS"].get():
             house.rooms["bathroom"].append("TS")
 
@@ -247,7 +250,6 @@ def gui():
             house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
             house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
 
-        
         if not house.house_validation():
             return
 
