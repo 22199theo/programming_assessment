@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-customers = []
+quotes = []
 
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
@@ -21,7 +21,7 @@ HOUSE_OPTIONS = {
     ],
     "bedroom_1": [
         {"code": "BO", "name": "2.5 KW Heat pump", "price": 1800}
-    ],
+    ], 
     "bedroom_2": [
         {"code": "BT", "name": "2.5 KW Heat pump", "price": 1800}
     ],
@@ -168,11 +168,10 @@ class Quote:
         self.customer = customer
         self.house = house
 
-        def total_price(self):
-            total_price = self.house.quote_price() * (1 - (self.customer.customer_discount()))
-            return total_price
+    def total_price(self):
+        total_price = self.house.quote_price() * (1 - (self.customer.customer_discount()))
+        return total_price
             
-   
 def gui():
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
@@ -263,7 +262,9 @@ def gui():
         if not house.house_validation():
             return
 
-        print(house.quote_price())
+        quote = Quote(customer, house)
+
+        print(quote.total_price())
 
         messagebox.showinfo("Success", "Customer added")
 
