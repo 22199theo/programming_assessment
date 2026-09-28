@@ -190,25 +190,32 @@ class Quote:
         total_price = self.gst_amount() + self.total_discount_price()
         return total_price
 
-    def room_text(self):
-        for rooms in self.House.rooms:
-            print (rooms)
-
     def quote_text(self):
-        quote_text = f'''Customer: {(self.customer.name).upper()}
+        quote_text = f'''Customer: {(self.customer.name).capitalize()}
 Address: {self.customer.address}
 Delivery Address: {self.customer.delivery_address}
-Customer Type: {self.customer.customer_type}
+Customer Type: {self.customer.customer_type.capitalize()}
 
 '''
+        for rooms, values in self.house.rooms.items():
+            if values:
+                quote_text += f"{rooms.upper()}\n"
 
-        quote_text += "a"
+                total_room_price = 0
+                for value in (HOUSE_OPTIONS[rooms]):
+                    if value["code"] in values:
+                        quote_text += f"{value["name"]} - ${value["price"]}\n"
+                        total_room_price += value["price"]
+
+                
+
 
         quote_text += '''WAIMAK BUILD CO LTD
 Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
 Tel: 03 1234567
 Email: Office@wbc.co.nz
 '''
+        return quote_text
 
 
 def gui():
@@ -307,7 +314,7 @@ def gui():
 
         print(quote.total_price())
 
-        print(quote.room_text())
+        print(quote.quote_text())
 
         messagebox.showinfo("Success", "Customer added")
 
