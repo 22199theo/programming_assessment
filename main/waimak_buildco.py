@@ -207,7 +207,7 @@ Customer Type: {self.customer.customer_type.capitalize()}
                         quote_text += f"{value["name"]} - ${value["price"]}\n"
                         total_room_price += value["price"]
 
-                quote_text += f"{rooms.capatalize} cost - ${total_room_price}\n\n"
+                quote_text += f"{rooms.capitalize} cost - ${total_room_price}\n\n"
 
 
         quote_text += '''WAIMAK BUILD CO LTD
