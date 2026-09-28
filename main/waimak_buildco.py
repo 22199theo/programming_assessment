@@ -190,27 +190,27 @@ class Quote:
         total_price = self.gst_amount() + self.total_discount_price()
         return total_price
 
+    def room_text(self):
+        for rooms in self.House.rooms:
+            print (rooms)
+
     def quote_text(self):
         quote_text = f'''Customer: {(self.customer.name).upper()}
 Address: {self.customer.address}
 Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type}
+
 '''
 
-        quote_text +=
+        quote_text += "a"
 
         quote_text += '''WAIMAK BUILD CO LTD
 Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
 Tel: 03 1234567
 Email: Office@wbc.co.nz
-
 '''
 
 
-
-
-    
-            
 def gui():
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
@@ -306,6 +306,8 @@ def gui():
         quotes.append(quote)
 
         print(quote.total_price())
+
+        print(quote.room_text())
 
         messagebox.showinfo("Success", "Customer added")
 
