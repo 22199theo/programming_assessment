@@ -168,9 +168,29 @@ class Quote:
         self.customer = customer
         self.house = house
 
+        self.original_price = house.quote_price()
+
+    def discount_amount(self):
+        discount_amount = self.original_price * (self.customer.customer_discount())
+        return discount_amount
+
+    def total_discount_price(self):
+        total_discount_price = self.original_price * (1-(self.customer.customer_discount()))
+        return total_discount_price
+
+    def options_price(self):
+        options_price = -(75000 - self.original_price)
+        return options_price
+
+    def gst_amount(self):
+        gst_amount = self.options_price() * 0.15
+        return gst_amount
+
     def total_price(self):
-        total_price = self.house.quote_price() * (1 - (self.customer.customer_discount()))
+        total_price = self.gst_amount() + self.total_discount_price()
         return total_price
+
+    
             
 def gui():
     window = tk.Tk()
