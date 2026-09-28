@@ -199,7 +199,7 @@ Customer Type: {self.customer.customer_type.capitalize()}
 '''
         for rooms, values in self.house.rooms.items():
             if values:
-                quote_text += f"{rooms.upper()}\n"
+                quote_text += f"{rooms.upper()}:\n"
 
                 total_room_price = 0
                 for value in (HOUSE_OPTIONS[rooms]):
@@ -207,7 +207,7 @@ Customer Type: {self.customer.customer_type.capitalize()}
                         quote_text += f"{value["name"]} - ${value["price"]}\n"
                         total_room_price += value["price"]
 
-                
+                quote_text += f"{rooms.capatalize} cost - ${total_room_price}\n\n"
 
 
         quote_text += '''WAIMAK BUILD CO LTD
