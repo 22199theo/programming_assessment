@@ -190,6 +190,9 @@ class Quote:
         total_price = self.gst_amount() + self.total_discount_price()
         return total_price
 
+    def quote_text(self):
+        
+
     
             
 def gui():
