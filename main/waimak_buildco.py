@@ -191,7 +191,23 @@ class Quote:
         return total_price
 
     def quote_text(self):
-        
+        quote_text = f'''Customer: {(self.customer.name).upper()}
+Address: {self.customer.address}
+Delivery Address: {self.customer.delivery_address}
+Customer Type: {self.customer.customer_type}
+'''
+
+        quote_text +=
+
+        quote_text += '''WAIMAK BUILD CO LTD
+Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
+Tel: 03 1234567
+Email: Office@wbc.co.nz
+
+'''
+
+
+
 
     
             
