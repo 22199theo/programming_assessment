@@ -403,11 +403,27 @@ def gui():
 
     #function to exit order
     def exit_order():
-        cancel_quote = messagebox.askyesno("Cancel Quote", "Are you sure you want exit?")
-        if cancel_quote:
-            
+        exit_quote = messagebox.askyesno("Exit Quote", "Are you sure you want exit?")
+
+        if exit_quote:
             name_entry.delete(0, "end")
-            
+            address_entry.delete(0, "end")
+            delivery_address_entry.delete(0, "end")
+            customer_type_entry.delete(0, "end")
+
+            for key in checkbuttons:
+                checkbuttons[key].set(False)
+
+            for room in sockets_value:
+                sockets_value[room]["OG"] = 0
+                sockets_value[room]["TG"] = 0
+
+            for room in network_points_value:
+                network_points_value[room] = 0
+
+            quote_display.config(state="normal")
+            quote_display.delete("1.0", "end")
+            quote_display.config(state="disabled")
         else:
             return
 
