@@ -194,8 +194,6 @@ class Quote:
         value = False
         network_switch = False
 
-        q
-
         quote_text = f'''QUOTE NUMBER: {self.quote_number}'''
         
         quote_text += f'''CUSTOMER INFORMATION
@@ -298,11 +296,10 @@ Email: Office@wbc.co.nz
             file.write(self.quote_text())
             file.write("\n\n")
 
-
 def gui():
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
-    window.geometry("720x640")
+    window.geometry("720x700")
 
     checkbuttons = {
         "TS" : tk.BooleanVar(value=False),
@@ -403,6 +400,16 @@ def gui():
         quote_display.config(state="disabled")
 
         messagebox.showinfo("Success", "Order added")
+
+    #function to exit order
+    def exit_order():
+        cancel_quote = messagebox.askyesno("Cancel Quote", "Are you sure you want exit?")
+        if cancel_quote:
+            
+            name_entry.delete(0, "end")
+            
+        else:
+            return
 
     #electrical sockets 
     def electrical_sockets(room):
@@ -600,6 +607,7 @@ def gui():
     bathroom()
 
     tk.Button(window, text="Submit", command=submit_order).pack()
+    tk.Button(window, text="Exit", command=exit_order).pack()
 
     quote_display = tk.Text(window, height=15, width=80, state="disabled")
     quote_display.pack()
