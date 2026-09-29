@@ -197,7 +197,7 @@ Customer: {(self.customer.name).capitalize()}
 Address: {self.customer.address}
 Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type.capitalize()}
---------------------------------------------
+
 
 '''
         for rooms, values in self.house.rooms.items():
@@ -249,10 +249,23 @@ ROOM OPTIONS
 
                 quote_text += f"-------------------------------------------- \n\n"
 
-        quote_text += f'''
-
-
+        quote_text += f'''PRICE SUMMARY 
+--------------------------------------------
+ORIGINAL HOUSE COST - $75000
+TOTAL EXTRA COSTS - ${(self.original_price)-75000}
+TOTAL COST (gst exclusive) - ${self.original_price}
 '''
+
+        if self.customer.customer_discount():
+            quote_text += f'''DISCOUNT RATE - %{int(self.customer.customer_discount) * 100}
+DISCOUNT VALUE - ${self.discount_amount()}
+NEW DISCOUNTED COST - ${self.total_discount_price()}
+'''
+        quote_text += f'''GST COST - ${self.gst_amount()}
+TOTAL COST (gst inclusive) - ${self.total_price()}
+
+        '''
+
 
         quote_text += '''--------------------------------------------
 WAIMAK BUILD CO LTD
