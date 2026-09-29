@@ -166,8 +166,9 @@ class Quote:
     def __init__(self, customer, house):
         self.customer = customer
         self.house = house
-
+        self.quote_number = len(quotes) + 1
         self.original_price = house.quote_price()
+
 
     def discount_amount(self):
         discount_amount = self.original_price * (self.customer.customer_discount())
@@ -193,7 +194,11 @@ class Quote:
         value = False
         network_switch = False
 
-        quote_text = f'''CUSTOMER INFORMATION
+        q
+
+        quote_text = f'''QUOTE NUMBER: {self.quote_number}'''
+        
+        quote_text += f'''CUSTOMER INFORMATION
 --------------------------------------------
 Customer: {(self.customer.name).capitalize()}
 Address: {self.customer.address}
