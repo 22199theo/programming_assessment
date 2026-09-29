@@ -190,7 +190,6 @@ class Quote:
         return total_price
 
     def quote_text(self):
-
         value = False
         network_switch = False
 
@@ -288,6 +287,11 @@ Tel: 03 1234567
 Email: Office@wbc.co.nz
 '''
         return quote_text
+
+    def save_quote(self):
+        with open("Quote_history.txt", "a") as file:
+            file.write(self.quote_text())
+            file.write("\n\n")
 
 
 def gui():
