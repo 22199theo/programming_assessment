@@ -3,6 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 
 quotes = []
+current_quote = [None]
 
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
@@ -398,19 +399,24 @@ def gui():
 
             if not house.house_validation():
                 return
+            
+            #checks if the current quote list has anything in it
+            if current_quote[0] is None:
+                #if not it will create the quote with the customer information
+                current_quote[0] = Quote(customer)
+                quotes.append(current_quote[0])
 
-            quote = Quote(customer, house)
-            quotes.append(quote)
-            quote.save_quote()
+            #then it will add each house the customer adds to that list
+            current_quote[0].add_house(house)
 
             #allows the display to be edited
-            quote_display.config(state="normal")
+            #quote_display.config(state="normal")
             #clears the quote before
-            quote_display.delete("1.0", "end")
+            #quote_display.delete("1.0", "end")
             #shows the new quote
-            quote_display.insert("1.0", quote.quote_text())
+            #quote_display.insert("1.0", quote.quote_text())
             #stops the user from changing the new quote
-            quote_display.config(state="disabled")
+            #quote_display.config(state="disabled")
 
             reset_quote()
             messagebox.showinfo("Success", "Order added")
@@ -418,30 +424,28 @@ def gui():
             return
 
     #function to exit order
+
     def new_order():
-        exit_quote = messagebox.askyesno("Exit Quote", "Are you sure you want to create a new order (removes all current quotes displayed)?")
+        if current_quote[0] is not None and current_quote[0].houses:
 
-        if exit_quote:
-            name_entry.delete(0, "end")
-            address_entry.delete(0, "end")
-            delivery_address_entry.delete(0, "end")
-            customer_type_entry.delete(0, "end")
+            save = messagebox.askyesno("Save Order", "Save this order before creating a new one?")
 
-            for key in checkbuttons:
-                checkbuttons[key].set(False)
+            if save:
+                current_quote[0].save_quote()
 
-            for room in sockets_value:
-                sockets_value[room]["OG"] = 0
-                sockets_value[room]["TG"] = 0
+            current_quote[0] = None
 
-            for room in network_points_value:
-                network_points_value[room] = 0
+        # clear customer information
+        name_entry.delete(0, "end")
+        address_entry.delete(0, "end")
+        delivery_address_entry.delete(0, "end")
+        customer_type_entry.set("retail customer")
+        
+        reset_quote()
 
-            quote_display.config(state="normal")
-            quote_display.delete("1.0", "end")
-            quote_display.config(state="disabled")
-        else:
-            return
+        quote_display.config(state="normal")
+        quote_display.delete("1.0", "end")
+        quote_display.config(state="disabled")
 
     #resets quote
     def reset_quote():
@@ -456,11 +460,20 @@ def gui():
                 network_points_value[room] = 0
 
     #exits program
+
     def exit_order():
         exit_order = messagebox.askyesno("Exit Order", "Are you sure you want to exit the program?")
         if exit_order:
+            if current_quote[0] is not None and current_quote[0].houses:
+                save = messagebox.askyesno("Save Order", "Save this order before exiting?")
+
+            if save:
+                current_quote[0].save_quote()
+
             window.destroy()
         else: return
+
+
     #electrical sockets 
     def electrical_sockets(room):
 
