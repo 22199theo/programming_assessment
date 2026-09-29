@@ -505,6 +505,9 @@ def gui():
             if not checkbuttons["UW"].get():
                 ih_entry.config(state="disabled")
                 da_entry.config(state="disabled")
+
+                checkbuttons["IH"].set(False)
+                checkbuttons["DA"].set(False)
                 return
 
             if checkbuttons["IH"].get():
@@ -636,6 +639,7 @@ def gui():
 
     tk.Button(window, text="Submit", command=submit_order).pack()
     tk.Button(window, text="Exit", command=exit_order).pack()
+    tk.Button(window, text="Reset", command=reset_quote).pack()
 
     quote_display = tk.Text(window, height=15, width=80, state="disabled")
     quote_display.pack()
