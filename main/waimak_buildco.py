@@ -334,77 +334,81 @@ def gui():
 
     #function once user submits their order
     def submit_order():
+        #yes or no question before submits
+        submit_quote = messagebox.askyesno("Sbumit Quote", "Are you sure you want submit?")
+        if submit_quote:
+            #customer details submitting 
+            name = name_entry.get()
+            address = address_entry.get()
+            delivery_address = delivery_address_entry.get()
+            customer_type = customer_type_entry.get()
 
-        #customer details submitting 
-        name = name_entry.get()
-        address = address_entry.get()
-        delivery_address = delivery_address_entry.get()
-        customer_type = customer_type_entry.get()
+            customer = Customer(name, address, delivery_address, customer_type)
 
-        customer = Customer(name, address, delivery_address, customer_type)
+            if not customer.customer_validation():
+                        return
 
-        if not customer.customer_validation():
-                    return
+            house = House()
 
-        house = House()
+            #house details submitting and verification
+            if checkbuttons["TS"].get():
+                house.rooms["bathroom"].append("TS")
 
-        #house details submitting and verification
-        if checkbuttons["TS"].get():
-            house.rooms["bathroom"].append("TS")
+            if checkbuttons["UW"].get():
+                house.rooms["kitchen"].append("UW")
 
-        if checkbuttons["UW"].get():
-            house.rooms["kitchen"].append("UW")
+            if checkbuttons["IH"].get():
+                house.rooms["kitchen"].append("IH")
 
-        if checkbuttons["IH"].get():
-            house.rooms["kitchen"].append("IH")
+            if checkbuttons["DA"].get():
+                house.rooms["kitchen"].append("DA")
 
-        if checkbuttons["DA"].get():
-            house.rooms["kitchen"].append("DA")
+            if checkbuttons["MA"].get():
+                house.rooms["living_room"].append("MA")
 
-        if checkbuttons["MA"].get():
-            house.rooms["living_room"].append("MA")
+            if checkbuttons["SD"].get():
+                house.rooms["living_room"].append("SD")
 
-        if checkbuttons["SD"].get():
-            house.rooms["living_room"].append("SD")
+            if checkbuttons["LH"].get():
+                house.rooms["living_room"].append("LH")
 
-        if checkbuttons["LH"].get():
-            house.rooms["living_room"].append("LH")
+            if checkbuttons["BO"].get():
+                house.rooms["bedroom_1"].append("BO")
 
-        if checkbuttons["BO"].get():
-            house.rooms["bedroom_1"].append("BO")
+            if checkbuttons["BT"].get():
+                house.rooms["bedroom_2"].append("BT")
 
-        if checkbuttons["BT"].get():
-            house.rooms["bedroom_2"].append("BT")
+            #copies the network_points_value dictionary to the network_points dictionary
+            house.network_points = network_points_value.copy()
 
-        #copies the network_points_value dictionary to the network_points dictionary
-        house.network_points = network_points_value.copy()
+            for room in sockets_value:
+                house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
+                house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
 
-        for room in sockets_value:
-            house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
-            house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
+            if not house.house_validation():
+                return
 
-        if not house.house_validation():
+            quote = Quote(customer, house)
+            quotes.append(quote)
+            quote.save_quote()
+
+            #allows the display to be edited
+            quote_display.config(state="normal")
+            #clears the quote before
+            quote_display.delete("1.0", "end")
+            #shows the new quote
+            quote_display.insert("1.0", quote.quote_text())
+            #stops the user from changing the new quote
+            quote_display.config(state="disabled")
+
+            reset_quote()
+            messagebox.showinfo("Success", "Order added")
+        else:
             return
 
-        quote = Quote(customer, house)
-        quotes.append(quote)
-        quote.save_quote()
-
-        #allows the display to be edited
-        quote_display.config(state="normal")
-        #clears the quote before
-        quote_display.delete("1.0", "end")
-        #shows the new quote
-        quote_display.insert("1.0", quote.quote_text())
-        #stops the user from changing the new quote
-        quote_display.config(state="disabled")
-
-        reset_quote()
-        messagebox.showinfo("Success", "Order added")
-
     #function to exit order
-    def exit_order():
-        exit_quote = messagebox.askyesno("Exit Quote", "Are you sure you want exit?")
+    def new_order():
+        exit_quote = messagebox.askyesno("Exit Quote", "Are you sure you want to create a new order (removes all current quotes displayed)?")
 
         if exit_quote:
             name_entry.delete(0, "end")
@@ -428,6 +432,7 @@ def gui():
         else:
             return
 
+    #resets quote
     def reset_quote():
             for key in checkbuttons:
                 checkbuttons[key].set(False)
@@ -439,6 +444,12 @@ def gui():
             for room in network_points_value:
                 network_points_value[room] = 0
 
+    #exits program
+    def exit_order():
+        exit_order = messagebox.askyesno("Exit Order", "Are you sure you want to exit the program?")
+        if exit_order:
+            window.destroy()
+        else: return
     #electrical sockets 
     def electrical_sockets(room):
 
@@ -638,8 +649,9 @@ def gui():
     bathroom()
 
     tk.Button(window, text="Submit", command=submit_order).pack()
-    tk.Button(window, text="Exit", command=exit_order).pack()
+    tk.Button(window, text="New Order", command=new_order).pack()
     tk.Button(window, text="Reset", command=reset_quote).pack()
+    tk.Button(window, text="Save / Exit Program", command=exit_order).pack()
 
     quote_display = tk.Text(window, height=15, width=80, state="disabled")
     quote_display.pack()
