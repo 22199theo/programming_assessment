@@ -416,7 +416,6 @@ def gui():
             return
 
     #function to exit order
-
     def new_order():
         if current_quote[0] is not None and current_quote[0].houses:
 
@@ -464,7 +463,31 @@ def gui():
             window.destroy()
         else: return
 
+    #allows the customer to cancel the current order by removing the
+    #current quote in the quotes list and resetting the quote display
+    def cancel_order():
+        if current_quote[0] is None or not current_quote[0].houses:
+            messagebox.showinfo("Cancel Order", "There is no order to cancel.")
+            return
 
+        cancel = messagebox.askyesno(
+            "Cancel Order",
+            "Are you sure you want to cancel this order?"
+        )
+
+        if cancel:
+            quotes.remove(current_quote[0])
+            current_quote[0] = None
+
+            reset_quote()
+
+            quote_display.config(state="normal")
+            quote_display.delete("1.0", "end")
+            quote_display.config(state="disabled")
+
+            messagebox.showinfo("Cancelled", "Order cancelled.")
+
+    
     #electrical sockets 
     def electrical_sockets(room):
 
@@ -664,9 +687,10 @@ def gui():
     room_frame.pack()
     bathroom()
 
-    tk.Button(window, text="Submit", command=submit_order).pack()
-    tk.Button(window, text="New Order", command=new_order).pack()
-    tk.Button(window, text="Reset", command=reset_quote).pack()
+    tk.Button(window, text="Submit Order", command=submit_order).pack()
+    tk.Button(window, text="Cancel Order", command=cancel_order).pack()
+    tk.Button(window, text="Reset Current Inputs", command=reset_quote).pack()
+    tk.Button(window, text="Save / New Order", command=new_order).pack()
     tk.Button(window, text="Save / Exit Program", command=exit_order).pack()
 
     quote_display = tk.Text(window, height=15, width=80, state="disabled")
