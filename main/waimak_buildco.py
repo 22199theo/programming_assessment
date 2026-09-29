@@ -203,8 +203,8 @@ class Quote:
         return total_price
 
     def quote_text(self):
-        value = False
-        network_switch = False
+
+        network_switch = 0
 
         quote_text = f'''QUOTE NUMBER: {self.quote_number}
 '''
@@ -250,7 +250,7 @@ HOUSE {number}
                                 f"${(house.electrical_sockets[rooms]["TG"]) * 50}\n")
 
                 if house.network_points[rooms]:
-                    network_switch = True
+                    network_switch += 1
                     quote_text += (f"Network Point x{house.network_points[rooms]}"
                                 f" - ${house.network_points[rooms] * 50}\n")
 
@@ -266,14 +266,14 @@ HOUSE {number}
 
         if network_switch:
               quote_text += f'''ADDITIONAL COST:
-Network Switch - $100
+Network Switch - ${100 * network_switch}
 
 '''
 
         quote_text += f'''PRICE SUMMARY 
 --------------------------------------------
 TOTAL ORIGINAL HOUSE(s) COST - ${75000 * len(self.houses)}
-TOTAL EXTRA COSTS - ${(self.original_price())}
+TOTAL EXTRA COSTS - ${(self.options_price())}
 TOTAL COST (gst exclusive) - ${self.original_price()}
 '''
 
@@ -296,7 +296,7 @@ Email: Office@wbc.co.nz
         return quote_text
 
     def save_quote(self):
-        with open("Quote_history.txt", "a") as file:
+        with open("QuoteHistory.txt", "a") as file:
             file.write(self.quote_text())
             file.write("\n\n")
 
@@ -339,7 +339,7 @@ def gui():
     #function once user submits their order
     def submit_order():
         #yes or no question before submits
-        submit_quote = messagebox.askyesno("Sbumit Quote", "Are you sure you want submit?")
+        submit_quote = messagebox.askyesno("Submit Quote", "Are you sure you want submit?")
         if submit_quote:
             #customer details submitting 
             name = name_entry.get()
@@ -452,15 +452,14 @@ def gui():
                 network_points_value[room] = 0
 
     #exits program
-
     def exit_order():
         exit_order = messagebox.askyesno("Exit Order", "Are you sure you want to exit the program?")
         if exit_order:
             if current_quote[0] is not None and current_quote[0].houses:
                 save = messagebox.askyesno("Save Order", "Save this order before exiting?")
 
-            if save:
-                current_quote[0].save_quote()
+                if save:
+                    current_quote[0].save_quote()
 
             window.destroy()
         else: return
@@ -504,7 +503,8 @@ def gui():
 
         tk.Label(room_frame, text="Network Points").pack()
         additional_entry = ttk.Combobox(room_frame,
-                                values=[0, 1, 2, 3, 4, 5, 6, 7, 8], )
+                                values=[0, 1, 2, 3, 4, 5, 6, 7, 8], 
+                                state="readonly")
         additional_entry.set(network_points_value[room])
         #here bind is used to send the information to the loft_mount function 
         #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
