@@ -385,12 +385,8 @@ def gui():
             return
 
         quote = Quote(customer, house)
-
         quotes.append(quote)
-
-        print(quote.total_price())
-
-        print(quote.quote_text())
+        quote.save_quote()
 
         messagebox.showinfo("Success", "Customer added")
 
