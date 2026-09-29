@@ -201,10 +201,15 @@ Customer Type: {self.customer.customer_type.capitalize()}
             room_selected = False
             total_room_price = 0
 
-            if values:
-                room_selected = True
+            if (values or 
+                self.house.electrical_sockets[rooms]["OG"] or 
+                self.house.electrical_sockets[rooms]["TG"] or 
+                self.house.network_points[rooms]):
+                    
+                    room_selected = True
+                    quote_text += f"{rooms.replace("_", " ").upper()}:\n"
 
-                quote_text += f"{rooms.replace("_", " ").upper()}:\n"
+            if values:
 
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
@@ -212,22 +217,19 @@ Customer Type: {self.customer.customer_type.capitalize()}
                         total_room_price += value["price"]
 
             if self.house.electrical_sockets[rooms]["OG"]:
-                room_selected = True
 
                 quote_text += (f"1G Electrical Sockets x{self.house.electrical_sockets[rooms]["OG"]} - "
-                              f"${(self.house.electrical_sockets[rooms]["OG"]) * 40}")
+                              f"${(self.house.electrical_sockets[rooms]["OG"]) * 40}\n")
 
             if self.house.electrical_sockets[rooms]["TG"]:
-                room_selected = True
 
                 quote_text += (f"2G Electrical Sockets x{self.house.electrical_sockets[rooms]["TG"]} - "
-                              f"${(self.house.electrical_sockets[rooms]["TG"]) * 50}")
+                              f"${(self.house.electrical_sockets[rooms]["TG"]) * 50}\n")
 
             if self.house.network_points[rooms]:
-                room_selected = True
 
                 quote_text += (f"Network Point x{self.house.network_points[rooms]}"
-                               f"- ${self.house.network_points[rooms] * 50}")
+                               f" - ${self.house.network_points[rooms] * 50}\n")
 
             if room_selected:
                 total_room_cost = (
@@ -237,7 +239,7 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 + (self.house.electrical_sockets[rooms]["OG"] * 40))
 
                 quote_text += (f"{rooms.replace("_", " ").capitalize()} total cost - "
-                               f"${total_room_cost}")
+                               f"${total_room_cost}\n\n")
 
         quote_text += '''WAIMAK BUILD CO LTD
 Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
