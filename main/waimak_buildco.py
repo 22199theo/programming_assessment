@@ -399,6 +399,7 @@ def gui():
         #stops the user from changing the new quote
         quote_display.config(state="disabled")
 
+        reset_quote()
         messagebox.showinfo("Success", "Order added")
 
     #function to exit order
@@ -426,6 +427,17 @@ def gui():
             quote_display.config(state="disabled")
         else:
             return
+
+    def reset_quote():
+            for key in checkbuttons:
+                checkbuttons[key].set(False)
+
+            for room in sockets_value:
+                sockets_value[room]["OG"] = 0
+                sockets_value[room]["TG"] = 0
+
+            for room in network_points_value:
+                network_points_value[room] = 0
 
     #electrical sockets 
     def electrical_sockets(room):
