@@ -198,18 +198,46 @@ Customer Type: {self.customer.customer_type.capitalize()}
 
 '''
         for rooms, values in self.house.rooms.items():
+            room_selected = False
+            total_room_price = 0
+
             if values:
+                room_selected = True
+
                 quote_text += f"{rooms.replace("_", " ").upper()}:\n"
 
-                total_room_price = 0
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
                         quote_text += f"{value["name"]} - ${value["price"]}\n"
                         total_room_price += value["price"]
 
-                quote_text += f"{rooms.replace("_", " ").capitalize()} total cost - ${total_room_price}\n\n"
+            if self.house.electricial_sockets[rooms]["OG"]:
+                room_selected = True
 
-        
+                quote_text += (f"1G Electrical Sockets x{self.house.electricial_sockets[rooms]["OG"]} - "
+                              f"${(self.house.electricial_sockets[rooms]["OG"]) * 40}")
+
+            if self.house.electricial_sockets[rooms]["TG"]:
+                room_selected = True
+
+                quote_text += (f"2G Electrical Sockets x{self.house.electricial_sockets[rooms]["TG"]} - "
+                              f"${(self.house.electricial_sockets[rooms]["TG"]) * 50}")
+
+            if self.house.network_points[rooms]:
+                room_selected = True
+
+                quote_text += (f"Network Point x{self.house.network_points[rooms]}"
+                               f"- ${self.house.network_points[rooms] * 50}")
+
+            if room_selected:
+                total_room_cost = (
+                total_room_price
+                + (self.house.network_points[rooms] * 50)
+                + (self.house.electricial_sockets[rooms]["TG"] * 50)
+                + (self.house.electricial_sockets[rooms]["OG"] * 40))
+
+                quote_text += (f"{rooms.replace("_", " ").capitalize()} total cost - "
+                               f"${total_room_cost}")
 
         quote_text += '''WAIMAK BUILD CO LTD
 Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
