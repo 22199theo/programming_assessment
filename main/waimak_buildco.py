@@ -217,60 +217,50 @@ Customer Type: {self.customer.customer_type.capitalize()}
 
 '''
 
-        for rooms, values in self.house.rooms.items():
-            if (values or 
-                self.house.electrical_sockets[rooms]["OG"] or 
-                self.house.electrical_sockets[rooms]["TG"] or 
-                self.house.network_points[rooms]):
-                    
-                    value = True
+        for number, house in enumerate(self.houses, 1):
+            quote_text += f'''
+HOUSE {number}
+--------------------------------------------'''
+            for rooms, values in house.rooms.items():
+                room_selected = False
+                total_room_price = 0
 
-        if value:
+                if (values or 
+                    house.electrical_sockets[rooms]["OG"] or 
+                    house.electrical_sockets[rooms]["TG"] or 
+                    house.network_points[rooms]):
+                        
+                        room_selected = True
+                        quote_text += f"{rooms.replace('_', ' ').upper()}:\n"
 
-            quote_text += f'''ROOM OPTIONS
---------------------------------------------
-'''
-            
-        for rooms, values in self.house.rooms.items():
-            room_selected = False
-            total_room_price = 0
+                if values:
+                    for value in (HOUSE_OPTIONS[rooms]):
+                        if value["code"] in values:
+                            quote_text += f"{value['name']} - ${value['price']}\n"
+                            total_room_price += value["price"]
 
-            if (values or 
-                self.house.electrical_sockets[rooms]["OG"] or 
-                self.house.electrical_sockets[rooms]["TG"] or 
-                self.house.network_points[rooms]):
-                    
-                    room_selected = True
-                    quote_text += f"{rooms.replace('_', ' ').upper()}:\n"
+                if house.electrical_sockets[rooms]["OG"]:
+                    quote_text += (f"1G Electrical Sockets x{house.electrical_sockets[rooms]['OG']} - "
+                                f"${(house.electrical_sockets[rooms]["OG"]) * 40}\n")
 
-            if values:
-                for value in (HOUSE_OPTIONS[rooms]):
-                    if value["code"] in values:
-                        quote_text += f"{value['name']} - ${value['price']}\n"
-                        total_room_price += value["price"]
+                if house.electrical_sockets[rooms]["TG"]:
+                    quote_text += (f"2G Electrical Sockets x{house.electrical_sockets[rooms]['TG']} - "
+                                f"${(house.electrical_sockets[rooms]["TG"]) * 50}\n")
 
-            if self.house.electrical_sockets[rooms]["OG"]:
-                quote_text += (f"1G Electrical Sockets x{self.house.electrical_sockets[rooms]['OG']} - "
-                              f"${(self.house.electrical_sockets[rooms]["OG"]) * 40}\n")
+                if house.network_points[rooms]:
+                    network_switch = True
+                    quote_text += (f"Network Point x{house.network_points[rooms]}"
+                                f" - ${house.network_points[rooms] * 50}\n")
 
-            if self.house.electrical_sockets[rooms]["TG"]:
-                quote_text += (f"2G Electrical Sockets x{self.house.electrical_sockets[rooms]['TG']} - "
-                              f"${(self.house.electrical_sockets[rooms]["TG"]) * 50}\n")
+                if room_selected:
+                    total_room_cost = (
+                    total_room_price
+                    + (house.network_points[rooms] * 50)
+                    + (house.electrical_sockets[rooms]["TG"] * 50)
+                    + (house.electrical_sockets[rooms]["OG"] * 40))
 
-            if self.house.network_points[rooms]:
-                network_switch = True
-                quote_text += (f"Network Point x{self.house.network_points[rooms]}"
-                               f" - ${self.house.network_points[rooms] * 50}\n")
-
-            if room_selected:
-                total_room_cost = (
-                total_room_price
-                + (self.house.network_points[rooms] * 50)
-                + (self.house.electrical_sockets[rooms]["TG"] * 50)
-                + (self.house.electrical_sockets[rooms]["OG"] * 40))
-
-                quote_text += (f"{rooms.replace('_', ' ').capitalize()} total cost - "
-                               f"${total_room_cost}\n\n")
+                    quote_text += (f"{rooms.replace('_', ' ').capitalize()} total cost - "
+                                f"${total_room_cost}\n\n")
 
         if network_switch:
               quote_text += f'''ADDITIONAL COST:
@@ -280,8 +270,8 @@ Network Switch - $100
 
         quote_text += f'''PRICE SUMMARY 
 --------------------------------------------
-ORIGINAL HOUSE COST - $75000
-TOTAL EXTRA COSTS - ${(self.original_price)-75000}
+TOTAL ORIGINAL HOUSE(s) COST - ${75000 * len(self.houses)}
+TOTAL EXTRA COSTS - ${(self.original_price())}
 TOTAL COST (gst exclusive) - ${self.original_price}
 '''
 
@@ -410,13 +400,13 @@ def gui():
             current_quote[0].add_house(house)
 
             #allows the display to be edited
-            #quote_display.config(state="normal")
+            quote_display.config(state="normal")
             #clears the quote before
-            #quote_display.delete("1.0", "end")
+            quote_display.delete("1.0", "end")
             #shows the new quote
-            #quote_display.insert("1.0", quote.quote_text())
+            quote_display.insert("1.0", current_quote[0].quote_text())
             #stops the user from changing the new quote
-            #quote_display.config(state="disabled")
+            quote_display.config(state="disabled")
 
             reset_quote()
             messagebox.showinfo("Success", "Order added")
