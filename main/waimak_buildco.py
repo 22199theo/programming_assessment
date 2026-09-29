@@ -203,14 +203,15 @@ Customer Type: {self.customer.customer_type.capitalize()}
 
 '''
 
-        for values in self.house.rooms.values():
-            if values: 
-                value = True
-
-        if (value or 
+        for rooms, values in self.house.rooms.items():
+            if (values or 
                 self.house.electrical_sockets[rooms]["OG"] or 
                 self.house.electrical_sockets[rooms]["TG"] or 
                 self.house.network_points[rooms]):
+                    
+                    value = True
+
+        if value:
 
             quote_text += f'''ROOM OPTIONS
 --------------------------------------------
@@ -226,20 +227,20 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 self.house.network_points[rooms]):
                     
                     room_selected = True
-                    quote_text += f"{rooms.replace("_", " ").upper()}:\n"
+                    quote_text += f"{rooms.replace('_', ' ').upper()}:\n"
 
             if values:
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
-                        quote_text += f"{value["name"]} - ${value["price"]}\n"
+                        quote_text += f"{value['name']} - ${value['price']}\n"
                         total_room_price += value["price"]
 
             if self.house.electrical_sockets[rooms]["OG"]:
-                quote_text += (f"1G Electrical Sockets x{self.house.electrical_sockets[rooms]["OG"]} - "
+                quote_text += (f"1G Electrical Sockets x{self.house.electrical_sockets[rooms]['OG']} - "
                               f"${(self.house.electrical_sockets[rooms]["OG"]) * 40}\n")
 
             if self.house.electrical_sockets[rooms]["TG"]:
-                quote_text += (f"2G Electrical Sockets x{self.house.electrical_sockets[rooms]["TG"]} - "
+                quote_text += (f"2G Electrical Sockets x{self.house.electrical_sockets[rooms]['TG']} - "
                               f"${(self.house.electrical_sockets[rooms]["TG"]) * 50}\n")
 
             if self.house.network_points[rooms]:
@@ -254,7 +255,7 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 + (self.house.electrical_sockets[rooms]["TG"] * 50)
                 + (self.house.electrical_sockets[rooms]["OG"] * 40))
 
-                quote_text += (f"{rooms.replace("_", " ").capitalize()} total cost - "
+                quote_text += (f"{rooms.replace('_', ' ').capitalize()} total cost - "
                                f"${total_room_cost}\n\n")
 
         if network_switch:
