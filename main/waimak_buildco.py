@@ -211,17 +211,17 @@ Customer Type: {self.customer.customer_type.capitalize()}
                         quote_text += f"{value["name"]} - ${value["price"]}\n"
                         total_room_price += value["price"]
 
-            if self.house.electricial_sockets[rooms]["OG"]:
+            if self.house.electrical_sockets[rooms]["OG"]:
                 room_selected = True
 
-                quote_text += (f"1G Electrical Sockets x{self.house.electricial_sockets[rooms]["OG"]} - "
-                              f"${(self.house.electricial_sockets[rooms]["OG"]) * 40}")
+                quote_text += (f"1G Electrical Sockets x{self.house.electrical_sockets[rooms]["OG"]} - "
+                              f"${(self.house.electrical_sockets[rooms]["OG"]) * 40}")
 
-            if self.house.electricial_sockets[rooms]["TG"]:
+            if self.house.electrical_sockets[rooms]["TG"]:
                 room_selected = True
 
-                quote_text += (f"2G Electrical Sockets x{self.house.electricial_sockets[rooms]["TG"]} - "
-                              f"${(self.house.electricial_sockets[rooms]["TG"]) * 50}")
+                quote_text += (f"2G Electrical Sockets x{self.house.electrical_sockets[rooms]["TG"]} - "
+                              f"${(self.house.electrical_sockets[rooms]["TG"]) * 50}")
 
             if self.house.network_points[rooms]:
                 room_selected = True
@@ -233,8 +233,8 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 total_room_cost = (
                 total_room_price
                 + (self.house.network_points[rooms] * 50)
-                + (self.house.electricial_sockets[rooms]["TG"] * 50)
-                + (self.house.electricial_sockets[rooms]["OG"] * 40))
+                + (self.house.electrical_sockets[rooms]["TG"] * 50)
+                + (self.house.electrical_sockets[rooms]["OG"] * 40))
 
                 quote_text += (f"{rooms.replace("_", " ").capitalize()} total cost - "
                                f"${total_room_cost}")
