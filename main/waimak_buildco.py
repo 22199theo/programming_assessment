@@ -138,7 +138,6 @@ class House:
 
         return True
 
-    
     def quote_price(self):
         quote_price = 75000
 
@@ -191,6 +190,10 @@ class Quote:
         return total_price
 
     def quote_text(self):
+
+        value = False
+        network_switch = False
+
         quote_text = f'''CUSTOMER INFORMATION
 --------------------------------------------
 Customer: {(self.customer.name).capitalize()}
@@ -198,8 +201,21 @@ Address: {self.customer.address}
 Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type.capitalize()}
 
-
 '''
+
+        for values in self.house.rooms.values():
+            if values: 
+                value = True
+
+        if (value or 
+                self.house.electrical_sockets[rooms]["OG"] or 
+                self.house.electrical_sockets[rooms]["TG"] or 
+                self.house.network_points[rooms]):
+
+            quote_text += f'''ROOM OPTIONS
+--------------------------------------------
+'''
+            
         for rooms, values in self.house.rooms.items():
             room_selected = False
             total_room_price = 0
@@ -210,30 +226,24 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 self.house.network_points[rooms]):
                     
                     room_selected = True
-                    quote_text += f'''
-ROOM OPTIONS
---------------------------------------------
-{rooms.replace("_", " ").upper()}:\n'''
+                    quote_text += f"{rooms.replace("_", " ").upper()}:\n"
 
             if values:
-
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
                         quote_text += f"{value["name"]} - ${value["price"]}\n"
                         total_room_price += value["price"]
 
             if self.house.electrical_sockets[rooms]["OG"]:
-
                 quote_text += (f"1G Electrical Sockets x{self.house.electrical_sockets[rooms]["OG"]} - "
                               f"${(self.house.electrical_sockets[rooms]["OG"]) * 40}\n")
 
             if self.house.electrical_sockets[rooms]["TG"]:
-
                 quote_text += (f"2G Electrical Sockets x{self.house.electrical_sockets[rooms]["TG"]} - "
                               f"${(self.house.electrical_sockets[rooms]["TG"]) * 50}\n")
 
             if self.house.network_points[rooms]:
-
+                network_switch = True
                 quote_text += (f"Network Point x{self.house.network_points[rooms]}"
                                f" - ${self.house.network_points[rooms] * 50}\n")
 
@@ -245,9 +255,13 @@ ROOM OPTIONS
                 + (self.house.electrical_sockets[rooms]["OG"] * 40))
 
                 quote_text += (f"{rooms.replace("_", " ").capitalize()} total cost - "
-                               f"${total_room_cost}")
+                               f"${total_room_cost}\n\n")
 
-                quote_text += f"-------------------------------------------- \n\n"
+        if network_switch:
+              quote_text += f'''ADDITIONAL COST:
+Network Switch - $100
+
+'''
 
         quote_text += f'''PRICE SUMMARY 
 --------------------------------------------
@@ -257,17 +271,16 @@ TOTAL COST (gst exclusive) - ${self.original_price}
 '''
 
         if self.customer.customer_discount():
-            quote_text += f'''DISCOUNT RATE - %{int(self.customer.customer_discount) * 100}
+            quote_text += f'''DISCOUNT RATE - %{(self.customer.customer_discount() * 100):.0f}
 DISCOUNT VALUE - ${self.discount_amount()}
 NEW DISCOUNTED COST - ${self.total_discount_price()}
 '''
         quote_text += f'''GST COST - ${self.gst_amount()}
-TOTAL COST (gst inclusive) - ${self.total_price()}
+TOTAL COST (gst inclusive) - ${self.total_price()}'''
 
-        '''
+        quote_text += '''
 
-
-        quote_text += '''--------------------------------------------
+--------------------------------------------
 WAIMAK BUILD CO LTD
 Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
 Tel: 03 1234567
