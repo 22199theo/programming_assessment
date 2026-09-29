@@ -388,7 +388,16 @@ def gui():
         quotes.append(quote)
         quote.save_quote()
 
-        messagebox.showinfo("Success", "Customer added")
+        #allows the display to be edited
+        quote_display.config(state="normal")
+        #clears the quote before
+        quote_display.delete("1.0", "end")
+        #shows the new quote
+        quote_display.insert("1.0", quote.quote_text())
+        #stops the user from changing the new quote
+        quote_display.config(state="disabled")
+
+        messagebox.showinfo("Success", "Order added")
 
     #electrical sockets 
     def electrical_sockets(room):
@@ -586,6 +595,9 @@ def gui():
     bathroom()
 
     tk.Button(window, text="Submit", command=submit_order).pack()
+
+    quote_display = tk.Text(window, height=15, width=80, state="disabled")
+    quote_display.pack()
 
     window.mainloop()
 
