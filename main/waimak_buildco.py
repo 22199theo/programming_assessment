@@ -206,7 +206,8 @@ class Quote:
         value = False
         network_switch = False
 
-        quote_text = f'''QUOTE NUMBER: {self.quote_number}'''
+        quote_text = f'''QUOTE NUMBER: {self.quote_number}
+'''
         
         quote_text += f'''CUSTOMER INFORMATION
 --------------------------------------------
@@ -220,7 +221,8 @@ Customer Type: {self.customer.customer_type.capitalize()}
         for number, house in enumerate(self.houses, 1):
             quote_text += f'''
 HOUSE {number}
---------------------------------------------'''
+--------------------------------------------
+'''
             for rooms, values in house.rooms.items():
                 room_selected = False
                 total_room_price = 0
@@ -272,7 +274,7 @@ Network Switch - $100
 --------------------------------------------
 TOTAL ORIGINAL HOUSE(s) COST - ${75000 * len(self.houses)}
 TOTAL EXTRA COSTS - ${(self.original_price())}
-TOTAL COST (gst exclusive) - ${self.original_price}
+TOTAL COST (gst exclusive) - ${self.original_price()}
 '''
 
         if self.customer.customer_discount():
