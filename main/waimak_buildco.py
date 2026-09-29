@@ -191,10 +191,13 @@ class Quote:
         return total_price
 
     def quote_text(self):
-        quote_text = f'''Customer: {(self.customer.name).capitalize()}
+        quote_text = f'''CUSTOMER INFORMATION
+--------------------------------------------
+Customer: {(self.customer.name).capitalize()}
 Address: {self.customer.address}
 Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type.capitalize()}
+--------------------------------------------
 
 '''
         for rooms, values in self.house.rooms.items():
@@ -207,7 +210,10 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 self.house.network_points[rooms]):
                     
                     room_selected = True
-                    quote_text += f"{rooms.replace("_", " ").upper()}:\n"
+                    quote_text += f'''
+ROOM OPTIONS
+--------------------------------------------
+{rooms.replace("_", " ").upper()}:\n'''
 
             if values:
 
@@ -239,9 +245,17 @@ Customer Type: {self.customer.customer_type.capitalize()}
                 + (self.house.electrical_sockets[rooms]["OG"] * 40))
 
                 quote_text += (f"{rooms.replace("_", " ").capitalize()} total cost - "
-                               f"${total_room_cost}\n\n")
+                               f"${total_room_cost}")
 
-        quote_text += '''WAIMAK BUILD CO LTD
+                quote_text += f"-------------------------------------------- \n\n"
+
+        quote_text += f'''
+
+
+'''
+
+        quote_text += '''--------------------------------------------
+WAIMAK BUILD CO LTD
 Unit 3, 93 McKenzie Street, Rangiora, North Canterbury
 Tel: 03 1234567
 Email: Office@wbc.co.nz
