@@ -163,23 +163,34 @@ class House:
         return quote_price
 
 class Quote:
-    def __init__(self, customer, house):
+    def __init__(self, customer):
         self.customer = customer
-        self.house = house
-        self.quote_number = len(quotes) + 1
-        self.original_price = house.quote_price()
+        self.houses = []
 
+        self.quote_number = len(quotes) + 1
+
+
+    def add_house(self, house):
+        self.houses.append(house)
+
+    def original_price(self):
+        original_price = 0
+
+        for house in self.houses:
+            original_price += house.quote_price()
+
+        return original_price
 
     def discount_amount(self):
-        discount_amount = self.original_price * (self.customer.customer_discount())
+        discount_amount = self.original_price() * (self.customer.customer_discount())
         return discount_amount
 
     def total_discount_price(self):
-        total_discount_price = self.original_price * (1-(self.customer.customer_discount()))
+        total_discount_price = self.original_price() - self.discount_amount()
         return total_discount_price
 
     def options_price(self):
-        options_price = -(75000 - self.original_price)
+        options_price = self.original_price() - (75000 * len(self.houses))
         return options_price
 
     def gst_amount(self):
