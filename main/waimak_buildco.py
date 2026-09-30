@@ -216,10 +216,17 @@ class Quote:
 
         self.quote_number = len(quotes) + 1
 
-
+    #This function appneds the added houses to the self.houses list
     def add_house(self, house):
         self.houses.append(house)
 
+    #The next 6 functions are for calculations for the quote text display
+    #with original price calculating the original price of the houses
+    #with discount_amount calculating the disconut the customer receives
+    #with total_discount_price being the total price after the discount
+    #with options_price being the price of the options of all houses
+    #with gst_amount being the cost of the gst for all options
+    #with total_price being the final price of the houses
     def original_price(self):
         original_price = 0
 
@@ -248,6 +255,7 @@ class Quote:
         total_price = self.gst_amount() + self.total_discount_price()
         return total_price
 
+    #This function generates the quote_text, which is used to display the quote
     def quote_text(self):
 
         network_switch = 0
@@ -263,16 +271,21 @@ Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type.capitalize()}
 
 '''
-
+        #this for loop uses enumerate to get the index of the house
+        #and display it as eg. House 1
         for number, house in enumerate(self.houses, 1):
             quote_text += f'''
 HOUSE {number}
 --------------------------------------------
 '''
+            #This for loop gets the items in the house.rooms 
+            #The code inside this for loop displays all the information for 
+            #each individual room selected and all the options selected for that room
             for rooms, values in house.rooms.items():
                 room_selected = False
                 total_room_price = 0
 
+                #This if statement checks if the room had any upgrades selected
                 if (values or 
                     house.electrical_sockets[rooms]["OG"] or 
                     house.electrical_sockets[rooms]["TG"] or 
@@ -281,25 +294,32 @@ HOUSE {number}
                         room_selected = True
                         quote_text += f"{rooms.replace('_', ' ').upper()}:\n"
 
+                #This if statement displays the options selected for the
+                #relevant room and the price
                 if values:
                     for value in (HOUSE_OPTIONS[rooms]):
                         if value["code"] in values:
                             quote_text += f"{value['name']} - ${value['price']}\n"
                             total_room_price += value["price"]
 
+                #This if statement displays any one g sockets selected
                 if house.electrical_sockets[rooms]["OG"]:
                     quote_text += (f"1G Electrical Sockets x{house.electrical_sockets[rooms]['OG']} - "
                                 f"${(house.electrical_sockets[rooms]["OG"]) * 40}\n")
 
+                #This if statement displays any two g sockets selected
                 if house.electrical_sockets[rooms]["TG"]:
                     quote_text += (f"2G Electrical Sockets x{house.electrical_sockets[rooms]['TG']} - "
                                 f"${(house.electrical_sockets[rooms]["TG"]) * 50}\n")
 
+                #This if statment displays any network points selected
                 if house.network_points[rooms]:
                     network_switch += 1
                     quote_text += (f"Network Point x{house.network_points[rooms]}"
                                 f" - ${house.network_points[rooms] * 50}\n")
 
+                #This if statmement will display the total cost of all options, including 
+                #electrical and network for the relevant room
                 if room_selected:
                     total_room_cost = (
                     total_room_price
@@ -310,12 +330,18 @@ HOUSE {number}
                     quote_text += (f"{rooms.replace('_', ' ').capitalize()} total cost - "
                                 f"${total_room_cost}\n\n")
 
+        #This if statement checks if the network points were selected
+        #and if so it will add the price of the network switch (of all network
+        #points selected for each house) eg. if the user selected 3 houses but only
+        #two of them have additional network points it will calculate 100 * 2
         if network_switch:
               quote_text += f'''ADDITIONAL COST:
 Network Switch - ${100 * network_switch}
 
 '''
 
+        #This section uses all the calculation functions in this class to display
+        #the costs of the order
         quote_text += f'''PRICE SUMMARY 
 --------------------------------------------
 TOTAL ORIGINAL HOUSE(s) COST - ${75000 * len(self.houses)}
@@ -341,11 +367,18 @@ Email: Office@wbc.co.nz
 '''
         return quote_text
 
+    #This function actually saves the final users order as a quote to QuoteHistory.txt
     def save_quote(self):
+        #This opens QuoteHistory.txt in appnd mode so new quotes are added to the existing file 
         with open("QuoteHistory.txt", "a") as file:
+            #this sections writes the relevant quote_text and adds two lines so each quote is displayed nicely
             file.write(self.quote_text())
             file.write("\n\n")
 
+#This Function is used to display the GUI of the whole order, by using tkinter and 
+#other methods such as functions and quotes to accurately display, make the gui
+#responsive and have boundary cases, and be able to create, cancel, save quotes, read
+#them etc. 
 def gui():
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
