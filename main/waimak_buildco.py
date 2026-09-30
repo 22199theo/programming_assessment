@@ -91,10 +91,12 @@ class Customer:
 #This class is used for house objects, which includes all the information for
 #the house, such as rooms, electrical sockets etc, it also includes methods
 #for validating the house inputs, and calculating the price of the house with the
-#addition of the users 
+#addition of the users inputs
 class House:
     def __init__(self):
 
+        #This dictionary is used to get all the options the user selects and storing
+        #them by the relevant room in a list as the value of the dictionary
         self.rooms = {
             "bathroom": [],
             "kitchen": [],
@@ -102,7 +104,9 @@ class House:
             "bedroom_1": [],
             "bedroom_2": []
         }
-        
+
+        #This dictionary stores the room names with a nested dictionary in values which
+        #stores the amount of electrical sockets per room
         self.electrical_sockets = {
             "bathroom": {"OG": 0, "TG": 0},
             "kitchen": {"OG": 0, "TG": 0},
@@ -111,6 +115,8 @@ class House:
             "bedroom_2": {"OG": 0, "TG": 0}
         }
 
+        #This dictionary stores the room names with the amount of network points the customer
+        #selects per room
         self.network_points = {
             "bathroom": 0,
             "kitchen": 0,
@@ -119,65 +125,90 @@ class House:
             "bedroom_2": 0
         }
 
+    #This function checks if the house input is valid, specifically for the amount of 
+    #electrical sockets and network sockets the user selects
     def house_validation(self):
         total_sockets = 0
 
         #electrical socket validation
+        #a for loop to go through every item in self.electrical sockets
         for room, sockets in self.electrical_sockets.items():
 
+            #This counts the number of sockets in a room
             room_sockets = sum(sockets.values())
 
+            #if that number exceeds 4 it will return false so the code will not submit the order
             if room_sockets >4:
                 messagebox.showerror("Error", f"Too many sockets in {room}, the maximum is 4.")
                 return False
-            
-            total_sockets +=room_sockets 
 
+            total_sockets += room_sockets 
+
+            #this checks if the total number of sockets exceeds 12, and if it does it will 
+            #return false so the code will not submit the order
             if total_sockets > 12:
                 messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
                 return False
 
         #network point validation
         total_networks = 0
+        #for loop to see the amount of network points in self.network_points
         for network_points in self.network_points.values():
             if network_points != 0:
                 total_networks += 1
 
+        #if total_networks is equal to 1 it means the user has only selected one network point which
+        #is not allowed and so will return false
         if total_networks == 1:
             messagebox.showerror("Error", "Must have network points in 2 or more rooms")
             return False
             
-
+        #a case boundary value where the code will return false if the amount of network points is smaller then 2
+        #or greater then 8, (with the code allowing 0)
         if not 2 <= sum(self.network_points.values()) <= 8 and not sum(self.network_points.values()) == 0:
-            messagebox.showerror("Error", "Too many network points in the house, the maximum is 8 (minmum of 2)")
+            messagebox.showerror("Error", "Too many network points in the house, the maximum is 8 (minimum of 2)")
             return False
 
         return True
 
+    #This function calculates the total cost of all the options the user adds
     def quote_price(self):
         quote_price = 75000
 
         #calculation for rooms
+        #for loop to go through all items in self.rooms
         for rooms, values in self.rooms.items():
             if values:
+                #this for loop is used to go through each value in House_options with the key being the room
+                #if the code in the house_options[rooms] is in values it will use that indexed value to add the 
+                #price of that item to the total
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
                         quote_price += value["price"]
 
         #calculation for sockets
+        #this for loop goes through all the self.electrical_sockets values
         for sockets in self.electrical_sockets.values():
+            #this for loop goes through the one g and two g dictionary in the nested dictionary, sockets
             for socket_type, socket_number in sockets.items():
+                #this for loop will compare the socket code of the dictionary to house_options 
+                #and will calculate accordingly
                 for socket_option in HOUSE_OPTIONS["electrical_sockets"]:
                     if socket_type == socket_option["code"]:
                         quote_price += (socket_option["price"] * socket_number)
 
         #calculation for network points
         total_network_points = sum(self.network_points.values())
+        #this if statement checks if network points were selected, ie. not 1, 
+        #and will add the price of the network switch to the total value
         if total_network_points != 0:
             quote_price += (100 + (total_network_points * 50))
 
         return quote_price
 
+#This class is used for quote objects where it stores the customer and houses, 
+#and uses methods to calculate the quote costs, apply discounts and gst, and 
+#generates the quote as information that can be saved or displayed 
 class Quote:
     def __init__(self, customer):
         self.customer = customer
