@@ -2,13 +2,13 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-# quotes list for quotes, while current_quote 
-# is also a list with the intial value set to None
+# Quotes list for quotes, while current_quote 
+# is also a list with the intial value set to None.
 quotes = []
 current_quote = [None]
 
-# this dictionary has nest lists and dictionarys as values later used for 
-# storing and getting information for house options
+# This dictionary has nest lists and dictionarys as values later used
+# for storing and getting information for house options.
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
     "bathroom": [{
@@ -41,19 +41,54 @@ HOUSE_OPTIONS = {
 }
 
 class Customer:
-    """ This class is used for customer objects, it also has methods such as 
-        finding the customer discount and seeing if the customer information is valid
+    """ This class is used for customer objects, it also has methods
+    such as finding the customer discount and seeing if the customer
+    information is valid.
+
+    Args:
+         None
+
+    Returns:
+        None
+
+    Raises:
+        None
     """
 
     def __init__(self, name, address, delivery_address, customer_type):
+        """ Sets up a customer object and stores customer information.
+        
+        Args:
+            name: The customers name.
+            address: The customers address.
+            delivery_address: The customers delivery address.
+            customer_type: The customers type (retail or trade).
+
+        Returns:
+            None
+
+        Raises:
+            None
+        """
+
         self.name = name
         self.address = address
         self.delivery_address = delivery_address
         self.customer_type = customer_type
 
     def customer_discount(self):
-        """ This function sees if a customer is suitable for a discount, 
-            with a trade customer being allowed to have a discount of 0.1 or 10%
+        """ This function sees if a customer is suitable for a 
+        discount, with a trade customer being allowed to have
+        a discount of 0.1 or 10%.
+
+        Args:
+            None
+
+        Returns:
+            The customers discount rate.
+
+        Raises:
+            None
         """
 
         if self.customer_type == "trade customer":
@@ -62,10 +97,21 @@ class Customer:
             return 0
 
     def customer_validation(self):
-        """ This function checks if the customer information submitted is valid, 
-            for example it checks if the name contains strange values such as $ or # 
-            where it will return false if the customer enters a value that is not allowed
-            and will return true if the customer enters a value that is allowed
+        """ This function checks if the customer information submitted
+        is valid, for example it checks if the name contains strange
+        values such as $ or #, where it will return false if the 
+        customer enters a value that is not allowed and will return
+        true if the customer enters a value that is allowed.
+
+        Args:
+            None
+
+        Returns:
+            True if the customer information is valid, 
+            False if it is not.
+
+        Raises:
+            None
         """
 
         if not self.name:
@@ -97,15 +143,39 @@ class Customer:
 
 class House:
     """ This class is used for house objects, which includes all the 
-        information for the house, such as rooms, electrical sockets etc, 
-        it also includes methods for validating the house inputs, and 
-        calculating the price of the house with the addition of the users inputs 
+        information for the house, such as rooms, electrical sockets 
+        etc, it also includes methods for validating the house inputs,
+        and calculating the price of the house with the addition of 
+        the users inputs.
+
+    Args:
+         None
+
+    Returns:
+        None
+
+    Raises:
+        None
     """
 
 
     def __init__(self):
-        # This dictionary is used to get all the options the user selects and storing
-        # them by the relevant room in a list as the value of the dictionary
+        """ Sets up a house object and stores the room, electrical 
+        sockets and network points information.
+        
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
+        """
+
+        # This dictionary is used to get all the options the user
+        # selects and storing them by the relevant room in a list
+        # as the value of the dictionary.
         self.rooms = {
             "bathroom": [],
             "kitchen": [],
@@ -114,8 +184,9 @@ class House:
             "bedroom_2": []
         }
 
-        # This dictionary stores the room names with a nested dictionary in values which
-        # stores the amount of electrical sockets per room
+        # This dictionary stores the room names with a nested
+        # dictionary in values which stores the amount of
+        # electrical sockets per room.
         self.electrical_sockets = {
             "bathroom": {"OG": 0, "TG": 0},
             "kitchen": {"OG": 0, "TG": 0},
@@ -124,8 +195,8 @@ class House:
             "bedroom_2": {"OG": 0, "TG": 0}
         }
 
-        # This dictionary stores the room names with the amount of network points the customer
-        # selects per room
+        # This dictionary stores the room names with the amount of
+        # network points the customer selects per room.
         self.network_points = {
             "bathroom": 0,
             "kitchen": 0,
@@ -134,111 +205,187 @@ class House:
             "bedroom_2": 0
         }
 
-    
     def house_validation(self):
-        """ This function checks if the house input is valid, specifically for the amount of 
-            electrical sockets and network sockets the user selects """
+        """ This function checks if the house input is valid, 
+        specifically for the amount of electrical sockets and 
+        network sockets the user selects 
+        
+        Args:
+            None
+
+        Returns:
+            True if the house information is valid,
+            False if it is not.
+
+        Raises:
+            None
+        """
+
         total_sockets = 0
 
-        #electrical socket validation
-        #a for loop to go through every item in self.electrical sockets
+        # Electrical socket validation.
+        # A for loop to go through every item in 
+        # self.electrical sockets.
         for room, sockets in self.electrical_sockets.items():
 
-            #This counts the number of sockets in a room
+            # This counts the number of sockets in a room.
             room_sockets = sum(sockets.values())
 
-            #if that number exceeds 4 it will return false so the code will not submit the order
+            # If that number exceeds 4 it will return false so the code
+            # will not submit the order.
             if room_sockets >4:
-                messagebox.showerror("Error", f"Too many sockets in {room}, the maximum is 4.")
+                messagebox.showerror("Error", f"Too many sockets in {room},"
+                                    f"the maximum is 4.")
                 return False
 
             total_sockets += room_sockets 
 
-            #this checks if the total number of sockets exceeds 12, and if it does it will 
-            #return false so the code will not submit the order
+            # This checks if the total number of sockets exceeds 12, and
+            # if it does it will return false so the code will not 
+            # submit the order.
             if total_sockets > 12:
-                messagebox.showerror("Error", "Too many sockets in the house, the maximum is 12.")
+                messagebox.showerror("Error", "Too many sockets in the house"
+                                     ", the maximum is 12.")
                 return False
 
-        #network point validation
+        # Network point validation.
         total_networks = 0
-        #for loop to see the amount of network points in self.network_points
+
+        # For loop to see the amount of network 
+        # points in self.network_points.
         for network_points in self.network_points.values():
             if network_points != 0:
                 total_networks += 1
 
-        #if total_networks is equal to 1 it means the user has only selected one network point which
-        #is not allowed and so will return false
+        # If total_networks is equal to 1 it means the user has only 
+        # selected one network point which is not allowed and so will 
+        # return false.
         if total_networks == 1:
-            messagebox.showerror("Error", "Must have network points in 2 or more rooms")
+            messagebox.showerror("Error", "Must have network points in 2 or "
+                                 "more rooms")
             return False
             
-        #a case boundary value where the code will return false if the amount of network points is smaller then 2
-        #or greater then 8, (with the code allowing 0)
-        if not 2 <= sum(self.network_points.values()) <= 8 and not sum(self.network_points.values()) == 0:
-            messagebox.showerror("Error", "Too many network points in the house, the maximum is 8 (minimum of 2)")
+        # A case boundary value where the code will return false if the 
+        # amount of network points is smaller then 2 or greater then 8,
+        # (with the code allowing 0).
+        if (not 2 <= sum(self.network_points.values()) <= 8 
+            and not sum(self.network_points.values()) == 0):
+            messagebox.showerror("Error", "Too many network points in the "
+                                 "house, the maximum is 8 (minimum of 2)")
             return False
-
+        
         return True
 
-   
     def quote_price(self):
-        """ This function calculates the total cost of all the options the user adds """
+        """ This function calculates the total cost of all the options
+        the user adds 
+
+        Args:
+            None
+        Returns:
+            The total cost of the house and its selected options.
+        Raises:
+            None
+        """
+
         quote_price = 75000
 
-        #calculation for rooms
-        #for loop to go through all items in self.rooms
+        # Calculation for rooms.
+        # For loop to go through all items in self.rooms
         for rooms, values in self.rooms.items():
             if values:
-                #this for loop is used to go through each value in House_options with the key being the room
-                #if the code in the house_options[rooms] is in values it will use that indexed value to add the 
-                #price of that item to the total
+                # This for loop is used to go through each value in 
+                # House_options with the key being the room
+                # if the code in the house_options[rooms] is in values
+                # it will use that indexed value to add the 
+                # price of that item to the total.
                 for value in (HOUSE_OPTIONS[rooms]):
                     if value["code"] in values:
                         quote_price += value["price"]
 
-        #calculation for sockets
-        #this for loop goes through all the self.electrical_sockets values
+        # Calculation for sockets.
+        # This for loop goes through all the 
+        # self.electrical_sockets values.
         for sockets in self.electrical_sockets.values():
-            #this for loop goes through the one g and two g dictionary in the nested dictionary, sockets
+            # This for loop goes through the one g and two g dictionary 
+            # in the nested dictionary, sockets.
             for socket_type, socket_number in sockets.items():
-                #this for loop will compare the socket code of the dictionary to house_options 
-                #and will calculate accordingly
+                # This for loop will compare the socket code of the 
+                # dictionary to house_options and will calculate 
+                # accordingly.
                 for socket_option in HOUSE_OPTIONS["electrical_sockets"]:
                     if socket_type == socket_option["code"]:
                         quote_price += (socket_option["price"] * socket_number)
 
-        #calculation for network points
+        # Calculation for network points.
         total_network_points = sum(self.network_points.values())
-        #this if statement checks if network points were selected, ie. not 1, 
-        #and will add the price of the network switch to the total value
+        # This if statement checks if network points were selected,
+        # ie. not 1, and will add the price of the network switch 
+        # to the total value.
         if total_network_points != 0:
             quote_price += (100 + (total_network_points * 50))
 
         return quote_price
 
-#This class is used for quote objects where it stores the customer and houses, 
-#and uses methods to calculate the quote costs, apply discounts and gst, and 
-#generates the quote as information that can be saved or displayed 
 class Quote:
+    """ This class is used for quote objects where it stores the 
+    customer and houses, and uses methods to calculate the quote costs, 
+    apply discounts and gst, and generates the quote as information that 
+    can be saved or displayed.
+
+    Args:
+        None
+    Returns:
+        None
+    Raises:
+        None
+    """
+
     def __init__(self, customer):
+        """ Sets up a quote object with customer information and an 
+        empty list of houses.
+
+        Args:
+            customer: The customer object that is used for the quote.
+        Returns:
+            None
+        Raises:
+            None
+        
+        """
         self.customer = customer
         self.houses = []
 
         self.quote_number = len(quotes) + 1
 
-    #This function appneds the added houses to the self.houses list
     def add_house(self, house):
+        """ This function appends the added houses to the self.houses 
+        list.
+        
+    Args:
+        house: The house object that is added to the quote.
+    Returns:
+        None
+    Raises:
+        None        
+    """
+        
         self.houses.append(house)
 
-    #The next 6 functions are for calculations for the quote text display
-    #with original price calculating the original price of the houses
-    #with discount_amount calculating the disconut the customer receives
-    #with total_discount_price being the total price after the discount
-    #with options_price being the price of the options of all houses
-    #with gst_amount being the cost of the gst for all options
-    #with total_price being the final price of the houses
+    # The next 6 functions are for calculations for the quote text 
+    # display.
+
     def original_price(self):
+        """ Calculates the original price of all houses in the quote.
+
+        Args:
+            None
+        Returns:
+            The original price of all houses and their options.
+        Raises:
+            None
+        """
+
         original_price = 0
 
         for house in self.houses:
@@ -247,27 +394,88 @@ class Quote:
         return original_price
 
     def discount_amount(self):
-        discount_amount = self.original_price() * (self.customer.customer_discount())
+        """ Calculates the discount amount the customer receives.
+
+        Args:
+            None
+        Returns:
+            The customer's discount amount.
+        Raises:
+            None
+        """
+
+        discount_amount = (self.original_price() * 
+                           (self.customer.customer_discount()))
         return discount_amount
 
     def total_discount_price(self):
+        """ Calculates the total price after the customer discount.
+
+        Args:
+            None
+        Returns:
+            The total price after the discount.
+        Raises:
+            None
+        """
+
         total_discount_price = self.original_price() - self.discount_amount()
         return total_discount_price
 
     def options_price(self):
+        """ Calculates the price of the options for all houses in 
+        the quote.
+
+        Args:
+            None
+        Returns:
+            The price of the options for all houses.
+        Raises:
+            None
+        """
+
         options_price = self.original_price() - (75000 * len(self.houses))
         return options_price
 
     def gst_amount(self):
+        """ Calculates the GST amount for all options.
+
+        Args:
+            None
+        Returns:
+            The GST amount for all options.
+        Raises:
+            None
+        """
+
         gst_amount = self.options_price() * 0.15
         return gst_amount
 
     def total_price(self):
+        """ Calculates the final price of the houses.
+
+        Args:
+            None
+        Returns:
+            The final price including GST and any customer discount.
+        Raises:
+            None
+        """
+
         total_price = self.gst_amount() + self.total_discount_price()
         return total_price
 
-    #This function generates the quote_text, which is used to display the quote
     def quote_text(self):
+        """ This function generates the quote_text, 
+        which is used to display the quote.
+
+        Args:
+            None
+        Returns:
+            The formatted quote text.
+        Raises:
+            None
+        """
 
         network_switch = 0
 
@@ -282,77 +490,108 @@ Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type.capitalize()}
 
 '''
-        #this for loop uses enumerate to get the index of the house
-        #and display it as eg. House 1
+        # This for loop uses enumerate to get the index of the house
+        # and display it as eg. House 1.
         for number, house in enumerate(self.houses, 1):
             quote_text += f'''
 HOUSE {number}
 --------------------------------------------
 '''
-            #This for loop gets the items in the house.rooms 
-            #The code inside this for loop displays all the information for 
-            #each individual room selected and all the options selected for that room
+            # This for loop gets the items in the house.rooms 
+            # The code inside this for loop displays all the information 
+            # for each individual room selected and all the options 
+            # selected for that room.
             for rooms, values in house.rooms.items():
                 room_selected = False
                 total_room_price = 0
 
-                #This if statement checks if the room had any upgrades selected
+                # This if statement checks if the room had any 
+                # upgrades selected.
                 if (values or 
                     house.electrical_sockets[rooms]["OG"] or 
                     house.electrical_sockets[rooms]["TG"] or 
                     house.network_points[rooms]):
-                        
+
                         room_selected = True
                         quote_text += f"{rooms.replace('_', ' ').upper()}:\n"
 
-                #This if statement displays the options selected for the
-                #relevant room and the price
+                # This if statement displays the options selected for 
+                # the relevant room and the price.
                 if values:
                     for value in (HOUSE_OPTIONS[rooms]):
                         if value["code"] in values:
-                            quote_text += f"{value['name']} - ${value['price']}\n"
+                            quote_text += (f"{value['name']} - "
+                                           f"${value['price']}\n")
                             total_room_price += value["price"]
 
-                #This if statement displays any one g sockets selected
+                # This if statement displays any 1G sockets selected
                 if house.electrical_sockets[rooms]["OG"]:
-                    quote_text += (f"1G Electrical Sockets x{house.electrical_sockets[rooms]['OG']} - "
-                                f"${(house.electrical_sockets[rooms]["OG"]) * 40}\n")
+                    og_quantity = house.electrical_sockets[rooms]["OG"]
+                    og_price = HOUSE_OPTIONS["electrical_sockets"][0]["price"]
+                    quote_text += (
+                        f"1G Electrical Sockets x{og_quantity} - "
+                        f"${og_quantity * og_price}\n"
+                    )
 
-                #This if statement displays any two g sockets selected
+                # This if statement displays any 2G sockets selected.
                 if house.electrical_sockets[rooms]["TG"]:
-                    quote_text += (f"2G Electrical Sockets x{house.electrical_sockets[rooms]['TG']} - "
-                                f"${(house.electrical_sockets[rooms]["TG"]) * 50}\n")
+                    tg_quantity = house.electrical_sockets[rooms]["TG"]
+                    tg_price = HOUSE_OPTIONS["electrical_sockets"][1]["price"]
+                    quote_text += (
+                        f"2G Electrical Sockets x{tg_quantity} - "
+                        f"${tg_quantity * tg_price}\n"
+                    )
 
-                #This if statment displays any network points selected
+                # This if statement displays any network 
+                # points selected/
                 if house.network_points[rooms]:
                     network_switch += 1
-                    quote_text += (f"Network Point x{house.network_points[rooms]}"
-                                f" - ${house.network_points[rooms] * 50}\n")
+                    np_quantity = house.network_points[rooms]
+                    np_price = HOUSE_OPTIONS["network_points"][0]["price"]
+                    quote_text += (
+                        f"Network Point x{np_quantity} - "
+                        f"${np_quantity * np_price}\n"
+                    )
 
-                #This if statmement will display the total cost of all options, including 
-                #electrical and network for the relevant room
+                # This if statement displays the total cost of all 
+                # options for the relevant room, including electrical
+                # and network.
                 if room_selected:
                     total_room_cost = (
-                    total_room_price
-                    + (house.network_points[rooms] * 50)
-                    + (house.electrical_sockets[rooms]["TG"] * 50)
-                    + (house.electrical_sockets[rooms]["OG"] * 40))
+                        total_room_price
+                        + (
+                            house.network_points[rooms]
+                            * HOUSE_OPTIONS["network_points"][0]["price"]
+                        )
+                        + (
+                            house.electrical_sockets[rooms]["TG"]
+                            * HOUSE_OPTIONS["electrical_sockets"][1]["price"]
+                        )
+                        + (
+                            house.electrical_sockets[rooms]["OG"]
+                            * HOUSE_OPTIONS["electrical_sockets"][0]["price"]
+                        )
+                    )
 
-                    quote_text += (f"{rooms.replace('_', ' ').capitalize()} total cost - "
-                                f"${total_room_cost}\n\n")
+                    room_name = rooms.replace("_", " ").capitalize()
+                    quote_text += (
+                        f"{room_name} total cost - "
+                        f"${total_room_cost}\n\n"
+                    )
 
-        #This if statement checks if the network points were selected
-        #and if so it will add the price of the network switch (of all network
-        #points selected for each house) eg. if the user selected 3 houses but only
-        #two of them have additional network points it will calculate 100 * 2
+        # This if statement checks if the network points were selected
+        # and if so it will add the price of the network switch 
+        # (of all networkpoints selected for each house) eg. if the 
+        # user selected 3 houses but only two of them have additional
+        # network points it will calculate 100 * 2.
         if network_switch:
               quote_text += f'''ADDITIONAL COST:
 Network Switch - ${100 * network_switch}
 
 '''
 
-        #This section uses all the calculation functions in this class to display
-        #the costs of the order
+        # This section uses all the calculation functions in this 
+        # class to display the costs of the order.
         quote_text += f'''PRICE SUMMARY 
 --------------------------------------------
 TOTAL ORIGINAL HOUSE(s) COST - ${75000 * len(self.houses)}
@@ -361,10 +600,11 @@ TOTAL COST (gst exclusive) - ${self.original_price()}
 '''
 
         if self.customer.customer_discount():
-            quote_text += f'''DISCOUNT RATE - %{(self.customer.customer_discount() * 100):.0f}
+            quote_text += (
+f'''DISCOUNT RATE - %{(self.customer.customer_discount() * 100):.0f}
 DISCOUNT VALUE - ${self.discount_amount()}
 NEW DISCOUNTED COST - ${self.total_discount_price()}
-'''
+''')
         quote_text += f'''GST COST - ${self.gst_amount()}
 TOTAL COST (gst inclusive) - ${self.total_price()}'''
 
