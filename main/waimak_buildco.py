@@ -2,13 +2,13 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-#quotes list for quotes, while current_quote 
-#is also a list with the intial value set to None
+# quotes list for quotes, while current_quote 
+# is also a list with the intial value set to None
 quotes = []
 current_quote = [None]
 
-#this dictionary has nest lists and dictionarys as values later used for 
-#storing and getting information for house options
+# this dictionary has nest lists and dictionarys as values later used for 
+# storing and getting information for house options
 HOUSE_OPTIONS = {
     "company": "Waimak BuildCo",
     "bathroom": [{
@@ -22,7 +22,7 @@ HOUSE_OPTIONS = {
     "living_room": [
         {"code": "MA", "name": "Tv point plus roof mounted aerial", "price": 250},
         {"code": "SD", "name": "Tv point plus satellite dish", "price": 250},
-        {"code": "LH", "name": "4.5 KW Heat pump", "price": 2500}
+        {"code": "LH", "name": "4.5 KW Heat dianspump", "price": 2500}
     ],
     "bedroom_1": [
         {"code": "BO", "name": "2.5 KW Heat pump", "price": 1800}
@@ -40,28 +40,34 @@ HOUSE_OPTIONS = {
     ]
 }
 
-#This class is used for customer objects, it also has methods such as 
-#finding the customer discount and seeing if the customer information is valid 
 class Customer:
+    """ This class is used for customer objects, it also has methods such as 
+        finding the customer discount and seeing if the customer information is valid
+    """
+
     def __init__(self, name, address, delivery_address, customer_type):
         self.name = name
         self.address = address
         self.delivery_address = delivery_address
         self.customer_type = customer_type
 
-    #This function sees if a customer is suitable for a discount, 
-    #with a trade customer being allowed to have a discount of 0.1 or 10%
     def customer_discount(self):
+        """ This function sees if a customer is suitable for a discount, 
+            with a trade customer being allowed to have a discount of 0.1 or 10%
+        """
+
         if self.customer_type == "trade customer":
             return 0.1
         else:
             return 0
 
-    #This function checks if the customer information submitted is valid, 
-    #for example it checks if the name contains strange values such as $ or # 
-    #where it will return false if the customer enters a value that is not allowed
-    #and will return true if the customer enters a value that is allowed
     def customer_validation(self):
+        """ This function checks if the customer information submitted is valid, 
+            for example it checks if the name contains strange values such as $ or # 
+            where it will return false if the customer enters a value that is not allowed
+            and will return true if the customer enters a value that is allowed
+        """
+
         if not self.name:
             messagebox.showinfo("Error", "Please Enter a Name.")
             return False
@@ -88,15 +94,18 @@ class Customer:
         
         return True
 
-#This class is used for house objects, which includes all the information for
-#the house, such as rooms, electrical sockets etc, it also includes methods
-#for validating the house inputs, and calculating the price of the house with the
-#addition of the users inputs
-class House:
-    def __init__(self):
 
-        #This dictionary is used to get all the options the user selects and storing
-        #them by the relevant room in a list as the value of the dictionary
+class House:
+    """ This class is used for house objects, which includes all the 
+        information for the house, such as rooms, electrical sockets etc, 
+        it also includes methods for validating the house inputs, and 
+        calculating the price of the house with the addition of the users inputs 
+    """
+
+
+    def __init__(self):
+        # This dictionary is used to get all the options the user selects and storing
+        # them by the relevant room in a list as the value of the dictionary
         self.rooms = {
             "bathroom": [],
             "kitchen": [],
@@ -105,8 +114,8 @@ class House:
             "bedroom_2": []
         }
 
-        #This dictionary stores the room names with a nested dictionary in values which
-        #stores the amount of electrical sockets per room
+        # This dictionary stores the room names with a nested dictionary in values which
+        # stores the amount of electrical sockets per room
         self.electrical_sockets = {
             "bathroom": {"OG": 0, "TG": 0},
             "kitchen": {"OG": 0, "TG": 0},
@@ -115,8 +124,8 @@ class House:
             "bedroom_2": {"OG": 0, "TG": 0}
         }
 
-        #This dictionary stores the room names with the amount of network points the customer
-        #selects per room
+        # This dictionary stores the room names with the amount of network points the customer
+        # selects per room
         self.network_points = {
             "bathroom": 0,
             "kitchen": 0,
@@ -125,9 +134,10 @@ class House:
             "bedroom_2": 0
         }
 
-    #This function checks if the house input is valid, specifically for the amount of 
-    #electrical sockets and network sockets the user selects
+    
     def house_validation(self):
+        """ This function checks if the house input is valid, specifically for the amount of 
+            electrical sockets and network sockets the user selects """
         total_sockets = 0
 
         #electrical socket validation
@@ -171,8 +181,9 @@ class House:
 
         return True
 
-    #This function calculates the total cost of all the options the user adds
+   
     def quote_price(self):
+        """ This function calculates the total cost of all the options the user adds """
         quote_price = 75000
 
         #calculation for rooms
@@ -379,6 +390,7 @@ Email: Office@wbc.co.nz
 #other methods such as functions and quotes to accurately display, make the gui
 #responsive and have boundary cases, and be able to create, cancel, save quotes, read
 #them etc. 
+
 def gui():
     #using tkniter here a window is created, with dimensions 700x780
     window = tk.Tk()
