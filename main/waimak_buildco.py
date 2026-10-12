@@ -618,11 +618,23 @@ Email: Office@wbc.co.nz
 '''
         return quote_text
 
-    #This function actually saves the final users order as a quote to QuoteHistory.txt
     def save_quote(self):
-        #This opens QuoteHistory.txt in appnd mode so new quotes are added to the existing file 
+        """ This function actually saves the final users order as 
+        a quote to QuoteHistory.txt.
+
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+        # This opens QuoteHistory.txt in appnd mode so new quotes are 
+        # added to the existing file.
         with open("QuoteHistory.txt", "a") as file:
-            #this sections writes the relevant quote_text and adds two lines so each quote is displayed nicely
+            # This sections writes the relevant quote_text and adds two 
+            # lines so each quote is displayed nicely.
             file.write(self.quote_text())
             file.write("\n\n")
 
@@ -630,16 +642,28 @@ Email: Office@wbc.co.nz
 #other methods such as functions and quotes to accurately display, make the gui
 #responsive and have boundary cases, and be able to create, cancel, save quotes, read
 #them etc. 
-
 def gui():
-    #using tkniter here a window is created, with dimensions 700x780
+    """ This Function is used to display the GUI of the whole order, 
+    by using tkinter and other methods such as functions and quotes to 
+    accurately display, make the gui responsive and have boundary cases,
+    and be able to create, cancel, save quotes, read them etc.
+
+    Args:
+        None
+    Returns:
+        None
+    Raises:
+        None
+    """
+
+    # Using tkniter here a window is created, with dimensions 700x780.
     window = tk.Tk()
     window.title("Waimak BuildCo Customer Screen")
     window.geometry("700x780")
 
-    #This dictionary contains all codes for room options with booleanvar
-    #objects as values. These are set to False, and when the customer
-    #selects the relevant option, it will switch to True
+    # This dictionary contains all codes for room options with 
+    # booleanvar objects as values. These are set to False, and when 
+    # the customer selects the relevant option, it will switch to True.
     checkbuttons = {
         "TS" : tk.BooleanVar(value=False),
         "UW" : tk.BooleanVar(value=False),
@@ -655,7 +679,7 @@ def gui():
         "loft_mount_entry" : tk.BooleanVar(value=False)
     }
 
-    #dictionary for sockets
+    # Dictionary for sockets.
     sockets_value = {
     "bathroom": {"OG": 0, "TG": 0},
     "kitchen": {"OG": 0, "TG": 0},
@@ -664,7 +688,7 @@ def gui():
     "bedroom_2": {"OG": 0, "TG": 0}
     }   
 
-    #dictionary for network points
+    # Dictionary for network points.
     network_points_value = {
     "bathroom": 0,
     "kitchen": 0,
@@ -673,14 +697,25 @@ def gui():
     "bedroom_2": 0       
     }
 
-    #this function is used for when a user submits their order
-    #it uses multiple functions and methods such as check validation to see if the user input is valid
-    #and if it is it then submits it
     def submit_order():
-        #yes or no question before submits
-        submit_quote = messagebox.askyesno("Submit Quote", "Are you sure you want submit?")
+        """ This function is used for when a user submits their order.
+        It uses multiple functions and methods such as check validation 
+        to see if the user input is valid and if it is it then submits 
+        it.
+
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+        # Yes or no question before submits.
+        submit_quote = messagebox.askyesno("Submit Quote", 
+                        "Are you sure you want submit?")
         if submit_quote:
-            #customer details submitting 
+            # Customer details submitting.
             name = name_entry.get()
             address = address_entry.get()
             delivery_address = delivery_address_entry.get()
@@ -693,74 +728,54 @@ def gui():
 
             house = House()
 
-            #house details submitting and verification
-
-            #here a for loop is used to check all the checkbuttons and then appends them
-            #it checks it by using .get() and then uses append to append them to the relevant house
+            # House details submitting and verification
+            # Here a for loop is used to check all the checkbuttons and 
+            # then appends them, it checks it by using .get() and then 
+            # uses append to append them to the relevant house.
             for codes in checkbuttons.keys():
                 if len(codes) == 2:
                     if checkbuttons[codes].get():
                         for rooms, values in HOUSE_OPTIONS.items():
-                            #here isinstance checks if the value is a list (to remove company)
+                            # Here isinstance checks if the value is a list 
+                            # (to remove company).
                             if isinstance(values, list):
                                 for dictionary in values:
                                     if dictionary["code"] == codes:
                                         house.rooms[rooms].append(codes)
 
-            #if checkbuttons["TS"].get():
-                #house.rooms["bathroom"].append("TS")
-
-            #if checkbuttons["UW"].get():
-                #house.rooms["kitchen"].append("UW")
-
-            #if checkbuttons["IH"].get():
-                #house.rooms["kitchen"].append("IH")
-
-            #if checkbuttons["DA"].get():
-                #house.rooms["kitchen"].append("DA")
-
-            #if checkbuttons["MA"].get():
-                #house.rooms["living_room"].append("MA")
-
-            #if checkbuttons["SD"].get():
-                #house.rooms["living_room"].append("SD")
-
-            #if checkbuttons["LH"].get():
-                #house.rooms["living_room"].append("LH")
-
-            #if checkbuttons["BO"].get():
-                #house.rooms["bedroom_1"].append("BO")
-
-            #if checkbuttons["BT"].get():
-                #house.rooms["bedroom_2"].append("BT")
-
-            #copies the network_points_value dictionary to the network_points dictionary
+            # Copies the network_points_value dictionary to the 
+            # network_points dictionary.
             house.network_points = network_points_value.copy()
 
-            #this for loop is used to check every electrical socket and appends them to the object
+            # This for loop is used to check every electrical socket 
+            # and appends them to the object.
             for room in sockets_value:
-                house.electrical_sockets[room]["OG"] = sockets_value[room]["OG"]
-                house.electrical_sockets[room]["TG"] = sockets_value[room]["TG"]
+                house.electrical_sockets[room]["OG"] = (
+                    sockets_value[room]["OG"])
+                house.electrical_sockets[room]["TG"] = (
+                    sockets_value[room]["TG"])
 
             if not house.house_validation():
                 return
             
-            #checks if the current quote list has anything in it
+            # Checks if the current quote list has anything in it.
             if current_quote[0] is None:
-                #if not it will create the quote with the customer information
+                # If not it will create the quote with the customer 
+                # information.
                 current_quote[0] = Quote(customer)
                 quotes.append(current_quote[0])
 
-            #then it will add each house the customer adds to that list
+            # Then it will add each house the 
+            # customer adds to that list.
             current_quote[0].add_house(house)
 
-            #allows the display to be edited
+            # Allows the display to be edited.
             quote_display.config(state="normal")
-            #clears the quote before
+            # Clears the quote before.
             quote_display.delete("1.0", "end")
-            #shows the new quote
+            # Shows the new quote.
             quote_display.insert("1.0", current_quote[0].quote_text())
-            #stops the user from changing the new quote
+            # Stops the user from changing the new quote.
             quote_display.config(state="disabled")
 
             reset_quote()
@@ -769,24 +784,35 @@ def gui():
         else:
             return
 
-    #This function is used to create a new order by saving or clearing 
-    #the current order and resetting customer and house info
     def new_order():
-        #this if statement checks if there is currently and order with 
-        #at least one house
+        """ This function is used to create a new order by saving or 
+        clearing the current order and resetting customer and house 
+        info.
+
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+       
+        # This if statement checks if there is currently and order with 
+        # at least one house.
         if current_quote[0] is not None and current_quote[0].houses:
 
-            save = messagebox.askyesno("Save Order", "Save this order before creating a new one?")
+            save = messagebox.askyesno("Save Order", "Save this order before"
+                                       "creating a new one?")
 
-            #if the user chooses yes it saves the current quote to 
-            #QuoteHistory.txt
+            # If the user chooses yes it saves the current quote to 
+            # QuoteHistory.txt.
             if save:
                 current_quote[0].save_quote()
 
-            #remoes the current quote so a new order can be created
+            # Removes the current quote so a new order can be created/
             current_quote[0] = None
 
-        # clear all customer information from input fields
+        # Clear all customer information from input fields/
         name_entry.delete(0, "end")
         address_entry.delete(0, "end")
         delivery_address_entry.delete(0, "end")
@@ -794,33 +820,56 @@ def gui():
         
         reset_quote()
 
-        #Here the quote display allowed to be edited so it can be deleted
-        #then it clears the previous quote and makes the display read only again
+        # Here the quote display allowed to be edited so it can be
+        # deleted then it clears the previous quote and makes the 
+        # display read only again.
         quote_display.config(state="normal")
         quote_display.delete("1.0", "end")
         quote_display.config(state="disabled")
 
-    #this function resets the quote by setting each checkbutton to false
-    #clearing all sockets and setting them to zero
-    #and setting all networkpoint values to 0
     def reset_quote():
-            for key in checkbuttons:
-                checkbuttons[key].set(False)
+        """ This function resets the quote by setting each checkbutton 
+        to false, clearing all sockets and setting them to zero,
+        and setting all networkpoint values to 0.
 
-            for room in sockets_value:
-                sockets_value[room]["OG"] = 0
-                sockets_value[room]["TG"] = 0
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
 
-            for room in network_points_value:
-                network_points_value[room] = 0
+        for key in checkbuttons:
+            checkbuttons[key].set(False)
 
-    #This function exits the order by saving the current quote, if the user wants to save the quote
-    #and using window.destroy() to end the tkniter window
+        for room in sockets_value:
+            sockets_value[room]["OG"] = 0
+            sockets_value[room]["TG"] = 0
+
+        for room in network_points_value:
+            network_points_value[room] = 0
+
     def exit_order():
-        exit_order = messagebox.askyesno("Exit Order", "Are you sure you want to exit the program?")
+        """ This function exits the order by saving the current quote, 
+        if the user wants to save the quote and using window.destroy() 
+        to end the tkniter window.
+
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+        exit_order = messagebox.askyesno("Exit Order", 
+                                         "Are you sure you want"
+                                         "to exit the program?")
         if exit_order:
             if current_quote[0] is not None and current_quote[0].houses:
-                save = messagebox.askyesno("Save Order", "Save this order before exiting?")
+                save = messagebox.askyesno("Save Order", 
+                                           "Save this order before exiting?")
 
                 if save:
                     current_quote[0].save_quote()
@@ -828,11 +877,21 @@ def gui():
             window.destroy()
         else: return
 
-    #allows the customer to cancel the current order by removing the
-    #current quote in the quotes list and resetting the quote display
     def cancel_order():
-        #this if statement checks if there is currently and order with 
-        #at least one house
+        """Allows the customer to cancel the current order by 
+        removing the current quote in the quotes list and resetting 
+        the quote display.
+
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+        # This if statement checks if there is currently and order with 
+        # at least one house.
         if current_quote[0] is None or not current_quote[0].houses:
             messagebox.showinfo("Cancel Order", "There is no order to cancel.")
             return
@@ -843,8 +902,8 @@ def gui():
         )
 
         if cancel:
-            #removes the current quote from quote and clears the current
-            #quote so a new order can be made
+            # Removes the current quote from quote and clears the 
+            # current quote so a new order can be made.
             quotes.remove(current_quote[0])
             current_quote[0] = None
 
@@ -855,39 +914,78 @@ def gui():
             quote_display.config(state="disabled")
 
             messagebox.showinfo("Cancelled", "Order cancelled.")
-
-    
-    #electrical sockets function display
+ 
     def electrical_sockets(room):
+        """ Displays the electrical socket options for the 
+        selected room.
 
-        #this functino updates the displayed socket value by getting the users entry
+        Args:
+            room: The room whose electrical socket 
+            options are displayed.
+        Returns:
+            None
+        Raises:
+            None
+        """
+
         def save_sockets(event):
+            """ This function updates the displayed socket value by 
+            getting the users entry.
+
+            Args:
+                event: The combobox selection event.
+            Returns:
+                None
+            Raises:
+                None
+            """
+           
             sockets_value[room]["OG"] = int(OG_entry.get())
             sockets_value[room]["TG"] = int(TG_entry.get())
 
-        tk.Label(room_frame, text="Additional Electrical Sockets (1G) - $40").pack()
+        tk.Label(room_frame, 
+                 text = "Additional Electrical Sockets (1G) - $40").pack()
         OG_entry = ttk.Combobox(room_frame, 
-                                values=[0, 1, 2, 3, 4],
-                                state="readonly")
+                                values = [0, 1, 2, 3, 4],
+                                state = "readonly")
         OG_entry.set(sockets_value[room]["OG"])
         OG_entry.pack()
 
-        tk.Label(room_frame, text="Additional Electrical Sockets (2G) - $50").pack()
+        tk.Label(room_frame, 
+                 text = "Additional Electrical Sockets (2G) - $50").pack()
         TG_entry = ttk.Combobox(room_frame, 
-                                values=[0, 1, 2, 3, 4],
-                                state="readonly")
+                                values = [0, 1, 2, 3, 4],
+                                state = "readonly")
         TG_entry.set(sockets_value[room]["TG"])
         TG_entry.pack()
 
         OG_entry.bind("<<ComboboxSelected>>", save_sockets)
         TG_entry.bind("<<ComboboxSelected>>", save_sockets)
 
-    #network points function dislpay
     def network_points(room):
+        """ Displays the network point options for the selected room.
 
-        #this function also updates the displayed by changing it to what the user
-        #set the network points as and also updates whether the switch is displayed or not
+        Args:
+            room: The room whose network point options are displayed.
+        Returns:
+            None
+        Raises:
+            None
+        """
+
         def save_network_points(event):
+            """ This function also updates the displayed by changing 
+            it to what the user set the network points as and also 
+            updates whether the switch is displayed or not.
+
+            Args:
+                event: The combobox selection event.
+            Returns:
+                None
+            Raises:
+                None
+            """
+
             network_points_value[room] = int(additional_entry.get())
 
             total = sum(network_points_value.values())
@@ -899,34 +997,69 @@ def gui():
 
         tk.Label(room_frame, text="Network Points").pack()
         additional_entry = ttk.Combobox(room_frame,
-                                values=[0, 1, 2, 3, 4, 5, 6, 7, 8], 
-                                state="readonly")
+                                values = [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+                                state = "readonly")
         additional_entry.set(network_points_value[room])
-        #here bind is used to send the information to the loft_mount function 
-        #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
+
+        # Here bind is used to send the information to the loft_mount 
+        # function and <<comboboxselected>> is the event that gets 
+        # triggered when a user selects something from the combobox.
         additional_entry.bind("<<ComboboxSelected>>", save_network_points)
         additional_entry.pack()
 
         loft_mount_entry = ttk.Checkbutton(room_frame,
-                                        text="loft mounted 8 port 10/100/1000 network switch - $100",
-                                        state="disabled",
-                                        variable=checkbuttons["loft_mount_entry"])
+                                        text = "loft mounted 8 port " 
+                                        "10/100/1000 network switch - $100",
+                                        state = "disabled",
+                                        variable = (
+                                        checkbuttons["loft_mount_entry"]))
         loft_mount_entry.pack()
 
-    # all room functions
+    # Next 5 functions are all the room functions.
     def bathroom():
-            ts_entry = ttk.Checkbutton(room_frame, 
-                                       text="Tiles, spa bath, shower and tapware - $2500", 
-                                       variable=checkbuttons["TS"])
-            ts_entry.pack()
+        """ Displays the bathroom options and input widgets.
 
-            electrical_sockets("bathroom")
-            network_points("bathroom")
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+        ts_entry = ttk.Checkbutton(room_frame, 
+                    text = "Tiles, spa bath, shower and"
+                    "tapware - $2500", 
+                    variable = checkbuttons["TS"])
+        ts_entry.pack()
+
+        electrical_sockets("bathroom")
+        network_points("bathroom")
 
     def kitchen():
-        #this function is used to set the ih and da checkbuttons to state disabled(not showing up)
-        #if the uw is not checked
+        """ Displays the kitchen options and input widgets.
+
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
         def update_kitchen():
+            """ This function is used to set the ih and da checkbuttons 
+            to state disabled(not showing up)
+            if the uw is not checked.
+
+            Args:
+                None
+            Returns:
+                None
+            Raises:
+                None
+            """
+
             if not checkbuttons["UW"].get():
                 ih_entry.config(state="disabled")
                 da_entry.config(state="disabled")
@@ -946,21 +1079,21 @@ def gui():
                 ih_entry.config(state="normal")
 
         uw_entry = ttk.Checkbutton(room_frame, 
-                                    text="Upgrades units and worktop - $2000", 
-                                    variable=checkbuttons["UW"],
-                                    command=update_kitchen)
+                    text = "Upgrades units and worktop - $2000", 
+                    variable = checkbuttons["UW"],
+                    command = update_kitchen)
         uw_entry.pack()
 
         ih_entry = ttk.Checkbutton(room_frame, 
-                                    text="As A plus induction hob - $3500", 
-                                    variable=checkbuttons["IH"],
-                                    command=update_kitchen)
+                    text = "As A plus induction hob - $3500", 
+                    variable = checkbuttons["IH"],
+                    command = update_kitchen)
         ih_entry.pack()
 
         da_entry = ttk.Checkbutton(room_frame, 
-                                    text="As A plus Deluxe appliance pack - $6000", 
-                                    variable=checkbuttons["DA"],
-                                    command=update_kitchen)
+                    text = "As A plus Deluxe appliance pack - $6000", 
+                    variable = checkbuttons["DA"],
+                    command=update_kitchen)
         da_entry.pack()
 
         electrical_sockets("kitchen")
@@ -970,48 +1103,88 @@ def gui():
         ih_entry.config(state="disabled")
 
     def living_room():
-            ma_entry = ttk.Checkbutton(room_frame, 
-                                    text="Tv point plus roof mounted aerial - $250", 
-                                    variable=checkbuttons["MA"])
-            ma_entry.pack()
+        """ Displays the living room options and input widgets.
 
-            sd_entry = ttk.Checkbutton(room_frame, 
-                                    text="Tv point plus satellite dish - $250", 
-                                    variable=checkbuttons["SD"])
-            sd_entry.pack()
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+        
+        ma_entry = ttk.Checkbutton(room_frame, 
+            text = "Tv point plus roof mounted aerial - $250", 
+            variable = checkbuttons["MA"])
+        ma_entry.pack()
 
-            lh_entry = ttk.Checkbutton(room_frame, 
-                                    text="4.5 KW Heat pump - $2500", 
-                                    variable=checkbuttons["LH"])
-            lh_entry.pack()
+        sd_entry = ttk.Checkbutton(room_frame, 
+            text = "Tv point plus satellite dish - $250", 
+            variable = checkbuttons["SD"])
+        sd_entry.pack()
 
-            electrical_sockets("living_room")
-            network_points("living_room")
+        lh_entry = ttk.Checkbutton(room_frame, 
+            text = "4.5 KW Heat pump - $2500", 
+            variable = checkbuttons["LH"])
+        lh_entry.pack()
+
+        electrical_sockets("living_room")
+        network_points("living_room")
 
     def bedroom_1():
-            b1_entry = ttk.Checkbutton(room_frame, 
-                                    text="2.5 KW Heat pump - $1800", 
-                                    variable=checkbuttons["BO"])
-            b1_entry.pack()
+        """ Displays the bedroom 1 options and input widgets.
 
-            electrical_sockets("bedroom_1")
-            network_points("bedroom_1")
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+            
+        b1_entry = ttk.Checkbutton(room_frame, 
+                    text = "2.5 KW Heat pump - $1800", 
+                    variable =c heckbuttons["BO"])
+        b1_entry.pack()
+
+        electrical_sockets("bedroom_1")
+        network_points("bedroom_1")
 
     def bedroom_2():
-            b2_entry = ttk.Checkbutton(room_frame, 
-                                    text="2.5 KW Heat pump - $1800", 
-                                    variable=checkbuttons["BT"])
-            b2_entry.pack()
+        """ Displays the bedroom 2 options and input widgets.
 
-            electrical_sockets("bedroom_2")
-            network_points("bedroom_2")
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
 
-    # the function uses event to get the information from the change in combobox 
+        b2_entry = ttk.Checkbutton(room_frame, 
+            text = "2.5 KW Heat pump - $1800", 
+            variable = checkbuttons["BT"])
+        b2_entry.pack()
+
+        electrical_sockets("bedroom_2")
+        network_points("bedroom_2")
+
     def get_room(event):
+        """ The function uses event to get the information 
+        from the change in combobox.
 
-        #this for loop is used to remove everything currently in room_frame
-        #winfo_children identifies each widget in the room_frame
-        #and then by using a for loop it will go through each widget and remove it
+        Args:
+            event: The combobox selection event.
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+        # This for loop is used to remove everything currently 
+        # in room_frame winfo_children identifies each widget in 
+        # the room_frame and then by using a for loop it will go 
+        # through each widget and remove it.
         for widget in room_frame.winfo_children():
             widget.destroy()
 
@@ -1026,7 +1199,7 @@ def gui():
         room = room_entry.get()
         function_rooms[room]()
 
-    #customer information
+    # Customer information/selection.
     tk.Label(window, text="Name").pack()
     name_entry = tk.Entry(window)
     name_entry.pack()
@@ -1041,23 +1214,27 @@ def gui():
 
     tk.Label(window, text="Customer Type").pack()
     customer_type_entry = ttk.Combobox(window, 
-                                    values=["retail customer", "trade customer"],
+                                    values=["retail customer", 
+                                            "trade customer"],
                                     state="readonly")
     customer_type_entry.set("retail customer")
     customer_type_entry.pack()
 
-    #rooms
+    # Room information/selection.
     tk.Label(window, text="Room").pack()
     room_entry = ttk.Combobox(window,
-                              values=["Bathroom", "Kitchen", "Living Room", "Bedroom 1", "Bedroom 2"], 
+                              values=["Bathroom", "Kitchen", "Living Room", 
+                                      "Bedroom 1", "Bedroom 2"], 
                               state="readonly",)
     room_entry.set("Bathroom")
-    #here bind is used to send the information to the get_room function 
-    #and <<comboboxselected>> is the event that gets triggered when a user selects something from the combobox
+    # Here bind is used to send the information to the get_room function 
+    # and <<comboboxselected>> is the event that gets triggered when 
+    # a user selects something from the combobox/
     room_entry.bind("<<ComboboxSelected>>", get_room)
     room_entry.pack()
-    # creating a frame so when user selects a different room 
-    # we can delete the old selected room function and shows the new one selected
+    # Creating a frame so when user selects a different room 
+    # we can delete the old selected room function and shows the new 
+    # one selected.
     room_frame = tk.Frame(window)
     room_frame.pack()
     bathroom()
@@ -1068,10 +1245,11 @@ def gui():
     tk.Button(window, text="Save / New Order", command=new_order).pack()
     tk.Button(window, text="Save / Exit Program", command=exit_order).pack()
 
-    #this extra display is used to where the quote text is displayed
+    # This extra display is used to where the quote text is displayed.
     quote_display = tk.Text(window, height=15, width=80, state="disabled")
     quote_display.pack()
 
     window.mainloop()
 
-gui()
+if __name__ == "__main__":
+    gui()
