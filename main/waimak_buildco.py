@@ -106,7 +106,7 @@ class Customer:
             None
         """
 
-        if self.customer_type == "trade customer":
+        if self.customer_type == "Trade customer":
             return 0.1
         else:
             return 0
@@ -826,7 +826,7 @@ def gui():
         name_entry.delete(0, "end")
         address_entry.delete(0, "end")
         delivery_address_entry.delete(0, "end")
-        customer_type_entry.set("retail customer")
+        customer_type_entry.set("Retail customer")
 
         reset_quote()
 
@@ -1225,10 +1225,10 @@ def gui():
 
     tk.Label(window, text="Customer Type").pack()
     customer_type_entry = ttk.Combobox(window,
-                                    values=["retail customer",
-                                            "trade customer"],
+                                    values=["Retail customer",
+                                            "Trade customer"],
                                     state="readonly")
-    customer_type_entry.set("retail customer")
+    customer_type_entry.set("Retail customer")
     customer_type_entry.pack()
 
     # Room information/selection.
