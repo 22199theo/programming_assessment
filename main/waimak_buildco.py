@@ -23,6 +23,7 @@ BASE_HOUSE_PRICE = 75000
 GST_RATE = 0.15
 TRADE_DISCOUNT = 0.10
 
+# Constant for the quote history file name.
 QUOTE_FILE_HISTORY = "QuoteHistory.txt"
 
 # Quotes list for quotes, while current_quote
