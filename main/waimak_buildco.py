@@ -953,15 +953,21 @@ def gui():
             None
         """
 
-        for key in checkbuttons:
-            checkbuttons[key].set(False)
+        reset_quote = messagebox.askyesno("Reset Quote",
+                                         "Are you sure you want "
+                                         "to reset the quote?")
+        if reset_quote:
+            for key in checkbuttons:
+                checkbuttons[key].set(False)
 
-        for room in sockets_value:
-            sockets_value[room]["OG"] = 0
-            sockets_value[room]["TG"] = 0
+            for room in sockets_value:
+                sockets_value[room]["OG"] = 0
+                sockets_value[room]["TG"] = 0
 
-        for room in network_points_value:
-            network_points_value[room] = 0
+            for room in network_points_value:
+                network_points_value[room] = 0
+        else:
+            return
 
     def exit_order():
         """ This function exits the order by saving the current quote,
