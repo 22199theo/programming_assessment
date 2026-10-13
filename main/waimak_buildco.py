@@ -901,35 +901,43 @@ def gui():
             None
         """
 
-        # This if statement checks if there is currently and order with
-        # at least one house.
-        if current_quote[0] is not None and current_quote[0].houses:
+        new_order_confirmatoin = messagebox.askyesno("New Order",
+                                         "Are you sure you want "
+                                         "to create a new order?")
 
-            save = messagebox.askyesno("Save Order", "Save this order before "
-                                       "creating a new one?")
+        if new_order_confirmatoin:
+            # This if statement checks if there is currently and order 
+            # with at least one house.
+            if current_quote[0] is not None and current_quote[0].houses:
 
-            # If the user chooses yes it saves the current quote to
-            # QuoteHistory.txt.
-            if save:
-                current_quote[0].save_quote()
+                save = messagebox.askyesno("Save Order", "Save this " 
+                "order before creating a new one?")
 
-            # Removes the current quote so a new order can be created/
-            current_quote[0] = None
+                # If the user chooses yes it saves the current quote to
+                # QuoteHistory.txt.
+                if save:
+                    current_quote[0].save_quote()
 
-        # Clear all customer information from input fields/
-        name_entry.delete(0, "end")
-        address_entry.delete(0, "end")
-        delivery_address_entry.delete(0, "end")
-        customer_type_entry.set("Retail customer")
+                # Removes the current quote so a new order can be 
+                # created
+                current_quote[0] = None
 
-        reset_quote()
+            # Clear all customer information from input fields
+            name_entry.delete(0, "end")
+            address_entry.delete(0, "end")
+            delivery_address_entry.delete(0, "end")
+            customer_type_entry.set("Retail customer")
 
-        # Here the quote display allowed to be edited so it can be
-        # deleted then it clears the previous quote and makes the
-        # display read only again.
-        quote_display.config(state="normal")
-        quote_display.delete("1.0", "end")
-        quote_display.config(state="disabled")
+            reset_quote()
+
+            # Here the quote display allowed to be edited so it can be
+            # deleted then it clears the previous quote and makes the
+            # display read only again.
+            quote_display.config(state="normal")
+            quote_display.delete("1.0", "end")
+            quote_display.config(state="disabled")
+        else: 
+            return
 
     def reset_quote():
         """ This function resets the quote by setting each checkbutton
@@ -1334,7 +1342,7 @@ def gui():
     room_entry.set("Bathroom")
     # Here bind is used to send the information to the get_room function
     # and <<comboboxselected>> is the event that gets triggered when
-    # a user selects something from the combobox/
+    # a user selects something from the combobox.
     room_entry.bind("<<ComboboxSelected>>", get_room)
     room_entry.pack()
     # Creating a frame so when user selects a different room
