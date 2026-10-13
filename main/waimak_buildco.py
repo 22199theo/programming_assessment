@@ -559,8 +559,6 @@ class Quote:
             None
         """
 
-        network_switch = 0
-
         quote_text = f'''QUOTE NUMBER: {self.quote_number()}
 '''
 
@@ -574,14 +572,16 @@ Customer Type: {self.customer.customer_type.capitalize()}
         # This for loop uses enumerate to get the index of the house
         # and display it as eg. House 1.
         for number, house in enumerate(self.houses, 1):
+            network_switch = False
+
             quote_text += f'''
 HOUSE {number}
 --------------------------------------------
 '''
             # This for loop gets the items in the house.rooms
-            # The code inside this for loop displays all the information
-            # for each individual room selected and all the options
-            # selected for that room.
+            # The code inside this for loop displays all the
+            # information for each individual room selected and all 
+            # the options selected for that room.
             for rooms, values in house.rooms.items():
                 room_selected = False
                 total_room_price = 0
@@ -624,9 +624,9 @@ HOUSE {number}
                     )
 
                 # This if statement displays any network
-                # points selected/
+                # points selected
                 if house.network_points[rooms]:
-                    network_switch += 1
+                    network_switch = True
                     np_quantity = house.network_points[rooms]
                     np_price = HOUSE_OPTIONS["network_points"][0]["price"]
                     quote_text += (
@@ -660,16 +660,14 @@ HOUSE {number}
                         f"${total_room_cost}\n\n"
                     )
 
-        # This if statement checks if the network points were selected
-        # and if so it will add the price of the network switch
-        # (of all networkpoints selected for each house) eg. if the
-        # user selected 3 houses but only two of them have additional
-        # network points it will calculate 100 * 2.
-        if network_switch:
-            quote_text += f'''ADDITIONAL COST:
-Network Switch - ${100 * network_switch}
+            # This if statement checks if the network points were 
+            # selected and if so it will add the price of the network 
+            # switch.
+            if network_switch:
+                quote_text += f'''ADDITIONAL COST:
+    Network Switch - ${HOUSE_OPTIONS["network_points"][1]["price"]}
 
-'''
+    '''
 
         # This section uses all the calculation functions in this
         # class to display the costs of the order.
