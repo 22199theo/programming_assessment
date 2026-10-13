@@ -1,6 +1,17 @@
 """
-Overview: This program
+Overview: This program is made for Waimak BuildCo, which is a company
+that sells tiny houses. This program allows customers for Waimak
+BuildCo to make their own quote for a tiny house. This is done through
+a graphical user interface (GUI) where the customer can select options 
+such as entering their names, address, and selecting additional
+upgrades onto their tiny house. After submitted it will produce a
+quote with information such as what they ordered and what their 
+total cost is. Additionally the customer can cancel their order,
+reset their current order, save and go to a new order or save and 
+exit the program.
 
+By Theo Vodde
+13/10/2026
 """
 
 import tkinter as tk
