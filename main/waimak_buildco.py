@@ -351,7 +351,8 @@ class House:
                 # accordingly.
                 for socket_option in HOUSE_OPTIONS["electrical_sockets"]:
                     if socket_type == socket_option["code"]:
-                        quote_price += (socket_option["price"] * socket_number)
+                        quote_price += (socket_option["price"]
+                                         * socket_number)
 
         # Calculation for network points.
         total_network_points = sum(self.network_points.values())
@@ -366,8 +367,8 @@ class House:
 class Quote:
     """ This class is used for quote objects where it stores the
     customer and houses, and uses methods to calculate the quote costs,
-    apply discounts and gst, and generates the quote as information that
-    can be saved or displayed.
+    apply discounts and gst, and generates the quote as information 
+    that can be saved or displayed.
 
     Args:
         None
@@ -529,7 +530,8 @@ class Quote:
             None
         """
 
-        options_price = self.original_price() - (BASE_HOUSE_PRICE * len(self.houses))
+        options_price = self.original_price() - (BASE_HOUSE_PRICE 
+                                                 * len(self.houses))
         return options_price
 
     def gst_amount(self):
@@ -728,8 +730,8 @@ Email: Office@wbc.co.nz
         # that might come up when writing/opening the file.
         try:
             with open(QUOTE_FILE_HISTORY, "a") as file:
-                # This sections writes the relevant quote_text and adds two
-                # lines so each quote is displayed nicely.
+                # This sections writes the relevant quote_text 
+                # and adds two lines so each quote is displayed nicely.
                 file.write(self.quote_text())
                 file.write("\n============================================\n")
             messagebox.showinfo("Success", "Quote saved successfully.")
@@ -843,7 +845,8 @@ def gui():
             delivery_address = delivery_address_entry.get()
             customer_type = customer_type_entry.get()
 
-            customer = Customer(name, address, delivery_address, customer_type)
+            customer = Customer(name, address, 
+                                delivery_address, customer_type)
 
             if not customer.customer_validation():
                         return
@@ -858,8 +861,8 @@ def gui():
                 if len(codes) == 2:
                     if checkbuttons[codes].get():
                         for rooms, values in HOUSE_OPTIONS.items():
-                            # Here isinstance checks if the value is a list
-                            # (to remove company).
+                            # Here isinstance checks if the value
+                            # is a list (to remove company).
                             if isinstance(values, list):
                                 for dictionary in values:
                                     if dictionary["code"] == codes:
@@ -1373,9 +1376,9 @@ def gui():
                                       "Bedroom 1", "Bedroom 2"],
                               state="readonly",)
     room_entry.set("Bathroom")
-    # Here bind is used to send the information to the get_room function
-    # and <<comboboxselected>> is the event that gets triggered when
-    # a user selects something from the combobox.
+    # Here bind is used to send the information to the get_room 
+    # function and <<comboboxselected>> is the event that gets 
+    # triggered when a user selects something from the combobox.
     room_entry.bind("<<ComboboxSelected>>", get_room)
     room_entry.pack()
     # Creating a frame so when user selects a different room
