@@ -681,7 +681,6 @@ HOUSE {number}
             if network_switch:
                 quote_text += f'''ADDITIONAL COST:
     Network Switch - ${HOUSE_OPTIONS["network_points"][1]["price"]}
-
     '''
 
         # This section uses all the calculation functions in this
