@@ -448,6 +448,15 @@ class Quote:
         except FileNotFoundError:
             return 1 
 
+        # OSerror handles errors related to file operations. Ive 
+        # added this to handle errors like not having permission to
+        # read the file.
+        except OSError:
+            messagebox.showerror(
+                "File Error", "The quote history file can not be read."
+            )
+            return 1
+
     def add_house(self, house):
         """ This function appends the added houses to the self.houses
         list.
@@ -719,13 +728,19 @@ Email: Office@wbc.co.nz
 
         # This opens QuoteHistory.txt in append mode so new quotes are
         # added to the existing file.
-        with open(QUOTE_FILE_HISTORY, "a") as file:
-            # This sections writes the relevant quote_text and adds two
-            # lines so each quote is displayed nicely.
-            file.write(self.quote_text())
-            file.write("\n============================================\n")
-        print("Quote saved")
-
+        # I used a try except statement to handle any errors
+        # that might come up when writing/opening the file.
+        try:
+            with open(QUOTE_FILE_HISTORY, "a") as file:
+                # This sections writes the relevant quote_text and adds two
+                # lines so each quote is displayed nicely.
+                file.write(self.quote_text())
+                file.write("\n============================================\n")
+            messagebox.showinfo("Success", "Quote saved successfully.")
+        except OSError:
+            messagebox.showerror("File Error", 
+                                 "The quote couldnt be saved.")
+            
 def gui():
     """ This Function is used to display the GUI of the whole order,
     by using tkinter and other methods such as functions and quotes to
