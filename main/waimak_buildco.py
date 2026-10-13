@@ -785,10 +785,17 @@ def gui():
                 # information.
                 current_quote[0] = Quote(customer)
                 quotes.append(current_quote[0])
-
+            # Check if the current quote already exists
+            else:
+                # If it exists it replaces the old customer information
+                # with the new customer information.
+                current_quote[0].customer = customer
             # Then it will add each house the
             # customer adds to that list.
-            current_quote[0].add_house(house)
+
+            
+            current_quote[0] = Quote(customer)
+            print (quotes)
 
             # Allows the display to be edited.
             quote_display.config(state="normal")
@@ -1050,7 +1057,7 @@ def gui():
         """
 
         ts_entry = ttk.Checkbutton(room_frame,
-                    text="Tiles, spa bath, shower and"
+                    text="Tiles, spa bath, shower and "
                     "tapware - $2500",
                     variable=checkbuttons["TS"])
         ts_entry.pack()
