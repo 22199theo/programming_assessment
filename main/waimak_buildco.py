@@ -811,8 +811,7 @@ def gui():
             # Then it will add each house the
             # customer adds to that list.
 
-            
-            current_quote[0] = Quote(customer)
+            current_quote[0].add_house(house)
             print (quotes)
 
             # Allows the display to be edited.
