@@ -429,16 +429,16 @@ class Quote:
                         # and will return it
                         quote_number = int(number) + 1
                         return quote_number
+                    else: 
+                        return 1
 
                 # If line_exists remaines False it means there is 
                 # no lines so it will return 1.
                 if not line_exists:
-                    quote_number = 1
-                    return quote_number
+                    return 1
 
         except FileNotFoundError:
-            quote_number = 1
-            return quote_number 
+            return 1 
 
     def add_house(self, house):
         """ This function appends the added houses to the self.houses
