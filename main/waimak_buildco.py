@@ -75,6 +75,8 @@ HOUSE_OPTIONS = {
     ]
 }
 
+    # Dictionary for converting displayed names to system names
+
 class Customer:
     """ This class is used for customer objects, it also has methods
     such as finding the customer discount and seeing if the customer
@@ -790,6 +792,33 @@ def gui():
     "bedroom_2": 0
     }
 
+    def current_room():
+        """ This function gets the current room selected by comparing
+        the displayed room with the system room names. It will then
+        return the current room by calling it.
+
+        Args:
+            None
+        Returns:
+            It calls the current room selected function.
+        Raises:
+            None
+        
+        """
+
+        # A dictionary that contains displayed names and system names
+        # of rooms.
+        function_rooms = {
+            "Bathroom": bathroom,
+            "Kitchen": kitchen,
+            "Living Room": living_room,
+            "Bedroom 1": bedroom_1,
+            "Bedroom 2": bedroom_2
+        }
+
+        room = room_entry.get()
+        return (function_rooms[room]())
+
     def submit_order():
         """ This function is used for when a user submits their order.
         It uses multiple functions and methods such as check validation
@@ -955,6 +984,15 @@ def gui():
 
         for room in network_points_value:
             network_points_value[room] = 0
+
+        # This for loop is used to remove everything currently
+        # in room_frame winfo_children identifies each widget in
+        # the room_frame and then by using a for loop it will go
+        # through each widget and remove it.
+        for widget in room_frame.winfo_children():
+            widget.destroy()
+
+        current_room()
 
     def exit_order():
         """ This function exits the order by saving the current quote,
@@ -1305,16 +1343,7 @@ def gui():
         for widget in room_frame.winfo_children():
             widget.destroy()
 
-        function_rooms = {
-            "Bathroom": bathroom,
-            "Kitchen": kitchen,
-            "Living Room": living_room,
-            "Bedroom 1": bedroom_1,
-            "Bedroom 2": bedroom_2
-        }
-
-        room = room_entry.get()
-        function_rooms[room]()
+        current_room()
 
     # Customer information/selection.
     tk.Label(window, text="Name").pack()
