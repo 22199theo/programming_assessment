@@ -381,7 +381,25 @@ class Quote:
         self.customer = customer
         self.houses = []
 
-        self.quote_number = len(quotes) + 1
+    def quote_number(self):
+        try:
+            with open("QuoteHistory.txt", "r") as file:
+                lines = file.readlines()
+
+                for line in reversed(lines):
+                    if "QUOTE NUMBER:" in line:
+                        number = ""
+
+                        for character in line:
+                            if character.isdigit():
+                                number += character
+
+                        quote_number = int(number) + 1
+                        return quote_number
+
+        except FileNotFoundError:
+            quote_number = 1
+            return quote_number 
 
     def add_house(self, house):
         """ This function appends the added houses to the self.houses
@@ -504,7 +522,7 @@ class Quote:
 
         network_switch = 0
 
-        quote_text = f'''QUOTE NUMBER: {self.quote_number}
+        quote_text = f'''QUOTE NUMBER: {self.quote_number()}
 '''
 
         quote_text += f'''CUSTOMER INFORMATION
