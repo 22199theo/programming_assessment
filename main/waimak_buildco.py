@@ -421,7 +421,6 @@ class Quote:
                 # the lines backwards as it will find the latest 
                 # quote number.
                 for line in reversed(lines):
-                    line_exists = True
 
                     # This if statement runs on the first Quote Number.
                     if "QUOTE NUMBER:" in line:
@@ -438,8 +437,9 @@ class Quote:
                         # and will return it
                         quote_number = int(number) + 1
                         return quote_number
-                    else: 
-                        return QUOTE_NUMBER_DEFAULT
+
+                # If no quote number is found it will return 1.
+                return QUOTE_NUMBER_DEFAULT
 
                 # If line_exists remaines False it means there is 
                 # no lines so it will return 1.
@@ -953,7 +953,6 @@ def gui():
             None
         """
 
-
         for key in checkbuttons:
             checkbuttons[key].set(False)
 
@@ -963,7 +962,6 @@ def gui():
 
         for room in network_points_value:
             network_points_value[room] = 0
-
 
     def exit_order():
         """ This function exits the order by saving the current quote,
@@ -1022,16 +1020,21 @@ def gui():
             # to remove the last house added to the current quote.
             if len(current_quote[0].houses)>1:
                 current_quote[0].houses.pop()
+
+                quote_display.config(state="normal")
+                quote_display.delete("1.0", "end")
+                quote_display.insert("1.0", current_quote[0].quote_text())
             else:
                 # Removes the current quote from quote and clears the
                 # current quote so a new order can be made.
                 quotes.remove(current_quote[0])
                 current_quote[0] = None
 
+                quote_display.config(state="normal")
+                quote_display.delete("1.0", "end")
+
             reset_quote()
 
-            quote_display.config(state="normal")
-            quote_display.delete("1.0", "end")
             quote_display.config(state="disabled")
 
             messagebox.showinfo("Cancelled", "Order cancelled.")
