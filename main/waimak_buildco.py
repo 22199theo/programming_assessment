@@ -386,7 +386,11 @@ class Quote:
             with open("QuoteHistory.txt", "r") as file:
                 lines = file.readlines()
 
+                line_exists = False
+
                 for line in reversed(lines):
+                    line_exists = True
+
                     if "QUOTE NUMBER:" in line:
                         number = ""
 
@@ -396,6 +400,10 @@ class Quote:
 
                         quote_number = int(number) + 1
                         return quote_number
+
+                if not line_exists:
+                    quote_number = 1
+                    return quote_number
 
         except FileNotFoundError:
             quote_number = 1
@@ -673,7 +681,7 @@ Email: Office@wbc.co.nz
             None
         """
 
-        # This opens QuoteHistory.txt in appnd mode so new quotes are
+        # This opens QuoteHistory.txt in append mode so new quotes are
         # added to the existing file.
         with open("QuoteHistory.txt", "a") as file:
             # This sections writes the relevant quote_text and adds two
@@ -846,7 +854,7 @@ def gui():
         # at least one house.
         if current_quote[0] is not None and current_quote[0].houses:
 
-            save = messagebox.askyesno("Save Order", "Save this order before"
+            save = messagebox.askyesno("Save Order", "Save this order before "
                                        "creating a new one?")
 
             # If the user chooses yes it saves the current quote to
