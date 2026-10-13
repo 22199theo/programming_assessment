@@ -22,6 +22,7 @@ from tkinter import ttk
 BASE_HOUSE_PRICE = 75000
 GST_RATE = 0.15
 TRADE_DISCOUNT = 0.10
+QUOTE_NUMBER_DEFAULT = 1
 
 # Constant for the quote history file name.
 QUOTE_FILE_HISTORY = "QuoteHistory.txt"
@@ -438,15 +439,15 @@ class Quote:
                         quote_number = int(number) + 1
                         return quote_number
                     else: 
-                        return 1
+                        return QUOTE_NUMBER_DEFAULT
 
                 # If line_exists remaines False it means there is 
                 # no lines so it will return 1.
                 if not line_exists:
-                    return 1
+                    return QUOTE_NUMBER_DEFAULT
 
         except FileNotFoundError:
-            return 1 
+            return QUOTE_NUMBER_DEFAULT 
 
         # OSerror handles errors related to file operations. Ive 
         # added this to handle errors like not having permission to
@@ -455,7 +456,7 @@ class Quote:
             messagebox.showerror(
                 "File Error", "The quote history file can not be read."
             )
-            return 1
+            return QUOTE_NUMBER_DEFAULT
 
     def add_house(self, house):
         """ This function appends the added houses to the self.houses
