@@ -18,6 +18,13 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+# Constants for the base house price, gst rate and trade discount rate.
+BASE_HOUSE_PRICE = 75000
+GST_RATE = 0.15
+TRADE_DISCOUNT = 0.10
+
+QUOTE_FILE_HISTORY = "QuoteHistory.txt"
+
 # Quotes list for quotes, while current_quote
 # is also a list with the intial value set to None.
 quotes = []
@@ -118,7 +125,7 @@ class Customer:
         """
 
         if self.customer_type == "Trade customer":
-            return 0.1
+            return TRADE_DISCOUNT
         else:
             return 0
 
@@ -313,7 +320,7 @@ class House:
             None
         """
 
-        quote_price = 75000
+        quote_price = BASE_HOUSE_PRICE
 
         # Calculation for rooms.
         # For loop to go through all items in self.rooms
@@ -401,7 +408,7 @@ class Quote:
         # exist it will return 1.
         try:
             # Here QuoteHistory.txt is opened in read.
-            with open("QuoteHistory.txt", "r") as file:
+            with open(QUOTE_FILE_HISTORY, "r") as file:
                 # This reads all the lines in QuoteHistory.txt and
                 # stores them lines.
                 lines = file.readlines()
@@ -516,7 +523,7 @@ class Quote:
             None
         """
 
-        options_price = self.original_price() - (75000 * len(self.houses))
+        options_price = self.original_price() - (BASE_HOUSE_PRICE * len(self.houses))
         return options_price
 
     def gst_amount(self):
@@ -530,7 +537,7 @@ class Quote:
             None
         """
 
-        gst_amount = self.options_price() * 0.15
+        gst_amount = self.options_price() * GST_RATE
         return gst_amount
 
     def total_price(self):
@@ -673,7 +680,7 @@ HOUSE {number}
         # class to display the costs of the order.
         quote_text += f'''PRICE SUMMARY
 --------------------------------------------
-TOTAL ORIGINAL HOUSE(s) COST - ${75000 * len(self.houses)}
+TOTAL ORIGINAL HOUSE(s) COST - ${BASE_HOUSE_PRICE * len(self.houses)}
 TOTAL EXTRA COSTS - ${(self.options_price())}
 TOTAL COST (gst exclusive) - ${self.original_price()}
 '''
@@ -711,7 +718,7 @@ Email: Office@wbc.co.nz
 
         # This opens QuoteHistory.txt in append mode so new quotes are
         # added to the existing file.
-        with open("QuoteHistory.txt", "a") as file:
+        with open(QUOTE_FILE_HISTORY, "a") as file:
             # This sections writes the relevant quote_text and adds two
             # lines so each quote is displayed nicely.
             file.write(self.quote_text())
