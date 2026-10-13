@@ -108,9 +108,9 @@ class Customer:
             None
         """
 
-        self.name = name
-        self.address = address
-        self.delivery_address = delivery_address
+        self.name = name.strip()
+        self.address = address.strip()
+        self.delivery_address = delivery_address.strip()
         self.customer_type = customer_type
 
     def customer_discount(self):
