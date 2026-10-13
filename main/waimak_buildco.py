@@ -885,7 +885,7 @@ def gui():
         """
 
         exit_order = messagebox.askyesno("Exit Order",
-                                         "Are you sure you want"
+                                         "Are you sure you want "
                                          "to exit the program?")
         if exit_order:
             if current_quote[0] is not None and current_quote[0].houses:
