@@ -415,8 +415,6 @@ class Quote:
                 # stores them lines.
                 lines = file.readlines()
 
-                line_exists = False
-
                 # This uses the function reversed to go through 
                 # the lines backwards as it will find the latest 
                 # quote number.
@@ -440,11 +438,6 @@ class Quote:
 
                 # If no quote number is found it will return 1.
                 return QUOTE_NUMBER_DEFAULT
-
-                # If line_exists remaines False it means there is 
-                # no lines so it will return 1.
-                if not line_exists:
-                    return QUOTE_NUMBER_DEFAULT
 
         except FileNotFoundError:
             return QUOTE_NUMBER_DEFAULT 
