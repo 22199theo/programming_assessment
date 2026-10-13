@@ -382,25 +382,56 @@ class Quote:
         self.houses = []
 
     def quote_number(self):
+        """ Sets up the quote number by reading the QuoteHistory.txt 
+        file and if it exists and lines exist it will read every 
+        line in reverse and find the last quote number and it will
+        add 1 to that quote number.
+
+        Args:
+            None
+        Returns:
+            It returns the quote number.
+        Raises:
+            None
+
+        """
+
+        # Here I have used a try and except statement to check if 
+        # the file exists by using FileNotFoundError, if it does not 
+        # exist it will return 1.
         try:
+            # Here QuoteHistory.txt is opened in read.
             with open("QuoteHistory.txt", "r") as file:
+                # This reads all the lines in QuoteHistory.txt and
+                # stores them lines.
                 lines = file.readlines()
 
                 line_exists = False
 
+                # This uses the function reversed to go through 
+                # the lines backwards as it will find the latest 
+                # quote number.
                 for line in reversed(lines):
                     line_exists = True
 
+                    # This if statement runs on the first Quote Number.
                     if "QUOTE NUMBER:" in line:
                         number = ""
 
+                        # This for loop goes through each character 
+                        # in the line and checks if it is a digit using
+                        # isdigit() and if it is it adds it to number.
                         for character in line:
                             if character.isdigit():
                                 number += character
 
+                        # After number is found it adds 1 to the number
+                        # and will return it
                         quote_number = int(number) + 1
                         return quote_number
 
+                # If line_exists remaines False it means there is 
+                # no lines so it will return 1.
                 if not line_exists:
                     quote_number = 1
                     return quote_number
@@ -539,7 +570,6 @@ Customer: {(self.customer.name).capitalize()}
 Address: {self.customer.address}
 Delivery Address: {self.customer.delivery_address}
 Customer Type: {self.customer.customer_type.capitalize()}
-
 '''
         # This for loop uses enumerate to get the index of the house
         # and display it as eg. House 1.
@@ -687,7 +717,8 @@ Email: Office@wbc.co.nz
             # This sections writes the relevant quote_text and adds two
             # lines so each quote is displayed nicely.
             file.write(self.quote_text())
-            file.write("\n\n")
+            file.write("\n============================================\n")
+        print("Quote saved")
 
 def gui():
     """ This Function is used to display the GUI of the whole order,
@@ -820,7 +851,6 @@ def gui():
             # customer adds to that list.
 
             current_quote[0].add_house(house)
-            print (quotes)
 
             # Allows the display to be edited.
             quote_display.config(state="normal")
